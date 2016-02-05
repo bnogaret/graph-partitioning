@@ -75,7 +75,7 @@
     "no-unused-expressions": 2,
     "no-use-before-define": 2,
     "no-useless-call": 2,
-    "no-unused-vars": 2,
+    "no-unused-vars": [2, {"vars": "all", "args": "all"}],
     "no-void": 2,
     "no-with": 2,
     "radix": [2, "always"],
@@ -88,7 +88,7 @@
     "no-new-require": 2,
     "no-process-exit": 2,
     // Stylilistic issue
-    "arrow-spacing": [2, {"before": false, "after": false }],
+    "arrow-spacing": [2, {"before": true, "after": true}],
     "brace-style": [2, "1tbs", {"allowSingleLine": true }],
     "camelcase": 2,
     "comma-spacing": [2, {"before": false, "after": true}],
@@ -119,6 +119,10 @@
     "space-return-throw-case": 2,
     "space-unary-ops": 2,
     "spaced-comment": [2, "always"],
-    "valid-jsdoc": 2,
+    "valid-jsdoc": [2, {
+      "requireParamDescription": false,
+      "requireReturnDescription": false,
+      "requireReturn": false,
+    }],
   },
 }
