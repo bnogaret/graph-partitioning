@@ -1,0 +1,19 @@
+{
+  "name": "graph_partitioning",
+  "version": "0.0.1",
+  "description": "Graph partitioning project",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bnogaret/graph-partitioning.git"
+  },
+  "main": "src/main.js",
+  "scripts": {
+    "lint": "eslint ./",
+    "test": "npm run lint",
+    "start": "electron ./src/main.js"
+  },
+  "devDependencies": {
+    "electron-prebuilt": "^0.36.7"
+  }
+}
