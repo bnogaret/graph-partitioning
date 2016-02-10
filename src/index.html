@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Graph partitioning test</title>
+    <link type="text/css" rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.css"  media="screen,projection"/>
 </head>
 
 <body>
@@ -20,6 +21,14 @@
             document.write(process.versions.electron)
         </script>.
     </p>
+    <a class="waves-effect waves-light btn">Stuff</a>
+    <a class="btn" onclick="Materialize.toast('I am a toast', 4000)">Toast!</a>
 </body>
+
+<script>
+  window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.js');
+  window.Hammer = require('../node_modules/hammerjs/hammer.js');
+</script>
+<script type="text/javascript" src="../node_modules/materialize-css/dist/js/materialize.js"></script>
 
 </html>
