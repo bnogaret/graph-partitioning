@@ -4,31 +4,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Graph partitioning test</title>
-    <link type="text/css" rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.css"  media="screen,projection"/>
+    <!-- <link type="text/css" rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.css"  media="screen,projection"/> -->
+    <script type="text/javascript" src="../node_modules/material-design-lite/material.min.js"></script>
+    <link rel="stylesheet" href="../node_modules/material-design-lite/material.min.css">
 </head>
 
 <body>
-    <h1>Graph partitioning test</h1>
-    <p>
-        We are using node
-        <script>
-            document.write(process.versions.node)
-        </script>, Chrome
-        <script>
-            document.write(process.versions.chrome)
-        </script>, and Electron
-        <script>
-            document.write(process.versions.electron)
-        </script>.
-    </p>
-    <a class="waves-effect waves-light btn">Stuff</a>
-    <a class="btn" onclick="Materialize.toast('I am a toast', 4000)">Toast!</a>
+  <h1>Graph partitioning test</h1>
+  <p>
+    We are using node
+    <script>
+      document.write(process.versions.node)
+    </script>, Chrome
+    <script>
+      document.write(process.versions.chrome)
+    </script>, and Electron
+    <script>
+      document.write(process.versions.electron)
+    </script>.
+  </p>
+  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Button</button>
+  <button id="show-dialog" type="button" class="mdl-button">Show Dialog</button>
+  <dialog class="mdl-dialog">
+    <h4 class="mdl-dialog__title">Allow data collection?</h4>
+    <div class="mdl-dialog__content">
+      <p>
+        Allowing us to collect data will let us get you the information you want faster.
+        <p>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button type="button" class="mdl-button">Agree</button>
+      <button type="button" class="mdl-button close">Disagree</button>
+    </div>
+  </dialog>
+  <label for="switch1" class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+    <input type="checkbox" id="switch1" class="mdl-switch__input">
+    <span class="mdl-switch__label">Sound off/on</span>
+  </label>
+
+  <script>
+    var dialog = document.querySelector('dialog');
+    var showDialogButton = document.querySelector('#show-dialog');
+    if (!dialog.showModal) {
+      dialogPolyfill.registerDialog(dialog);
+    }
+    showDialogButton.addEventListener('click', function() {
+      dialog.showModal();
+    });
+    dialog.querySelector('.close').addEventListener('click', function() {
+      dialog.close();
+    });
+  </script>
 </body>
 
-<script>
+
+<!-- <script>
   window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.js');
   window.Hammer = require('../node_modules/hammerjs/hammer.js');
 </script>
-<script type="text/javascript" src="../node_modules/materialize-css/dist/js/materialize.js"></script>
+<script type="text/javascript" src="../node_modules/materialize-css/dist/js/materialize.js"></script> -->
 
 </html>

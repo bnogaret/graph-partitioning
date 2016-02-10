@@ -15,7 +15,6 @@
   },
   "devDependencies": {
     "electron-prebuilt": "^0.36.7",
-    "jquery": "^2.2.0",
-    "materialize-css": "^0.97.5",
+    "material-design-lite": "^1.1.1"
   }
 }
