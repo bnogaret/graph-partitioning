@@ -37,9 +37,10 @@
       <button type="button" class="mdl-button close">Disagree</button>
     </div>
   </dialog>
-  <label for="switch1" class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+
+  <label for="switch1" id="label_color" style="display: none" class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
     <input type="checkbox" id="switch1" class="mdl-switch__input">
-    <span class="mdl-switch__label">Sound off/on</span>
+    <span class="mdl-switch__label">Color graph</span>
   </label>
 
   <button id="demo-show-snackbar" class="mdl-button mdl-js-button mdl-button--raised" type="button">Show Snackbar</button>
@@ -50,28 +51,28 @@
 
   <script>
     'use strict';
-	const rendering = require('./rendering');  
+    const rendering = require('./rendering');
     var renderLinksBtn = document.getElementById('displayLinksBtn');
-    
-	  
+
+
     var dialog = document.querySelector('dialog');
     var showDialogButton = document.querySelector('#show-dialog');
     if (!dialog.showModal) {
       dialogPolyfill.registerDialog(dialog);
     }
-    showDialogButton.addEventListener('click', function() {
+    showDialogButton.addEventListener('click', function () {
       dialog.showModal();
     });
-    dialog.querySelector('.close').addEventListener('click', function() {
+    dialog.querySelector('.close').addEventListener('click', function () {
       dialog.close();
     });
-	  
-	renderLinksBtn.style.visibility = 'visible';
-		renderLinksBtn.addEventListener('click', function(){
-            console.debug("DEBUG: renderLinksBtn clicked");
-			rendering.loadNewGraphWithLinks();
-		})  
-	  
+
+
+    renderLinksBtn.addEventListener('click', function () {
+      console.debug("DEBUG: renderLinksBtn clicked");
+      rendering.loadNewGraphWithLinks();
+    })
+
     function createToast(message) {
       var snackbar = document.createElement('div'),
         text = document.createElement('div');
@@ -81,23 +82,23 @@
       snackbar.appendChild(text);
       document.body.appendChild(snackbar);
       // Remove after 10 seconds
-      setTimeout(function() {
+      setTimeout(function () {
         //snackbar.remove();
       }, 10000);
     }
 
     var showNotification = document.querySelector('#show-notification');
-    showNotification.addEventListener('click', function() {
+    showNotification.addEventListener('click', function () {
       console.log('This is a test');
       createToast('Yes');
     });
 
     var snackbarContainer = document.querySelector('#demo-snackbar-example');
     var showSnackbarButton = document.querySelector('#demo-show-snackbar');
-    var handler = function(event) {
+    var handler = function (event) {
       showSnackbarButton.style.backgroundColor = '';
     };
-    showSnackbarButton.addEventListener('click', function() {
+    showSnackbarButton.addEventListener('click', function () {
       'use strict';
       showSnackbarButton.style.backgroundColor = '#' +
         Math.floor(Math.random() * 0xFFFFFF).toString(16);

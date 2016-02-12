@@ -23,7 +23,8 @@ function createApplicationMenu () {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
               executionLib.execGpMetis(file, 4);
-              rendering.onLoad();
+              console.debug(`DEBUG: Your new file path: ${file}`);
+              rendering.onLoad(file);
             }
           },
         },
