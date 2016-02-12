@@ -6,20 +6,10 @@
   <title>Add a new server</title>
   <script type="text/javascript" src="../../node_modules/material-design-lite/material.min.js"></script>
   <link rel="stylesheet" href="../../node_modules/material-design-lite/material.min.css">
-  <style>
-    .mdl-layout {
-    	align-items: center;
-      justify-content: center;
-    }
-    .mdl-layout__content {
-    	padding: 24px;
-    	flex: none;
-    }
-  </style>
+  <link rel="stylesheet" href="../../static/server.css">
 </head>
 
 <body>
-
   <div class="mdl-layout mdl-js-layout mdl-color--grey-100">
     <main class="mdl-layout__content">
       <div class="mdl-card mdl-shadow--6dp">
@@ -28,21 +18,21 @@
         </div>
         <div class="mdl-card__supporting-text">
           <form action="#">
-            <div class="mdl-textfield mdl-js-textfield">
-              <input class="mdl-textfield__input" type="text" id="host" />
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input id="host" class="mdl-textfield__input" type="text" required/>
               <label class="mdl-textfield__label" for="host">Host</label>
             </div>
-            <div class="mdl-textfield mdl-js-textfield">
-              <input class="mdl-textfield__input" type="text" id="username" />
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input id="username" class="mdl-textfield__input" type="text" required/>
               <label class="mdl-textfield__label" for="username">Username</label>
             </div>
-            <div class="mdl-textfield mdl-js-textfield">
-              <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="port">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input id="port" class="mdl-textfield__input" type="text" value="22" pattern="[0-9]+" >
               <label class="mdl-textfield__label" for="port">Port</label>
-              <span class="mdl-textfield__error">Input is not a number!</span>
+              <span class="mdl-textfield__error">Input is not a valid integer!</span>
             </div>
-            <div class="mdl-textfield mdl-js-textfield">
-              <input class="mdl-textfield__input" type="text" id="defaultPath">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input id="defaultPath" class="mdl-textfield__input" value="~" type="text">
               <label class="mdl-textfield__label" for="defaultPath">Default path</label>
             </div>
           </form>
@@ -56,23 +46,6 @@
   </div>
 </body>
 
-<script>
-  'use strict';
-  const ipcRenderer = require('electron').ipcRenderer;
-  const buttonClose = document.querySelector('#button-close');
-  buttonClose.addEventListener('click', () => {
-    window.close();
-  });
-  const buttonSave = document.querySelector('#button-save');
-  buttonSave.addEventListener('click', () => {
-    ipcRenderer.send('add-server', {
-      'host': document.getElementById('host').value,
-      'username': document.getElementById('username').value,
-      'port': document.getElementById('port').value,
-      'defaultPath': document.getElementById('defaultPath').value
-    });
-    window.close();
-  });
-</script>
+<script type="text/javascript" src="./addServer.js"></script>
 
 </html>
