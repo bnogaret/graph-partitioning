@@ -1,6 +1,6 @@
 'use strict';
 
-const dialog = require('electron').dialog;
+const dialog = require('remote').require('electron').dialog;
 
 function getFile() {
   return dialog.showOpenDialog({

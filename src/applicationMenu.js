@@ -1,8 +1,14 @@
 'use strict';
 
-const electron = require('electron');
-const Menu = electron.Menu;
+const remote = require('remote');
+// const ipcRenderer = require('electron').ipcRenderer;
+const Menu = remote.require('menu');
 
+const BrowserWindow = require('electron').remote.BrowserWindow;
+
+// const mat = require('../node_modules/material-design-lite/material.min.js');
+
+const executionLib = require('./executionLib');
 const fileDialog = require('./fileDialog');
 
 function createApplicationMenu () {
@@ -12,19 +18,19 @@ function createApplicationMenu () {
       submenu: [
         {
           label: 'New graph',
-          click: function() {
+          click: () => {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
-              console.log('New graph');
+              executionLib.execGpMetis(file, 4);
             }
           },
         },
         {
           label: 'New mesh',
-          click: function() {
+          click: () => {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
-              console.log('New mesh');
+              executionLib.execMpMetis(file, 4);
             }
           },
         },
@@ -43,11 +49,39 @@ function createApplicationMenu () {
         {
           label: 'Reload',
           accelerator: 'CmdOrCtrl+R',
-          click: function(item, focusedWindow) {
+          click: (item, focusedWindow) => {
             console.log(item);
             if (focusedWindow) {
               focusedWindow.reload();
             }
+          },
+        },
+      ],
+    },
+    {
+      label: 'Server',
+      submenu: [
+        {
+          label: 'New server',
+          click: () => {
+            const window = new BrowserWindow({
+              width: 500,
+              height: 500,
+            });
+            window.setMenu(null);
+            window.webContents.openDevTools();
+            window.loadURL('file://' + __dirname + '/server/addServer.html');
+          },
+        },
+        {
+          label: 'See servers',
+          click: () => {
+            const window = new BrowserWindow({
+              width: 400,
+              height: 400,
+            });
+            window.setMenu(null);
+            window.loadURL('file://' + __dirname + '/server/seeServer.html');
           },
         },
       ],

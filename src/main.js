@@ -2,16 +2,15 @@
 
 const electron = require('electron');
 const app = electron.app; // Module to control application life.
-const BrowserWindow = electron.BrowserWindow; // Module to create native browser window.
-
-const applicationMenu = require('./applicationMenu.js');
+const BrowserWindow = electron.BrowserWindow; // Module to create native browser window.e()
+const ipcMain = require('electron').ipcMain;
 
 // Report crashes to our server.
 electron.crashReporter.start();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-var mainWindow = null;
+let mainWindow = null;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
@@ -31,7 +30,7 @@ app.on('ready', function () {
     height: 600,
   });
 
-  applicationMenu.createApplicationMenu();
+  // applicationMenu.createApplicationMenu();
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
@@ -41,6 +40,16 @@ app.on('ready', function () {
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
+
+  if (typeof Notification === 'undefined') {
+    console.log('Notification not available');
+  }
+
+  ipcMain.on('add-server', (event, server) => {
+    console.log(event);
+    console.log('TODO: Save server');
+    console.log(server);
+  });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
