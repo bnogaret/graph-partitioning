@@ -45,8 +45,7 @@ function execGpMetis(file, nPartition) {
   };
   let program = '';
   if (process.platform === 'win32') {
-    // TODO windows
-	  program = __dirname + '/../native/gpmetis.exe';
+    program = __dirname + '/../native/gpmetis.exe';
   } else if (process.platform === 'linux') {
     program = __dirname + '/../native/gpmetis';
   }
@@ -58,8 +57,7 @@ function execGpMetis(file, nPartition) {
 function execMpMetis(file, nPartition) {
   let program = '';
   if (process.platform === 'win32') {
-    // TODO windows
-	  program = __dirname + '/../native/mpmetis.exe';
+    program = __dirname + '/../native/mpmetis.exe';
   } else if (process.platform === 'linux') {
     program = __dirname + '/../native/mpmetis';
   }
