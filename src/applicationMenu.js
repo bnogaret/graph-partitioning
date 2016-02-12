@@ -24,8 +24,7 @@ function createApplicationMenu () {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
               executionLib.execGpMetis(file, 4);
-			  console.debug("DEBUG: Your new file path: "+file);
-				
+			  console.debug("DEBUG: Your new file path: "+file);				
 				rendering.onLoad(file);
 			
             }
