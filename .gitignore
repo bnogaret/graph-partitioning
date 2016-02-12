@@ -1,2 +1,8 @@
+# Dependency directory
 node_modules
+
+# Directory including metis and parmetis stand-alone applications
 native
+
+# Log
+npm-debug.log*
