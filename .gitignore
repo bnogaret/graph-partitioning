@@ -6,3 +6,6 @@ native
 
 # Log
 npm-debug.log*
+
+# Local save of the user data
+user_db.json

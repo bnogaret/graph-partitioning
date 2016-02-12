@@ -5,6 +5,8 @@ const app = electron.app; // Module to control application life.
 const BrowserWindow = electron.BrowserWindow; // Module to create native browser window.e()
 const ipcMain = require('electron').ipcMain;
 
+const localDatabase = require('./db/localDatabase.js').localDatabase;
+
 // Report crashes to our server.
 electron.crashReporter.start();
 
@@ -26,8 +28,8 @@ app.on('window-all-closed', function () {
 app.on('ready', function () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 1000,
   });
 
   // applicationMenu.createApplicationMenu();
@@ -45,10 +47,12 @@ app.on('ready', function () {
     console.log('Notification not available');
   }
 
+  const db = new localDatabase();
+
   ipcMain.on('add-server', (event, server) => {
     console.log(event);
-    console.log('TODO: Save server');
     console.log(server);
+    db.addServer(server);
   });
 
   // Emitted when the window is closed.
