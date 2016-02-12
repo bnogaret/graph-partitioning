@@ -3,7 +3,6 @@
 const remote = require('remote');
 // const ipcRenderer = require('electron').ipcRenderer;
 const Menu = remote.require('menu');
-
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
 const rendering = require('./rendering');
@@ -24,9 +23,8 @@ function createApplicationMenu () {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
               executionLib.execGpMetis(file, 4);
-			  console.debug("DEBUG: Your new file path: "+file);				
-				rendering.onLoad(file);
-			
+              console.debug(`DEBUG: Your new file path: ${file}`);
+              rendering.onLoad(file);
             }
           },
         },
@@ -82,10 +80,11 @@ function createApplicationMenu () {
           label: 'See servers',
           click: () => {
             const window = new BrowserWindow({
-              width: 400,
-              height: 400,
+              width: 600,
+              height: 500,
             });
             window.setMenu(null);
+            window.webContents.openDevTools();
             window.loadURL('file://' + __dirname + '/server/seeServer.html');
           },
         },

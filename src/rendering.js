@@ -6,8 +6,6 @@ const Viva = require('../libs/vivagraph.min.js');
 
 var isFirst = true;
 
-
-
 function onLoad(file) {
   App.fileInput = file[0];
 
@@ -26,7 +24,7 @@ function onLoad(file) {
   App.renderer = Viva.Graph.View.renderer(App.graph, {
     layout: App.layout,
     graphics: App.graphics,
-    container: document.getElementById('graph-container')
+    container: document.getElementById('graph-container'),
   });
 
 
@@ -36,24 +34,24 @@ function onLoad(file) {
   var contents = fs.readFileSync(file[0], 'utf-8');
   var graph = App.graph;
 
-  // Step 2. Each value of the array correspond to one line             
+  // Step 2. Each value of the array correspond to one line
   var contentsByLine = contents.split('\n');
 
   // Step 3. Get the number of nodes (first value first line)
   // And the others parameters (number of edges(we don't use it in our case), fmt, ncon)
-  //Thanks to the the same algorithm has step 4.
+  // Thanks to the the same algorithm has step 4.
 
   function getInteger(target) {
     var firstLine = [];
     var temp = [];
-    var outFirstline = parseInt(target);
+    var outFirstline = parseInt(target, 10);
     var nlFirstLine = target;
 
     while (outFirstline) {
       firstLine.push(outFirstline);
       temp = nlFirstLine.replace(outFirstline, '');
       nlFirstLine = temp;
-      outFirstline = parseInt(nlFirstLine);
+      outFirstline = parseInt(nlFirstLine, 10);
     }
 
     return firstLine;
@@ -61,8 +59,7 @@ function onLoad(file) {
 
   var firstLine = getInteger(contentsByLine[0]);
 
-  function getFmtNcon(numberOfNodes, numberOfEdges, contentsByline) {
-    var fmtNcon = [];
+  function getFmtNcon(numberOfNodes, numberOfEdges) {
     // Get only fmt and ncon
     var nlFirstLine = contentsByLine[0];
     var temp = [];
@@ -76,33 +73,33 @@ function onLoad(file) {
     return nlFirstLine;
   }
   var numberOfNodes = firstLine[0];
-  
+
   switch (firstLine.length) {
-  case 1:
-  case 2:
-    n_render();
-    break;
-  case 3:
-    var fmtNcon = getFmtNcon(numberOfNodes, numberOfEdges, contentsByLine[0]); // <!--blank space at the end-->
+    case 1:
+    case 2:
+      nRender();
+      break;
+    case 3:
+      var fmtNcon = getFmtNcon(numberOfNodes, numberOfEdges, contentsByLine[0]); // <!--blank space at the end-->
 
-    if (fmtNcon.length === 4) { // <!--blank space at the end-->
+      if (fmtNcon.length === 4) { // <!--blank space at the end-->
+        var fmt = fmtNcon;
+        fmtRender();
+      } else {
+        var fmt = [];
+        var ncon = [];
 
-      var fmt = fmtNcon;
-      fmt_render();
+        for (var i = 0; i < 3; i++) {
+          fmt.push(fmtNcon[i]);
+        }
 
-    } else {
-      var fmt = [];
-      var ncon = [];
+        for (var i = 3; i < fmtNcon.length - 1; i++) {
+          ncon.push(fmtNcon[i]);
+        }
 
-      for (var i = 0; i < 3; i++)
-        fmt.push(fmtNcon[i]);
-
-      for (var i = 3; i < fmtNcon.length - 1; i++)
-        ncon.push(fmtNcon[i]);
-
-      fmtNcon_render();
-    }
-    break;
+        fmtNconRender();
+      }
+      break;
   }
 
   App.numberOfNodes = numberOfNodes;
@@ -113,75 +110,71 @@ function onLoad(file) {
   // and so on...
   // And then draw them for each lines
 
-  // First and Second case of the switch (numbers of nodes, numbers of edges)   
-  function n_render() {
-
+  // First and Second case of the switch (numbers of nodes, numbers of edges)
+  function nRender() {
     for (var i = 1; i < numberOfNodes + 1; i++) {
-      var nl_byLine = contentsByLine[i];
-      var out = parseInt(nl_byLine);
+      var nlByLine = contentsByLine[i];
+      var out = parseInt(nlByLine, 10);
 
       while (out) {
         graph.addLink(i, out);
-        var temp = nl_byLine.replace(out, '');
-        nl_byLine = temp;
-        out = parseInt(nl_byLine);
+        var temp = nlByLine.replace(out, '');
+        nlByLine = temp;
+        out = parseInt(nlByLine, 10);
       }
     }
   }
 
   // Last case of the switch with only fmt
-  // <!-- undefined links[links.length - 1] --> 
-  function fmt_render() {
-
-    console.log('fmt_render');
+  // <!-- undefined links[links.length - 1] -->
+  function fmtRender() {
+    console.log('fmtRender');
 
     // Links the last values is undefined
-    // Handle weight equal to 0 
+    // Handle weight equal to 0
     var links = [];
-    var nl_byLine = [];
+    var nlByLine = [];
     var out = 1;
-    var zero_case = 0;
+    var zeroCase = 0;
     var temp = [];
 
     for (var i = 1; i < numberOfNodes + 1; i++) {
-      nl_byLine = contentsByLine[i];
+      nlByLine = contentsByLine[i];
       links = [];
       out = 1;
 
       while (out) {
-        out = parseInt(nl_byLine);
+        out = parseInt(nlByLine, 10);
         // prevent from quitting the loop in case out === 0
         if (out === 0) {
           links.push(0);
-          temp = nl_byLine.replace(out, '');
-          nl_byLine = temp;
+          temp = nlByLine.replace(out, '');
+          nlByLine = temp;
           out = 1;
         } else {
           links.push(out);
-          temp = nl_byLine.replace(out, '');
-          nl_byLine = temp;
+          temp = nlByLine.replace(out, '');
+          nlByLine = temp;
         }
       }
 
       // Drawing part
-      // case fmt = 001 
+      // case fmt = 001
       // edges weight links[j+1]
       if (fmt[0] === '0' && fmt[1] === '0' && fmt[2] === '1') {
         for (var j = 0; j < links.length - 2; j++) {
-          if (j % 2 === 0) // first values is the edges and second is the weight of the edge 
-          {
+          if (j % 2 === 0) { // first values is the edges and second is the weight of the edge
             graph.addLink(i, links[j]);
             console.log('weight edges 001: ' + links[j + 1]);
           }
         }
       }
-      // case fmt = 101 
+      // case fmt = 101
       // edges weight links[j+1]
       // links[0] = size of the nodes
       if (fmt[0] === '1' && fmt[1] === '0' && fmt[2] === '1') {
         for (var j = 1; j < links.length - 2; j++) {
-          if (j % 2 === 0) // first values is the edges and second is the weight of the edge 
-          {
+          if (j % 2 === 0) { // first values is the edges and second is the weight of the edge
             graph.addLink(i, links[j]);
             console.log('weight edges 001: ' + links[j + 1]);
           }
@@ -190,13 +183,12 @@ function onLoad(file) {
 
 
 
-      // case fmt = 011                
+      // case fmt = 011
       // nodes weigth links[0]
-      // edges weight links[j+1]                     
+      // edges weight links[j+1]
       if (fmt[0] === '0' && fmt[1] === '1' && fmt[2] === '1') {
         for (var j = 1; j < links.length - 2; j++) {
-          if (j % 2 === 1) // first values is the edges and second is the weight of the edge 
-          {
+          if (j % 2 === 1) {// first values is the edges and second is the weight of the edge
             graph.addLink(i, links[j]);
             console.log('weight edges 011:' + links[j + 1]);
           }
@@ -206,11 +198,10 @@ function onLoad(file) {
       // case fmt = 111
       // nodes size links[0]
       // nodes weigth links[1]
-      // edges weight links[j+1]   
+      // edges weight links[j+1]
       if (fmt[0] === '1' && fmt[1] === '1' && fmt[2] === '1') {
         for (var j = 2; j < links.length - 2; j++) {
-          if (j % 2 === 1) // first values is the edges and second is the weight of the edge 
-          {
+          if (j % 2 === 1) { // first values is the edges and second is the weight of the edge
             graph.addLink(i, links[j]);
             console.log('weight edges 011:' + links[j + 1]);
           }
@@ -218,7 +209,7 @@ function onLoad(file) {
       }
 
       // case fmt = 010
-      // nodes weigth links[0]   
+      // nodes weigth links[0]
       if (fmt[0] === '0' && fmt[1] === '1' && fmt[2] === '0') {
         for (var j = 1; j < links.length - 1; j++) {
           graph.addLink(i, links[j]);
@@ -229,7 +220,7 @@ function onLoad(file) {
       // case fmt = 110
       // nodes size    links[0]
       // nodes weigth  links[1]
-      // edges weight  links[j+1]   
+      // edges weight  links[j+1]
       if (fmt[0] === '1' && fmt[1] === '1' && fmt[2] === '0') {
         for (var j = 1; j < links.length - 1; j++) {
           graph.addLink(i, links[j]);
@@ -240,35 +231,34 @@ function onLoad(file) {
   }
 
   // Last case of the switch with fmt and ncon
-  // <!--undefined links[links.length - 1] --> 
-  function fmtNcon_render() {
-
+  // <!--undefined links[links.length - 1] -->
+  function fmtNconRender() {
     // Links the last values is undefined
-    // Handle weight equal to 0 
+    // Handle weight equal to 0
     var links = [];
-    var nl_byLine = [];
+    var nlByLine = [];
     var out = 1;
-    var zero_case = 0;
+    var zeroCase = 0;
     var temp = [];
-    var ncon_int = parseInt(ncon);
+    var nconInt = parseInt(ncon, 10);
 
     for (var i = 1; i < numberOfNodes + 1; i++) {
-      nl_byLine = contentsByLine[i];
+      nlByLine = contentsByLine[i];
       links = [];
       out = 1;
 
       while (out) {
-        out = parseInt(nl_byLine);
+        out = parseInt(nlByLine, 10);
         // prevent from quitting the loop in case out === 0
         if (out === 0) {
           links.push(0);
-          temp = nl_byLine.replace(out, '');
-          nl_byLine = temp;
+          temp = nlByLine.replace(out, '');
+          nlByLine = temp;
           out = 1;
         } else {
           links.push(out);
-          temp = nl_byLine.replace(out, '');
-          nl_byLine = temp;
+          temp = nlByLine.replace(out, '');
+          nlByLine = temp;
         }
       }
 
@@ -277,40 +267,44 @@ function onLoad(file) {
       // Drawing part
       // <!-- if ncon = 0 -> undefined every case works except when the first ncon is equal to 0 -->
       // case fmt = 010
-      // weight of the vertices = [0..ncon[0]]                          
+      // weight of the vertices = [0..ncon[0]]
       if (fmt[0] === '0' && fmt[1] === '1' && fmt[2] === '0') {
         // weight of the vertice
-        for (var j = 0; j < ncon_int; j++)
+        for (var j = 0; j < nconInt; j++) {
           console.log('node: ' + i + ' ncons: ' + links[j]);
+        }
 
-        for (var j = ncon_int; j < links.length - 1; j++)
+        for (var j = nconInt; j < links.length - 1; j++) {
           console.log('edge: ' + links[j]);
+        }
       }
 
       // case fmt = 110
       // nodes size links[0]
-      // weight of the vertices = [1..ncon[0]]                          
+      // weight of the vertices = [1..ncon[0]]
       if (fmt[0] === '1' && fmt[1] === '1' && fmt[2] === '0') {
         // weight of the vertice
-        for (var j = 1; j < ncon_int + 1; j++)
+        for (var j = 1; j < nconInt + 1; j++) {
           console.log('node: ' + i + ' ncons: ' + links[j]);
+        }
 
-        for (var j = ncon_int + 1; j < links.length - 1; j++)
+        for (var j = nconInt + 1; j < links.length - 1; j++) {
           console.log('edge: ' + links[j]);
+        }
       }
 
       // case fmt = 011
-      // weight of the vertices = [0..ncon[0]]                    
+      // weight of the vertices = [0..ncon[0]]
 
-      // ncon%2 = 0                    
+      // ncon%2 = 0
       if (fmt[0] === '0' && fmt[1] === '1' && fmt[2] === '1') {
-
         // weight of the vertice
-        for (var j = 0; j < ncon_int; j++)
+        for (var j = 0; j < nconInt; j++) {
           console.log('node: ' + i + ' ncon: ' + links[j]);
+        }
 
-        if (ncon_int % 2 === 0) {
-          for (var j = ncon_int; j < links.length - 2; j++) {
+        if (nconInt % 2 === 0) {
+          for (var j = nconInt; j < links.length - 2; j++) {
             if (j % 2 === 0) {
               graph.addLink(i, links[j]);
               console.log('weight edge: ' + links[j + 1]);
@@ -319,8 +313,8 @@ function onLoad(file) {
         }
 
         // ncon%2 = 1
-        if (ncon_int % 2 === 1) {
-          for (var j = ncon_int; j < links.length - 2; j++) {
+        if (nconInt % 2 === 1) {
+          for (var j = nconInt; j < links.length - 2; j++) {
             if (j % 2 === 1) {
               graph.addLink(i, links[j]);
               console.log('weight edges: ' + links[j + 1]);
@@ -330,16 +324,16 @@ function onLoad(file) {
       }
       // case fmt = 111
       // nodes size links[0]
-      // weight of the vertices = [0..ncon[0]]                      
-      // ncon%2 = 0                    
+      // weight of the vertices = [0..ncon[0]]
+      // ncon%2 = 0
       if (fmt[0] === '1' && fmt[1] === '1' && fmt[2] === '1') {
-
         // weight of the vertice
-        for (var j = 1; j < ncon_int + 1; j++)
+        for (var j = 1; j < nconInt + 1; j++) {
           console.log('node: ' + i + ' ncon: ' + links[j]);
+        }
 
-        if (ncon_int % 2 === 0) {
-          for (var j = ncon_int + 1; j < links.length - 2; j++) {
+        if (nconInt % 2 === 0) {
+          for (var j = nconInt + 1; j < links.length - 2; j++) {
             if (j % 2 === 0) {
               graph.addLink(i, links[j]);
               console.log('weight edge: ' + links[j + 1]);
@@ -348,8 +342,8 @@ function onLoad(file) {
         }
 
         // ncon%2 = 1
-        if (ncon_int % 2 === 1) {
-          for (var j = ncon_int + 1; j < links.length - 2; j++) {
+        if (nconInt % 2 === 1) {
+          for (var j = nconInt + 1; j < links.length - 2; j++) {
             if (j % 2 === 1) {
               graph.addLink(i, links[j]);
               console.log('weight edges: ' + links[j + 1]);
@@ -365,51 +359,49 @@ function onLoad(file) {
   var renderLinksBtn = document.getElementById('displayLinksBtn');
   renderLinksBtn.style.display = 'block';
 
-  var switch_color = document.getElementById('label_color');
-  switch_color.style.display = 'block';
+  var switchColor = document.getElementById('label_color');
+  switchColor.style.display = 'block';
 
 
   App.layout = Viva.Graph.Layout.forceDirected(graph, {
-    springLength: 50, //10
-    springCoeff: 0.0008, //0.0005,
+    springLength: 50, // 10
+    springCoeff: 0.0008, // 0.0005,
     dragCoeff: 0.01,
     gravity: -5.20,
     theta: 1,
-    timestep: 1
+    timestep: 1,
   });
 
-  App.graphics.node(function (node) {
+  App.graphics.node(function(node) {
     return Viva.Graph.View.webglSquare(100, 0x1f77b4ff);
-  })
+  });
 
   App.renderer = Viva.Graph.View.renderer(graph, {
     graphics: App.graphics,
     layout: App.layout,
     interactive: 'drag, scroll',
-    renderLinks: false
+    renderLinks: false,
   });
 
   App.renderer.run();
   App.renderer.pause();
-
-
 }
 
 function addColor() {
   // Step 6. Colors
-  // Colors up until (20 processors for more add more colors)        
+  // Colors up until (20 processors for more add more colors)
   var colors = [
-                                0x1f77b4ff, 0xaec7e8ff,
-                                0xff7f0eff, 0xffbb78ff,
-                                0x2ca02cff, 0x98df8aff,
-                                0xd62728ff, 0xff9896ff,
-                                0x9467bdff, 0xc5b0d5ff,
-                                0x8c564bff, 0xc49c94ff,
-                                0xe377c2ff, 0xf7b6d2ff,
-                                0x7f7f7fff, 0xc7c7c7ff,
-                                0xbcbd22ff, 0xdbdb8dff,
-                                0x17becfff, 0x9edae5ff
-                                                        ];
+    0x1f77b4ff, 0xaec7e8ff,
+    0xff7f0eff, 0xffbb78ff,
+    0x2ca02cff, 0x98df8aff,
+    0xd62728ff, 0xff9896ff,
+    0x9467bdff, 0xc5b0d5ff,
+    0x8c564bff, 0xc49c94ff,
+    0xe377c2ff, 0xf7b6d2ff,
+    0x7f7f7fff, 0xc7c7c7ff,
+    0xbcbd22ff, 0xdbdb8dff,
+    0x17becfff, 0x9edae5ff,
+  ];
   // Read output file from metis
 
   var output = App.fileInput + '.part.4';
@@ -418,18 +410,17 @@ function addColor() {
     var outputs = fs.readFileSync(link, 'utf-8');
     var processors = outputs.split('\n');
 
-    for (var i = 1; i < App.numberOfNodes + 1; i++)
-      App.graphics.getNodeUI(i).color = colors[parseInt(processors[i - 1])];
-
+    for (var i = 1; i < App.numberOfNodes + 1; i++) {
+      App.graphics.getNodeUI(i).color = colors[parseInt(processors[i - 1], 10)];
+    }
   }
   addColors(output);
   App.renderer.rerender();
-
 }
 
 function removeColor() {
   // Step 6. Colors
-  // Colors up until (20 processors for more add more colors)        
+  // Colors up until (20 processors for more add more colors)
   var defaultColor = 0x1f77b4ff;
 
   // Read output file from metis
@@ -440,21 +431,20 @@ function removeColor() {
     var outputs = fs.readFileSync(link, 'utf-8');
     var processors = outputs.split('\n');
 
-    for (var i = 1; i < App.numberOfNodes + 1; i++)
+    for (var i = 1; i < App.numberOfNodes + 1; i++) {
       App.graphics.getNodeUI(i).color = defaultColor;
-
+    }
   }
 
   addColors(output);
   App.renderer.rerender();
-
 }
 
 
-var switch_color = document.getElementById('switch1');
+var switchColor = document.getElementById('switch1');
 var color = false;
 
-switch_color.addEventListener('change', function () {
+switchColor.addEventListener('change', function() {
   if (color === false) {
     console.log('color ' + color);
     addColor();
@@ -473,11 +463,10 @@ function loadNewGraphWithLinks() {
     graphics: App.graphics,
     layout: App.layout,
     interactive: 'drag, scroll',
-    renderLinks: true
+    renderLinks: true,
   });
 
   App.renderer.run();
-
 }
 
 
