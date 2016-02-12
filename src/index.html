@@ -22,7 +22,7 @@
       document.write(process.versions.electron)
     </script>.
   </p>
-  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Button</button>
+  <button id="displayLinksBtn" style="display: none" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Display Links</button>
   <button id="show-dialog" type="button" class="mdl-button">Show Dialog</button>
   <button id="show-notification" type="button" class="mdl-button">Show notification</button>
   <dialog class="mdl-dialog">
@@ -50,6 +50,10 @@
 
   <script>
     'use strict';
+	const rendering = require('./rendering');  
+    var renderLinksBtn = document.getElementById('displayLinksBtn');
+    
+	  
     var dialog = document.querySelector('dialog');
     var showDialogButton = document.querySelector('#show-dialog');
     if (!dialog.showModal) {
@@ -61,7 +65,13 @@
     dialog.querySelector('.close').addEventListener('click', function() {
       dialog.close();
     });
-
+	  
+	renderLinksBtn.style.visibility = 'visible';
+		renderLinksBtn.addEventListener('click', function(){
+            console.debug("DEBUG: renderLinksBtn clicked");
+			rendering.loadNewGraphWithLinks();
+		})  
+	  
     function createToast(message) {
       var snackbar = document.createElement('div'),
         text = document.createElement('div');

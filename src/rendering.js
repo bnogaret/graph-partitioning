@@ -1,15 +1,27 @@
+'use strict';
 const fs = require('fs');
 var App = {};
-App.fileInput = '4elt.graph';
+App.fileInput = null;
 App.fileOutput = '4elt.graph.part.4';
-
-
 const Viva = require('../libs/vivagraph.min.js');
+
+var isFirst = true;
+
+
+
+function onLoad(file) {
 	
+  
+  
+  if(isFirst == false)
+      {
+        //if we are already displaying any graph - dispose it firstly.
+        console.debug("Fileinput:" + App.fileInput);
+        console.log("\nim inside IF fileInput != NULL");
+        App.renderer.dispose();  
+      }
+  isFirst = false;
 
-
-
-function onLoad() {
     App.graphGenerator = Viva.Graph.generator();
     App.graph = App.graphGenerator.grid(50, 10);
     App.layout = Viva.Graph.Layout.forceDirected(App.graph);
@@ -24,7 +36,7 @@ function onLoad() {
         
             //Step 1. Get the library to read and draw
             
-            var contents = fs.readFileSync(App.fileInput, 'utf-8');
+            var contents = fs.readFileSync(file[0], 'utf-8');
             var graph = App.graph;
 
             //Step 2. Each value of the array correspond to one line             
@@ -406,8 +418,9 @@ function onLoad() {
             }
         
                 // Step 5. Render the graph
-                
-                
+      
+var renderLinksBtn = document.getElementById('displayLinksBtn');    
+  renderLinksBtn.style.display = 'block';
 
                 App.layout =  Viva.Graph.Layout.forceDirected(graph, {
                         springLength : 50, //10
@@ -429,6 +442,7 @@ function onLoad() {
                 App.renderer.run();
                 App.renderer.pause();
                 addColor(numberOfNodes);
+    
   }
 
 function addColor(numberOfNodes)
@@ -467,8 +481,8 @@ function addColor(numberOfNodes)
                 
 }
                 
-
-  function loadNew() {
+//part of code which render new graph
+  function loadNewGraphWithLinks() {
     App.renderer.dispose();
 	App.renderer = null;
    App.renderer = Viva.Graph.View.renderer(App.graph,
@@ -482,7 +496,7 @@ function addColor(numberOfNodes)
   
   App.renderer.run();
 
-
+  
   //App.renderer.pause();
   //addColor(App.numberOfNodes);
 	 
@@ -490,10 +504,6 @@ function addColor(numberOfNodes)
 	  /*var g = App.renderer.getGraphics();
 
 	  g.renderLinks = true;*/
-	  
-	  
-	  
-
     
   }
 
@@ -503,4 +513,5 @@ function addColor(numberOfNodes)
         loadNew();
     });*/
 module.exports.onLoad = onLoad;
+module.exports.loadNewGraphWithLinks = loadNewGraphWithLinks;
 
