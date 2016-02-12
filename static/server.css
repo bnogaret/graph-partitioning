@@ -16,6 +16,10 @@
   width: 400px;
 }
 
+.mdl-card__supporting-text {
+  width: auto;
+}
+
 .mdl-card__actions{
   padding: 10px;
 }

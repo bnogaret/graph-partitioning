@@ -79,7 +79,7 @@ function createApplicationMenu () {
           label: 'See servers',
           click: () => {
             const window = new BrowserWindow({
-              width: 500,
+              width: 600,
               height: 500,
             });
             window.setMenu(null);
