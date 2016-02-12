@@ -6,6 +6,8 @@ const Menu = remote.require('menu');
 
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
+const rendering = require('./rendering');
+
 // const mat = require('../node_modules/material-design-lite/material.min.js');
 
 const executionLib = require('./executionLib');
@@ -22,6 +24,8 @@ function createApplicationMenu () {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
               executionLib.execGpMetis(file, 4);
+			  rendering.onLoad();
+			
             }
           },
         },
