@@ -50,8 +50,6 @@ app.on('ready', function () {
   const db = new localDatabase();
 
   ipcMain.on('add-server', (event, server) => {
-    console.log(event);
-    console.log(server);
     db.addServer(server);
   });
 

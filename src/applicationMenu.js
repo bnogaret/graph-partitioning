@@ -5,14 +5,23 @@ const remote = require('remote');
 const Menu = remote.require('menu');
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
-
-
 const rendering = require('./rendering');
-
-// const mat = require('../node_modules/material-design-lite/material.min.js');
 
 const executionLib = require('./executionLib');
 const fileDialog = require('./fileDialog');
+
+function createWindow(width, height, filePath) {
+  const window = new BrowserWindow({
+    'width': width,
+    'height': height,
+    'useContentSize': true,
+    'alwaysOnTop': true,
+    'resizable': true, // TODO change for production
+  });
+  window.setMenu(null);
+  window.webContents.openDevTools();
+  window.loadURL('file://' + __dirname + filePath);
+}
 
 function createApplicationMenu () {
   const templateMenu = [
@@ -22,18 +31,9 @@ function createApplicationMenu () {
         {
           label: 'New graph',
           click: () => {
-            
-            const optionsWindow = new BrowserWindow({
-              width: 500,
-              height: 500,
-            });
-            optionsWindow.setMenu(null);
-            optionsWindow.webContents.openDevTools();
-            optionsWindow.loadURL('file://' + __dirname + '/optionsDialog/optionsDialog.html')
-            
-            
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
+              createWindow(500, 500, '/optionsDialog/optionsDialog.html');
               executionLib.execGpMetis(file, 4);
               console.debug(`DEBUG: Your new file path: ${file}`);
               rendering.onLoad(file);
@@ -79,25 +79,34 @@ function createApplicationMenu () {
         {
           label: 'New server',
           click: () => {
-            const window = new BrowserWindow({
-              width: 500,
-              height: 500,
-            });
-            window.setMenu(null);
-            window.webContents.openDevTools();
-            window.loadURL('file://' + __dirname + '/server/addServer.html');
+            createWindow(500, 500, '/server/addServer.html');
           },
         },
         {
           label: 'See servers',
           click: () => {
-            const window = new BrowserWindow({
-              width: 600,
-              height: 500,
-            });
-            window.setMenu(null);
-            window.webContents.openDevTools();
-            window.loadURL('file://' + __dirname + '/server/seeServer.html');
+            createWindow(600, 500, '/server/seeServer.html');
+          },
+        },
+        {
+          label: 'Ask for password',
+          click: () => {
+            // createWindow(600, 500, '/server/seeServer.html');
+          },
+        },
+        {
+          label: 'Test servers',
+          click: () => {
+            let file = fileDialog.getFile();
+            if (typeof file !== 'undefined') {
+              console.debug(`Ask for the password`);
+
+              console.debug(`Upload the file`);
+
+              console.debug(`Execute commands`);
+
+              console.debug(`Download the file`);
+            }
           },
         },
       ],
