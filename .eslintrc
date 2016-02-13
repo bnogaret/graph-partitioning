@@ -89,7 +89,7 @@
     "radix": [2, "always"],
 
     // Strict mode
-    "strict": [2, "global"]
+    "strict": [2, "global"],
 
     // Variables
     "init-declarations": 2,
