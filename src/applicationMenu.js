@@ -5,6 +5,8 @@ const remote = require('remote');
 const Menu = remote.require('menu');
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
+
+
 const rendering = require('./rendering');
 
 // const mat = require('../node_modules/material-design-lite/material.min.js');
@@ -20,6 +22,16 @@ function createApplicationMenu () {
         {
           label: 'New graph',
           click: () => {
+            
+            const optionsWindow = new BrowserWindow({
+              width: 500,
+              height: 500,
+            });
+            optionsWindow.setMenu(null);
+            optionsWindow.webContents.openDevTools();
+            optionsWindow.loadURL('file://' + __dirname + '/optionsDialog/optionsDialog.html')
+            
+            
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
               executionLib.execGpMetis(file, 4);
