@@ -5,8 +5,6 @@ const remote = require('remote');
 const Menu = remote.require('menu');
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
-
-
 const rendering = require('./rendering');
 
 const executionLib = require('./executionLib');
@@ -33,18 +31,9 @@ function createApplicationMenu () {
         {
           label: 'New graph',
           click: () => {
-            
-            const optionsWindow = new BrowserWindow({
-              width: 500,
-              height: 500,
-            });
-            optionsWindow.setMenu(null);
-            optionsWindow.webContents.openDevTools();
-            optionsWindow.loadURL('file://' + __dirname + '/optionsDialog/optionsDialog.html')
-            
-            
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
+              createWindow(500, 500, '/optionsDialog/optionsDialog.html');
               executionLib.execGpMetis(file, 4);
               console.debug(`DEBUG: Your new file path: ${file}`);
               rendering.onLoad(file);
