@@ -1,0 +1,33 @@
+.mdl-layout {
+  align-items: center;
+  justify-content: center;
+}
+.mdl-card {
+  width:100%;
+}
+
+.mdl-layout__content {
+  padding: 24px;
+  flex: none;
+}
+
+.mdl-textfield{
+  display: block;
+  width: 400px;
+}
+
+.mdl-card__supporting-text {
+  width: auto;
+}
+
+.mdl-card__actions{
+  padding: 10px;
+}
+
+.mdl-card__actions {
+  text-align: center;
+}
+
+.mdl-button {
+  margin: 0 10px 0 10px;
+}

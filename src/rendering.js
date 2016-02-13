@@ -75,31 +75,31 @@ function onLoad(file) {
   var numberOfNodes = firstLine[0];
 
   switch (firstLine.length) {
-    case 1:
-    case 2:
-      nRender();
-      break;
-    case 3:
-      var fmtNcon = getFmtNcon(numberOfNodes, numberOfEdges, contentsByLine[0]); // <!--blank space at the end-->
+  case 1:
+  case 2:
+    nRender();
+    break;
+  case 3:
+    var fmtNcon = getFmtNcon(numberOfNodes, numberOfEdges, contentsByLine[0]); // <!--blank space at the end-->
 
-      if (fmtNcon.length === 4) { // <!--blank space at the end-->
-        var fmt = fmtNcon;
-        fmtRender();
-      } else {
-        var fmt = [];
-        var ncon = [];
+    if (fmtNcon.length === 4) { // <!--blank space at the end-->
+      var fmt = fmtNcon;
+      fmtRender();
+    } else {
+      var fmt = [];
+      var ncon = [];
 
-        for (var i = 0; i < 3; i++) {
-          fmt.push(fmtNcon[i]);
-        }
-
-        for (var i = 3; i < fmtNcon.length - 1; i++) {
-          ncon.push(fmtNcon[i]);
-        }
-
-        fmtNconRender();
+      for (var i = 0; i < 3; i++) {
+        fmt.push(fmtNcon[i]);
       }
-      break;
+
+      for (var i = 3; i < fmtNcon.length - 1; i++) {
+        ncon.push(fmtNcon[i]);
+      }
+
+      fmtNconRender();
+    }
+    break;
   }
 
   App.numberOfNodes = numberOfNodes;
@@ -188,7 +188,7 @@ function onLoad(file) {
       // edges weight links[j+1]
       if (fmt[0] === '0' && fmt[1] === '1' && fmt[2] === '1') {
         for (var j = 1; j < links.length - 2; j++) {
-          if (j % 2 === 1) {// first values is the edges and second is the weight of the edge
+          if (j % 2 === 1) { // first values is the edges and second is the weight of the edge
             graph.addLink(i, links[j]);
             console.log('weight edges 011:' + links[j + 1]);
           }
@@ -372,7 +372,7 @@ function onLoad(file) {
     timestep: 1,
   });
 
-  App.graphics.node(function(node) {
+  App.graphics.node(function (node) {
     return Viva.Graph.View.webglSquare(100, 0x1f77b4ff);
   });
 
@@ -388,7 +388,6 @@ function onLoad(file) {
 }
 
 function addColor() {
-  // Step 6. Colors
   // Colors up until (20 processors for more add more colors)
   var colors = [
     0x1f77b4ff, 0xaec7e8ff,
@@ -444,7 +443,7 @@ function removeColor() {
 var switchColor = document.getElementById('switch1');
 var color = false;
 
-switchColor.addEventListener('change', function() {
+switchColor.addEventListener('change', function () {
   if (color === false) {
     console.log('color ' + color);
     addColor();
@@ -469,6 +468,23 @@ function loadNewGraphWithLinks() {
   App.renderer.run();
 }
 
+// Dialog alert when you click on the link button
+
+var renderLinksBtn = document.getElementById('displayLinksBtn');
+var dialog = document.querySelector('dialog');
+
+renderLinksBtn.addEventListener('click', function () {
+  dialog.showModal();
+});
+
+dialog.querySelector('.agree').addEventListener('click', function () {
+  loadNewGraphWithLinks();
+  dialog.close();
+});
+
+dialog.querySelector('.close').addEventListener('click', function () {
+  dialog.close();
+});
 
 module.exports.onLoad = onLoad;
 module.exports.loadNewGraphWithLinks = loadNewGraphWithLinks;
