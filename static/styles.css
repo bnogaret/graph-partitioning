@@ -1,0 +1,19 @@
+.button{
+    /*Krok 2: Podstawowe style*/
+    display: block;
+    height: 200px;
+    width: 200px;
+    background: #0bdf00;
+    border: 2px solid rgba(33, 68, 72, 0.59);
+ 
+    /*Krok 3: Style tekstu*/
+    color: rgba(0, 0, 0, 0.55);
+    text-align: center;
+    font: bold 3.2em/200px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+ }
+ 
+/*Krok 3: Linkuj styl*/
+a.button {
+    text-decoration: none;
+}
+}

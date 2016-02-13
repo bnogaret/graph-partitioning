@@ -9,21 +9,9 @@
 </head>
 
 <body>
-  <h1>Graph partitioning test</h1>
-  <p>
-    We are using node
-    <script>
-      document.write(process.versions.node)
-    </script>, Chrome
-    <script>
-      document.write(process.versions.chrome)
-    </script>, and Electron
-    <script>
-      document.write(process.versions.electron)
-    </script>.
-  </p>
+
   <button id="displayLinksBtn" style="display: none" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Display Links</button>
-  <button id="show-notification" type="button" class="mdl-button">Show notification</button>
+
   <dialog class="mdl-dialog">
     <h4 class="mdl-dialog__title">Show the edges</h4>
     <div class="mdl-dialog__content">
@@ -42,11 +30,7 @@
     <span class="mdl-switch__label">Color graph</span>
   </label>
 
-  <button id="demo-show-snackbar" class="mdl-button mdl-js-button mdl-button--raised" type="button">Show Snackbar</button>
-  <div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
-    <div class="mdl-snackbar__text"></div>
-    <button class="mdl-snackbar__action" type="button"></button>
-  </div>
+
 
   <script>
     'use strict';
@@ -81,29 +65,9 @@
       }, 10000);
     }
 
-    var showNotification = document.querySelector('#show-notification');
-    showNotification.addEventListener('click', function () {
-      console.log('This is a test');
-      createToast('Yes');
-    });
 
-    var snackbarContainer = document.querySelector('#demo-snackbar-example');
-    var showSnackbarButton = document.querySelector('#demo-show-snackbar');
-    var handler = function (event) {
-      showSnackbarButton.style.backgroundColor = '';
-    };
-    showSnackbarButton.addEventListener('click', function () {
-      'use strict';
-      showSnackbarButton.style.backgroundColor = '#' +
-        Math.floor(Math.random() * 0xFFFFFF).toString(16);
-      var data = {
-        message: 'Button color changed.',
-        timeout: 2000,
-        actionHandler: handler,
-        actionText: 'Undo'
-      };
-      snackbarContainer.MaterialSnackbar.showSnackbar(data);
-    });
+
+
 
     const t = require('./applicationMenu.js')
     t.createApplicationMenu();
