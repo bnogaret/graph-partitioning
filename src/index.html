@@ -9,19 +9,12 @@
 </head>
 
 <body>
-  <h1>Graph partitioning test</h1>
-  <p>
-    We are using node
-    <script>
-      document.write(process.versions.node)
-    </script>, Chrome
-    <script>
-      document.write(process.versions.chrome)
-    </script>, and Electron
-    <script>
-      document.write(process.versions.electron)
-    </script>.
-  </p>
+  
+ <div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+  </div>
+  
   <button id="displayLinksBtn" style="display: none" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Display Links</button>
   <button id="show-notification" type="button" class="mdl-button">Show notification</button>
   <dialog class="mdl-dialog">
@@ -32,8 +25,8 @@
         <p>
     </div>
     <div class="mdl-dialog__actions">
-      <button type="button" class="mdl-button agree">Agree</button>
-      <button type="button" class="mdl-button close">Disagree</button>
+      <button type="button" class="mdl-button agree">YES</button>
+      <button type="button" class="mdl-button close">NO</button>
     </div>
   </dialog>
 
@@ -42,67 +35,16 @@
     <span class="mdl-switch__label">Color graph</span>
   </label>
 
-  <button id="demo-show-snackbar" class="mdl-button mdl-js-button mdl-button--raised" type="button">Show Snackbar</button>
-  <div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
-    <div class="mdl-snackbar__text"></div>
-    <button class="mdl-snackbar__action" type="button"></button>
-  </div>
-
+  
+  
   <script>
     'use strict';
     const rendering = require('./rendering');
-    var renderLinksBtn = document.getElementById('displayLinksBtn');
-    var dialog = document.querySelector('dialog');
-
-    renderLinksBtn.addEventListener('click', function () {
-      dialog.showModal();
-    });
-
-    dialog.querySelector('.agree').addEventListener('click', function () {
-      rendering.loadNewGraphWithLinks();
-      dialog.close();
-    });
-
-    dialog.querySelector('.close').addEventListener('click', function () {
-      dialog.close();
-    });
-
-    function createToast(message) {
-      var snackbar = document.createElement('div'),
-        text = document.createElement('div');
-      snackbar.classList.add('mdl-snackbar', 'mdl-js-snackbar');
-      text.classList.add('mdl-snackbar__text');
-      text.innerText = message;
-      snackbar.appendChild(text);
-      document.body.appendChild(snackbar);
-      // Remove after 10 seconds
-      setTimeout(function () {
-        //snackbar.remove();
-      }, 10000);
-    }
-
+    const notifications = require('./notifications/alert');
+    
     var showNotification = document.querySelector('#show-notification');
     showNotification.addEventListener('click', function () {
-      console.log('This is a test');
-      createToast('Yes');
-    });
-
-    var snackbarContainer = document.querySelector('#demo-snackbar-example');
-    var showSnackbarButton = document.querySelector('#demo-show-snackbar');
-    var handler = function (event) {
-      showSnackbarButton.style.backgroundColor = '';
-    };
-    showSnackbarButton.addEventListener('click', function () {
-      'use strict';
-      showSnackbarButton.style.backgroundColor = '#' +
-        Math.floor(Math.random() * 0xFFFFFF).toString(16);
-      var data = {
-        message: 'Button color changed.',
-        timeout: 2000,
-        actionHandler: handler,
-        actionText: 'Undo'
-      };
-      snackbarContainer.MaterialSnackbar.showSnackbar(data);
+      notifications.notification('title','type of error','alert');
     });
 
     const t = require('./applicationMenu.js')
