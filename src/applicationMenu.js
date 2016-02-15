@@ -5,10 +5,12 @@ const remote = require('remote');
 const Menu = remote.require('menu');
 const BrowserWindow = require('electron').remote.BrowserWindow;
 
-const rendering = require('./rendering');
+//const rendering = require('./rendering');
 
 const executionLib = require('./executionLib');
 const fileDialog = require('./fileDialog');
+const optionsDialog = require('./optionsDialog/optionsDialog');
+
 
 function createWindow(width, height, filePath) {
   const window = new BrowserWindow({
@@ -23,7 +25,7 @@ function createWindow(width, height, filePath) {
   window.loadURL('file://' + __dirname + filePath);
 }
 
-function createApplicationMenu () {
+function createApplicationMenu() {
   const templateMenu = [
     {
       label: 'File',
@@ -33,10 +35,30 @@ function createApplicationMenu () {
           click: () => {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
-              createWindow(500, 500, '/optionsDialog/optionsDialog.html');
-              executionLib.execGpMetis(file, 4);
+              var confWindow = createWindow(361, 306, './optionsDialog/optionsDialog.html');
+              
+          
+              confWindow.window.buttonOk.addEventListener('click', function(){
+            console.log('DUPA!!');
+          })
+                
+                /*
+                  if (optionsDialog.getIsMetis() == true) {
+                    executionLib.execGpMetis(file, optionsDialog.getNumberOfProcesors());
+                    rendering.onLoad(file);
+                  } else {
+                    executionLib.execMpMetis(file, optionsDialog.getNumberOfProcesors());
+                    rendering.onLoad(file);
+                  }
+                
+              
+
+*/
+
+
+              /*executionLib.execGpMetis(file, 4);
               console.debug(`DEBUG: Your new file path: ${file}`);
-              rendering.onLoad(file);
+              rendering.onLoad(file);*/
             }
           },
         },
