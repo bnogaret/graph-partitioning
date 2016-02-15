@@ -53,6 +53,10 @@ app.on('ready', function () {
     db.addServer(server);
   });
 
+  ipcMain.on('exec-configuration', (event, obj) => {
+    console.log(obj);
+  });
+
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
