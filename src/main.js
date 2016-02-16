@@ -4,9 +4,11 @@ const electron = require('electron');
 const app = electron.app; // Module to control application life.
 const BrowserWindow = electron.BrowserWindow; // Module to create native browser window.e()
 const ipcMain = require('electron').ipcMain;
+const executionLib = require('./executionLib');
 
 const localDatabase = require('./db/localDatabase.js').localDatabase;
 
+var receivedPath = null;
 // Report crashes to our server.
 electron.crashReporter.start();
 
@@ -53,8 +55,26 @@ app.on('ready', function () {
     db.addServer(server);
   });
 
+  // get file path from applicationMenu
+  ipcMain.on('file-path', (event, fp) => {
+    receivedPath = fp;
+  });
+
+
   ipcMain.on('exec-configuration', (event, obj) => {
-    console.log(obj);
+
+
+    if ((obj.metisRadioValue === true) && (obj.parMetisRadioValue === false)) {
+      console.log("ReceivedPath: " + receivedPath);
+      executionLib.execGpMetis(receivedPath, 4);
+
+
+      console.log("METIS = TRUE!");
+    } else if ((obj.metisRadioValue === false) && (obj.parMetisRadioValue === true)) {
+      console.log("parMETIS = TRUE!");
+    } else {
+      // TODO: condition if user choose running calculations remotely
+    }
   });
 
   // Emitted when the window is closed.

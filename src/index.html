@@ -9,12 +9,12 @@
 </head>
 
 <body>
-  
- <div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
+
+  <div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
     <div class="mdl-snackbar__text"></div>
     <button class="mdl-snackbar__action" type="button"></button>
   </div>
-  
+
   <button id="displayLinksBtn" style="display: none" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Display Links</button>
 
   <dialog class="mdl-dialog">
@@ -39,10 +39,10 @@
     'use strict';
     const rendering = require('./rendering');
     const notifications = require('./notifications/alert');
-    
+
     var showNotification = document.querySelector('#show-notification');
     showNotification.addEventListener('click', function () {
-      notifications.notification('title','type of error','alert');
+      notifications.notification('title', 'type of error', 'alert');
     });
 
     const t = require('./applicationMenu.js')
