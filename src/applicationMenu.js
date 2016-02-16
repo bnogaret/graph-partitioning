@@ -3,9 +3,11 @@
 const remote = require('remote');
 const Menu = remote.require('menu');
 const BrowserWindow = require('electron').remote.BrowserWindow;
-
+const ipcRenderer = require('electron').ipcRenderer;
 const executionLib = require('./executionLib');
 const fileDialog = require('./fileDialog');
+
+
 
 
 function createWindow(width, height, filePath) {
@@ -32,6 +34,8 @@ function createApplicationMenu() {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
               createWindow(361, 306, '/optionsDialog/optionsDialog.html');
+              ipcRenderer.send('file-path', file);
+              //executionLib.execMpMetis(file, 4);
             }
           },
         },
@@ -40,7 +44,7 @@ function createApplicationMenu() {
           click: () => {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
-              executionLib.execMpMetis(file, 4);
+               //executionLib.execMpMetis(file, 4);
             }
           },
         },

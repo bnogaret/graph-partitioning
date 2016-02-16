@@ -43,8 +43,9 @@
     const notifications = require('./notifications/alert');
 
     var showNotification = document.querySelector('#show-notification');
-    showNotification.addEventListener('click', () => {
-      notifications.notification('title', 'type of error', 'notification');
+
+    showNotification.addEventListener('click', function () {
+      notifications.notification('title', 'type of error', 'alert');
     });
 
     const t = require('./applicationMenu.js')
