@@ -75,31 +75,31 @@ function onLoad(file) {
   var numberOfNodes = firstLine[0];
 
   switch (firstLine.length) {
-  case 1:
-  case 2:
-    nRender();
-    break;
-  case 3:
-    var fmtNcon = getFmtNcon(numberOfNodes, numberOfEdges, contentsByLine[0]); // <!--blank space at the end-->
+    case 1:
+    case 2:
+      nRender();
+      break;
+    case 3:
+      var fmtNcon = getFmtNcon(numberOfNodes, numberOfEdges, contentsByLine[0]); // <!--blank space at the end-->
 
-    if (fmtNcon.length === 4) { // <!--blank space at the end-->
-      var fmt = fmtNcon;
-      fmtRender();
-    } else {
-      var fmt = [];
-      var ncon = [];
+      if (fmtNcon.length === 4) { // <!--blank space at the end-->
+        var fmt = fmtNcon;
+        fmtRender();
+      } else {
+        var fmt = [];
+        var ncon = [];
 
-      for (var i = 0; i < 3; i++) {
-        fmt.push(fmtNcon[i]);
+        for (var i = 0; i < 3; i++) {
+          fmt.push(fmtNcon[i]);
+        }
+
+        for (var i = 3; i < fmtNcon.length - 1; i++) {
+          ncon.push(fmtNcon[i]);
+        }
+
+        fmtNconRender();
       }
-
-      for (var i = 3; i < fmtNcon.length - 1; i++) {
-        ncon.push(fmtNcon[i]);
-      }
-
-      fmtNconRender();
-    }
-    break;
+      break;
   }
 
   App.numberOfNodes = numberOfNodes;

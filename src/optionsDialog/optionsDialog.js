@@ -14,11 +14,10 @@ buttonClose.addEventListener('click', () => {
 });
 
 buttonOk.addEventListener('click', () => {
-
   let options = {
     numberOfProcessors: procsInput.value,
     parMetisRadioValue: parMetisOption.checked,
-    metisRadioValue: metisOption.checked
+    metisRadioValue: metisOption.checked,
   };
 
   ipcRenderer.send('exec-configuration', options);

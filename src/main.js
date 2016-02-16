@@ -62,16 +62,14 @@ app.on('ready', function () {
 
 
   ipcMain.on('exec-configuration', (event, obj) => {
-
-
     if ((obj.metisRadioValue === true) && (obj.parMetisRadioValue === false)) {
-      console.log("ReceivedPath: " + receivedPath);
+      console.log('ReceivedPath: ' + receivedPath);
       executionLib.execGpMetis(receivedPath, 4);
 
 
-      console.log("METIS = TRUE!");
+      console.log('METIS = TRUE!');
     } else if ((obj.metisRadioValue === false) && (obj.parMetisRadioValue === true)) {
-      console.log("parMETIS = TRUE!");
+      console.log('parMETIS = TRUE!');
     } else {
       // TODO: condition if user choose running calculations remotely
     }
