@@ -1,0 +1,36 @@
+.button {
+  display: block;
+  height: 200px;
+  width: 200px;
+  background: #0bdf00;
+  border: 2px solid rgba(33, 68, 72, 0.59);
+  /*Krok 3: Style tekstu*/
+  color: rgba(0, 0, 0, 0.55);
+  text-align: center;
+  font: bold 3.2em/200px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+}
+
+a.button {
+  text-decoration: none;
+}
+
+
+/* Add the snack bar in the top right */
+
+#snackbar-notification.mdl-snackbar {
+  top: 0;
+  left: 75.5%;
+  bottom: auto;
+}
+
+#warning-icon.fa-5px {
+  align-self: center;
+}
+
+#alert-icon.fa-5px {
+  align-self: center;
+}
+
+#notification-icon.fa-5px {
+  align-self: center;
+}

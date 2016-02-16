@@ -9,3 +9,6 @@ npm-debug.log*
 
 # Local save of the user data
 user_db.json
+
+input/*
+output/*
