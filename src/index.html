@@ -41,12 +41,19 @@
     'use strict';
     const rendering = require('./rendering');
     const notifications = require('./notifications/alert');
-
+    const ipcRenderer = require('electron').ipcRenderer;
     var showNotification = document.querySelector('#show-notification');
-
+    
+    ipcRenderer.on('display-graph', (event, obj) => {
+      rendering.onLoad(obj);
+    });
+    
+    
+    
     showNotification.addEventListener('click', function () {
       notifications.notification('title', 'type of error', 'alert');
     });
+    
 
     const t = require('./applicationMenu.js')
     t.createApplicationMenu();

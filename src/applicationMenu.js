@@ -35,6 +35,7 @@ function createApplicationMenu() {
               createWindow(361, 306, '/optionsDialog/optionsDialog.html');
               ipcRenderer.send('file-path', file);
               // executionLib.execMpMetis(file, 4);
+              
             }
           },
         },

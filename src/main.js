@@ -67,7 +67,12 @@ app.on('ready', function () {
     if ((obj.metisRadioValue === true) && (obj.parMetisRadioValue === false)) {
       console.log('ReceivedPath: ' + receivedPath);
       executionLib.execGpMetis(receivedPath, 4);
-
+      
+      if(obj.visResultsCheckBox === true)
+        {
+          mainWindow.webContents.send('display-graph', receivedPath);
+        }
+      
 
       console.log('METIS = TRUE!');
     } else if ((obj.metisRadioValue === false) && (obj.parMetisRadioValue === true)) {
