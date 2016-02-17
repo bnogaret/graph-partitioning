@@ -65,18 +65,22 @@ app.on('ready', function () {
 
   ipcMain.on('exec-configuration', (event, obj) => {
     if ((obj.metisRadioValue === true) && (obj.parMetisRadioValue === false)) {
-      console.log('ReceivedPath: ' + receivedPath);
-      executionLib.execGpMetis(receivedPath, 4);
-      
-      if(obj.visResultsCheckBox === true)
-        {
-          mainWindow.webContents.send('display-graph', receivedPath);
-        }
-      
 
-      console.log('METIS = TRUE!');
+      executionLib.execGpMetis(receivedPath, obj.numberOfProcessors = 4);
+
+      if (obj.visResultsCheckBox === true) {
+        mainWindow.webContents.send('display-graph', receivedPath);
+      }
+
+
+      console.log('METIS = IS WORKING!');
     } else if ((obj.metisRadioValue === false) && (obj.parMetisRadioValue === true)) {
-      console.log('parMETIS = TRUE!');
+      executionLib.execGpMetis(receivedPath, obj.numberOfProcessors = 4);
+
+      if (obj.visResultsCheckBox === true) {
+        mainWindow.webContents.send('display-graph', receivedPath);
+      }
+      console.log('parMETIS IS WORKING!');
     } else {
       // TODO: condition if user choose running calculations remotely
     }

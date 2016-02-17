@@ -32,7 +32,7 @@ function createApplicationMenu() {
           click: () => {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
-              createWindow(361, 306, '/optionsDialog/optionsDialog.html');
+              createWindow(561, 506, '/optionsDialog/optionsDialog.html');
               ipcRenderer.send('file-path', file);
               // executionLib.execMpMetis(file, 4);
               
