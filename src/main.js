@@ -7,6 +7,8 @@ const ipcMain = require('electron').ipcMain;
 const executionLib = require('./executionLib');
 
 const localDatabase = require('./db/localDatabase.js').localDatabase;
+const SSHFile = require('./ssh/SSHFile').SSHFile;
+const SSHShell = require('./ssh/SSHShell').SSHShell;
 
 var receivedPath = null;
 // Report crashes to our server.
@@ -74,6 +76,61 @@ app.on('ready', function () {
       // TODO: condition if user choose running calculations remotely
     }
   });
+
+  const config = {
+    'host': '**',
+    'username': '**',
+    'port': 22,
+    'password': '**',
+    'tryKeyboard': true,
+  };
+
+  const commands = [
+    'module load metis',
+    'pwd',
+    'hfdsuiodkl',
+  ];
+
+  /*
+  const f = new SSHFile(config);
+  f.addListener('ready', () => {
+    f.uploadFile('...', '...');
+  });
+  f.addListener('success', () => {
+    f.disconnect();
+  });
+  f.addListener('error', (event, err) => {
+    console.log(err);
+    f.disconnect();
+  });
+  f.connect();
+
+  const s = new SSHShell(config);
+  s.addListener('ready', () => {
+    s.executeCommands(commands);
+  });
+  s.addListener('success', () => {
+    s.disconnect();
+  });
+  s.addListener('error', (event, err) => {
+    console.log(err);
+    s.disconnect();
+  });
+  s.connect();
+
+  const f2 = new SSHFile(config);
+  f2.addListener('ready', () => {
+    f2.downloadFile('...', '...');
+  });
+  f2.addListener('success', () => {
+    f2.disconnect();
+  });
+  f2.addListener('error', (event, err) => {
+    console.log(err);
+    f2.disconnect();
+  });
+  f2.connect();
+  */
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
