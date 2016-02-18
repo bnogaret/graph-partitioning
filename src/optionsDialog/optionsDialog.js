@@ -9,9 +9,12 @@ const visResultsCheckBox = document.querySelector('#visResultsCheckBox');
 const buttonClose = document.getElementById('button-close');
 const buttonOk = document.querySelector('#button-ok');
 
+
+const metisForm = document.getElementById('metisForm');
 const procsInputElement = document.querySelector('#procsInputElement');
 const ctypeElement = document.getElementById('ctypeElement');
-const metisForm = document.getElementById('metisForm');
+const maxImbalanceElement = document.getElementById('maxImbalanceElement');
+
 
 
 buttonClose.addEventListener('click', () => {
