@@ -14,7 +14,10 @@ const metisForm = document.getElementById('metisForm');
 const procsInputElement = document.querySelector('#procsInputElement');
 const ctypeElement = document.getElementById('ctypeElement');
 const maxImbalanceElement = document.getElementById('maxImbalanceElement');
-
+const ptypeElement = document.getElementById('ptypeElement');
+const iptypeElement = document.getElementById('iptypeElement');
+const ptype = document.getElementById('ptype');
+const objtypeElement = document.getElementById('objtypeElement');
 
 
 buttonClose.addEventListener('click', () => {
@@ -22,23 +25,32 @@ buttonClose.addEventListener('click', () => {
 });
 
 metisOption.addEventListener('click', () => {
-  console.log('METIS radio button is clicked now');
-  metisForm.style.display = 'none';
+  iptypeElement.style.display = 'none';
+  objtypeElement.style.display = 'none';
+  metisForm.style.display = 'block';
+});
 
+// handle case when iptype/objtype should be hidden/visible in case of ptype value
+ptype.addEventListener('click', () => {
+  ptype.onchange = function () {
+    if (this.options[this.selectedIndex].value === 'rb') {
+      iptypeElement.style.display = 'block';
+      objtypeElement.style.display = 'none';
+    } else if (this.options[this.selectedIndex].value === 'kway') {
+      iptypeElement.style.display = 'none';
+      objtypeElement.style.display = 'block';
+      this.options.value = '';
+    }
+  }
 });
 
 parMetisOption.addEventListener('click', () => {
-  console.log('parMETIS radio button is clicked now');
-  metisForm.style.display = 'block';
+  metisForm.style.display = 'none';
 });
 
 remoteMetisOption.addEventListener('click', () => {
   console.log('remoteMETIS radio button is clicked now');
 });
-
-
-
-
 
 buttonOk.addEventListener('click', () => {
   let options = {
