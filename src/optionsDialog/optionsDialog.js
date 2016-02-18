@@ -19,15 +19,12 @@ const iptypeElement = document.getElementById('iptypeElement');
 const ptype = document.getElementById('ptype');
 const objtypeElement = document.getElementById('objtypeElement');
 
+// par metis form
+const parMetisForm = document.getElementById('parMetisForm');
+
 
 buttonClose.addEventListener('click', () => {
   window.close();
-});
-
-metisOption.addEventListener('click', () => {
-  iptypeElement.style.display = 'none';
-  objtypeElement.style.display = 'none';
-  metisForm.style.display = 'block';
 });
 
 // handle case when iptype/objtype should be hidden/visible in case of ptype value
@@ -44,8 +41,16 @@ ptype.addEventListener('click', () => {
   }
 });
 
+metisOption.addEventListener('click', () => {
+  iptypeElement.style.display = 'none';
+  objtypeElement.style.display = 'none';
+  metisForm.style.display = 'block';
+  parMetisForm.style.display = 'none';
+});
+
 parMetisOption.addEventListener('click', () => {
   metisForm.style.display = 'none';
+  parMetisForm.style.display = 'block';
 });
 
 remoteMetisOption.addEventListener('click', () => {
