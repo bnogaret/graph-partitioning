@@ -9,15 +9,10 @@ const visResultsCheckBox = document.querySelector('#visResultsCheckBox');
 const buttonClose = document.getElementById('button-close');
 const buttonOk = document.querySelector('#button-ok');
 
+
 const metisForm = document.getElementById('metisForm');
 const procsInputElement = document.querySelector('#procsInputElement');
 const ctypeElement = document.getElementById('ctypeElement');
-const ctype = document.getElementById('ctype');
-const maxImbalance = document.getElementById('maxImbalance');
-const niter = document.getElementById('niter');
-const iptype = document.getElementById('iptype');
-const objtype = document.getElementById('objtype');
-
 const maxImbalanceElement = document.getElementById('maxImbalanceElement');
 const ptypeElement = document.getElementById('ptypeElement');
 const iptypeElement = document.getElementById('iptypeElement');
@@ -26,9 +21,6 @@ const objtypeElement = document.getElementById('objtypeElement');
 
 // par metis form
 const parMetisForm = document.getElementById('parMetisForm');
-const procsInputParMetis = document.getElementById('procsInputParMetis');
-const numberOfPartsParMetis = document.getElementById('numberOfPartsParMetis');
-const maxImbalanceParMetis = document.getElementById('maxImbalanceParMetis');
 
 
 buttonClose.addEventListener('click', () => {
@@ -66,46 +58,13 @@ remoteMetisOption.addEventListener('click', () => {
 });
 
 buttonOk.addEventListener('click', () => {
+  let options = {
+    numberOfProcessors: procsInput.value,
+    parMetisRadioValue: parMetisOption.checked,
+    metisRadioValue: metisOption.checked,
+    visResultsCheckBox: visResultsCheckBox.checked
+  };
 
-  if (metisOption.checked === true) {
-    let options = {
-      // radiobuttons options
-      parMetisRadioValue: parMetisOption.checked,
-      metisRadioValue: metisOption.checked,
-      remoteMetisRadioValue: remoteMetisOption.checked,
-      // values. Sending all values, validation is in main.js before executing lib
-      procsInput: procsInput.value,
-      ctype: ctype.value,
-      maxImbalance: maxImbalance.value,
-      niter: niter.value,
-      ptype: ptype.value,
-      iptype: iptype.value,
-      objtype: objtype.value,
-      // visualization
-      visResultsCheckBox: visResultsCheckBox.checked
-    };
-    ipcRenderer.send('exec-configuration', options);
-
-  } else if (parMetisOption.checked === true) {
-    let options = {
-      // radiobuttons options
-      parMetisRadioValue: parMetisOption.checked,
-      metisRadioValue: metisOption.checked,
-      remoteMetisRadioValue: remoteMetisOption.checked,
-      // values
-      procsInputParMetis: procsInputParMetis.value,
-      numberOfPartsParMetis: numberOfPartsParMetis.value,
-      maxImbalanceParMetis: maxImbalanceParMetis.value,
-      visResultsCheckBox: visResultsCheckBox.checked
-    }
-    ipcRenderer.send('exec-configuration', options);
-
-  } else if (remoteMetisOption.checked === true) {
-    // TODO: implement option for remote server
-    let options = {
-
-      visResultsCheckBox: visResultsCheckBox.checked
-    }
-  }
+  ipcRenderer.send('exec-configuration', options);
   window.close();
 });

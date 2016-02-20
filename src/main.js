@@ -71,26 +71,16 @@ app.on('ready', function () {
       if (obj.visResultsCheckBox === true) {
         mainWindow.webContents.send('display-graph', receivedPath);
       }
-      console.log('\nValues send from UI:');
-      console.log('procsInput: ' + obj.procsInput);
-      console.log('ctype: ' + obj.ctype);
-      console.log('maxImbalance: ' + obj.maxImbalance);
-      console.log('niter: ' + obj.niter);
-      console.log('ptype: ' + obj.ptype);
-      console.log('iptype: ' + obj.iptype);
-      console.log('objtype: ' + obj.objtype);
-      console.log('\n');
 
+
+      console.log('METIS = IS WORKING!');
     } else if ((obj.metisRadioValue === false) && (obj.parMetisRadioValue === true)) {
       executionLib.execGpMetis(receivedPath, obj.numberOfProcessors = 4);
+
       if (obj.visResultsCheckBox === true) {
         mainWindow.webContents.send('display-graph', receivedPath);
       }
-      console.log('\nValues send from UI:');
-      console.log('procsInputParMetis: ' + obj.procsInputParMetis);
-      console.log('numberOfPartsParMetis: ' + obj.numberOfPartsParMetis);
-      console.log('maxImbalanceParMetis: ' + obj.maxImbalanceParMetis);
-      console.log('\n');
+      console.log('parMETIS IS WORKING!');
     } else {
       // TODO: condition if user choose running calculations remotely
     }
