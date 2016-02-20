@@ -14,31 +14,48 @@ const metisForm = document.getElementById('metisForm');
 const procsInputElement = document.querySelector('#procsInputElement');
 const ctypeElement = document.getElementById('ctypeElement');
 const maxImbalanceElement = document.getElementById('maxImbalanceElement');
+const ptypeElement = document.getElementById('ptypeElement');
+const iptypeElement = document.getElementById('iptypeElement');
+const ptype = document.getElementById('ptype');
+const objtypeElement = document.getElementById('objtypeElement');
 
+// par metis form
+const parMetisForm = document.getElementById('parMetisForm');
 
 
 buttonClose.addEventListener('click', () => {
   window.close();
 });
 
-metisOption.addEventListener('click', () => {
-  console.log('METIS radio button is clicked now');
-  metisForm.style.display = 'none';
+// handle case when iptype/objtype should be hidden/visible in case of ptype value
+ptype.addEventListener('click', () => {
+  ptype.onchange = function () {
+    if (this.options[this.selectedIndex].value === 'rb') {
+      iptypeElement.style.display = 'block';
+      objtypeElement.style.display = 'none';
+    } else if (this.options[this.selectedIndex].value === 'kway') {
+      iptypeElement.style.display = 'none';
+      objtypeElement.style.display = 'block';
+      this.options.value = '';
+    }
+  }
+});
 
+metisOption.addEventListener('click', () => {
+  iptypeElement.style.display = 'none';
+  objtypeElement.style.display = 'none';
+  metisForm.style.display = 'block';
+  parMetisForm.style.display = 'none';
 });
 
 parMetisOption.addEventListener('click', () => {
-  console.log('parMETIS radio button is clicked now');
-  metisForm.style.display = 'block';
+  metisForm.style.display = 'none';
+  parMetisForm.style.display = 'block';
 });
 
 remoteMetisOption.addEventListener('click', () => {
   console.log('remoteMETIS radio button is clicked now');
 });
-
-
-
-
 
 buttonOk.addEventListener('click', () => {
   let options = {
