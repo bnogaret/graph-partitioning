@@ -31,13 +31,17 @@ class SSHConnection extends EventEmitter {
       console.log('Client :: keyboard-interactive');
       finish([this._config.password]);
     }).on('error', (err) => {
-      // console.log(`Client :: Error\n ${err.message()}`);
-      this.emit('error', err);
+      console.log('Client :: error');
+      if (err) {
+        this.emit('error', err);
+      } else {
+        this.emit('error', new Error('Connection error with the server.'));
+      }
     }).on('close', hadError => {
       this._isConnected = false;
       if (hadError) {
-        // console.log('Client :: Close due to an error');
-        this.emit('error', new Error('SSH Connection close due to an expected error.'));
+        console.log('Client :: Close due to an error');
+        this.emit('error', new Error('SSH Connection close due to an unexpected error.'));
       } else {
         console.log('Client :: Close');
       }
@@ -50,13 +54,14 @@ class SSHConnection extends EventEmitter {
   }
 
   /**
-  * Must must contain:
+  * The config object must contain:
   * - {string} host
   * - {int} port
   * - {string} username
   * - {string} password
   * - {boolean} tryKeyboard
-  * @param {object} config: configuration object.
+  * For more configuration, @see https://github.com/mscdex/ssh2
+  * @param {object} config: configuration object for the connection.
   */
   constructor (config) {
     super();

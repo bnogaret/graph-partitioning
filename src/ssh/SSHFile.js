@@ -2,6 +2,7 @@
 
 const SSHConnection = require('./SSHConnection.js').SSHConnection;
 
+// TODO Add a timeout for each command?
 class SSHFile extends SSHConnection {
   /**
   * Download the file from the remotePath to the localPath.
