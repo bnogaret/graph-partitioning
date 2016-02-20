@@ -7,8 +7,6 @@ const ipcMain = require('electron').ipcMain;
 const executionLib = require('./executionLib');
 
 const localDatabase = require('./db/localDatabase.js').localDatabase;
-const SSHFile = require('./ssh/SSHFile').SSHFile;
-const SSHShell = require('./ssh/SSHShell').SSHShell;
 
 var receivedPath = null;
 // Report crashes to our server.
@@ -26,6 +24,11 @@ app.on('window-all-closed', function () {
     app.quit();
   }
 });
+
+function randomIntInc () {
+  return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+}
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -54,6 +57,7 @@ app.on('ready', function () {
   const db = new localDatabase();
 
   ipcMain.on('add-server', (event, server) => {
+    server.id = randomIntInc();
     db.addServer(server);
   });
 
@@ -65,13 +69,11 @@ app.on('ready', function () {
 
   ipcMain.on('exec-configuration', (event, obj) => {
     if ((obj.metisRadioValue === true) && (obj.parMetisRadioValue === false)) {
-
       executionLib.execGpMetis(receivedPath, obj.numberOfProcessors = 4);
 
       if (obj.visResultsCheckBox === true) {
         mainWindow.webContents.send('display-graph', receivedPath);
       }
-
 
       console.log('METIS = IS WORKING!');
     } else if ((obj.metisRadioValue === false) && (obj.parMetisRadioValue === true)) {
@@ -86,60 +88,8 @@ app.on('ready', function () {
     }
   });
 
-  const config = {
-    'host': '**',
-    'username': '**',
-    'port': 22,
-    'password': '**',
-    'tryKeyboard': true,
-  };
-
-  const commands = [
-    'module load metis',
-    'pwd',
-    'hfdsuiodkl',
-  ];
-
-  /*
-  const f = new SSHFile(config);
-  f.addListener('ready', () => {
-    f.uploadFile('...', '...');
-  });
-  f.addListener('success', () => {
-    f.disconnect();
-  });
-  f.addListener('error', (event, err) => {
-    console.log(err);
-    f.disconnect();
-  });
-  f.connect();
-
-  const s = new SSHShell(config);
-  s.addListener('ready', () => {
-    s.executeCommands(commands);
-  });
-  s.addListener('success', () => {
-    s.disconnect();
-  });
-  s.addListener('error', (event, err) => {
-    console.log(err);
-    s.disconnect();
-  });
-  s.connect();
-
-  const f2 = new SSHFile(config);
-  f2.addListener('ready', () => {
-    f2.downloadFile('...', '...');
-  });
-  f2.addListener('success', () => {
-    f2.disconnect();
-  });
-  f2.addListener('error', (event, err) => {
-    console.log(err);
-    f2.disconnect();
-  });
-  f2.connect();
-  */
+  const server = db.getServers().first();
+  console.log(server);
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
