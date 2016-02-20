@@ -8,6 +8,15 @@ class localDatabase {
     return this._db(this._table);
   }
 
+  /**
+  *
+  * @param {string} id: id of the server to find
+  * @return {object} an object or undefined
+  */
+  getServer(id) {
+    return this._db(this._table).find({'id': id});
+  }
+
   addServer(server) {
     this._db(this._table).push(server);
   }

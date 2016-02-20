@@ -25,6 +25,11 @@ app.on('window-all-closed', function () {
   }
 });
 
+function randomIntInc () {
+  return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+}
+
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function () {
@@ -52,6 +57,7 @@ app.on('ready', function () {
   const db = new localDatabase();
 
   ipcMain.on('add-server', (event, server) => {
+    server.id = randomIntInc();
     db.addServer(server);
   });
 
@@ -62,20 +68,28 @@ app.on('ready', function () {
 
 
   ipcMain.on('exec-configuration', (event, obj) => {
-
-
     if ((obj.metisRadioValue === true) && (obj.parMetisRadioValue === false)) {
-      console.log("ReceivedPath: " + receivedPath);
-      executionLib.execGpMetis(receivedPath, 4);
+      executionLib.execGpMetis(receivedPath, obj.numberOfProcessors = 4);
 
+      if (obj.visResultsCheckBox === true) {
+        mainWindow.webContents.send('display-graph', receivedPath);
+      }
 
-      console.log("METIS = TRUE!");
+      console.log('METIS = IS WORKING!');
     } else if ((obj.metisRadioValue === false) && (obj.parMetisRadioValue === true)) {
-      console.log("parMETIS = TRUE!");
+      executionLib.execGpMetis(receivedPath, obj.numberOfProcessors = 4);
+
+      if (obj.visResultsCheckBox === true) {
+        mainWindow.webContents.send('display-graph', receivedPath);
+      }
+      console.log('parMETIS IS WORKING!');
     } else {
       // TODO: condition if user choose running calculations remotely
     }
   });
+
+  const server = db.getServers().first();
+  console.log(server);
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

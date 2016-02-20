@@ -4,10 +4,8 @@ const remote = require('remote');
 const Menu = remote.require('menu');
 const BrowserWindow = require('electron').remote.BrowserWindow;
 const ipcRenderer = require('electron').ipcRenderer;
-const executionLib = require('./executionLib');
+
 const fileDialog = require('./fileDialog');
-
-
 
 
 function createWindow(width, height, filePath) {
@@ -17,6 +15,7 @@ function createWindow(width, height, filePath) {
     'useContentSize': true,
     'alwaysOnTop': true,
     'resizable': true, // TODO change for production
+    'center': true,
   });
   window.setMenu(null);
   window.webContents.openDevTools();
@@ -33,9 +32,10 @@ function createApplicationMenu() {
           click: () => {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
-              createWindow(361, 306, '/optionsDialog/optionsDialog.html');
-              ipcRenderer.send('file-path', file);
-              //executionLib.execMpMetis(file, 4);
+              createWindow(661, 606, '/optionsDialog/optionsDialog.html');
+              ipcRenderer.send('file-path', file);              
+              // executionLib.execMpMetis(file, 4);
+              
             }
           },
         },
@@ -44,7 +44,7 @@ function createApplicationMenu() {
           click: () => {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
-               //executionLib.execMpMetis(file, 4);
+               // executionLib.execMpMetis(file, 4);
             }
           },
         },
@@ -90,7 +90,7 @@ function createApplicationMenu() {
         {
           label: 'Ask for password',
           click: () => {
-            // createWindow(600, 500, '/server/seeServer.html');
+            createWindow(600, 500, '/server/askPassword.html');
           },
         },
         {

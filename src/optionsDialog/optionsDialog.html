@@ -7,6 +7,8 @@
   <script type="text/javascript" src="../../node_modules/material-design-lite/material.min.js"></script>
   <link rel="stylesheet" href="../../node_modules/material-design-lite/material.min.css">
   <link rel="stylesheet" href="../../static/optionsDialog.css">
+  <link rel="stylesheet" href="../../libs/mdl-selectfield.min.css">
+  <script type="text/javascript" src="../../libs/mdl-selectfield.min.js"></script>
 </head>
 
 <body>
@@ -18,23 +20,128 @@
           <h2 class="mdl-card__title-text">Partition Configuration</h2>
         </div>
 
-        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="metisOption">
-          <input type="radio" id="metisOption" class="mdl-radio__button" name="options" value="1" checked>
-          <span class="mdl-radio__label">METIS</span>
-        </label>
-        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="parMetisOption">
-          <input type="radio" id="parMetisOption" class="mdl-radio__button" name="options" value="2">
-          <span class="mdl-radio__label">parMETIS</span>
-        </label>
+        <form>
+          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="metisOption">
+            <input type="radio" id="metisOption" class="mdl-radio__button" name="options" value="1">
+            <span class="mdl-radio__label">METIS</span>
+          </label>
+          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="parMetisOption">
+            <input type="radio" id="parMetisOption" class="mdl-radio__button" name="options" value="2">
+            <span class="mdl-radio__label">parMETIS</span>
+          </label>
+          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="remoteMetisOption">
+            <input type="radio" id="remoteMetisOption" class="mdl-radio__button" name="options" value="3">
+            <span class="mdl-radio__label">remote METIS</span>
+          </label>
 
-        <!-- Numeric Textfield -->
-        <form action="#">
-          <div class="mdl-textfield mdl-js-textfield">
+        </form>
+
+
+        <!-- Metis form -->
+        <form action="#" , id="metisForm" , style="display: none">
+
+          <!-- number of procs -->
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="procsInputElement">
             <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="procsInput">
-            <label class="mdl-textfield__label" for="procsInput">procs</label>
+            <label class="mdl-textfield__label" for="procsInput"><font size="2">Number of processors</font></label>
             <span class="mdl-textfield__error">Input is not a number!</span>
           </div>
+
+          <!-- ctype - coarsening type -->
+          <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label" id="ctypeElement">
+            <select id="ctype" class="mdl-selectfield__select">
+              <option value=""></option>
+              <option value="option1">rm</option>
+              <option value="option2">shem</option>
+            </select>
+            <label class="mdl-selectfield__label" for="ctypeElement"><font size="2">Coarsening type</font></label>
+            <span class="mdl-selectfield__error">Select a value</span>
+          </div>
+
+          <!-- maximum imbalance - ufactor -->
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="maxImbalanceElement">
+            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="maxImbalance">
+            <label class="mdl-textfield__label" for="maxImbalance"><font size="2">Max imbalance</font></label>
+            <span class="mdl-textfield__error">Input is not a number!</span>
+          </div>
+
+          <!-- number of iterations niter -->
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="niterElement">
+            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="niter">
+            <label class="mdl-textfield__label" for="maxImbalance"><font size="2">Number of iterations</font></label>
+            <span class="mdl-textfield__error">Input is not a number!</span>
+          </div>
+
+          <!-- partitioning type - ptype -->
+          <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label" id="ptypeElement">
+            <select id="ptype" class="mdl-selectfield__select">
+              <option value=""></option>
+              <option value="rb">rb</option>
+              <option value="kway">kway</option>
+            </select>
+            <label class="mdl-selectfield__label" for="ptypeElement"><font size="2">Partitioning type</font></label>
+            <span class="mdl-selectfield__error">Select a value</span>
+          </div>
+
+          <!-- initial partitioning type - iptype (active only if ptype = rb) -->
+          <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label" id="iptypeElement">
+            <select id="iptype" class="mdl-selectfield__select">
+              <option value=""></option>
+              <option value="grow">grow</option>
+              <option value="random">random</option>
+            </select>
+            <label class="mdl-selectfield__label" for="ptypeElement"><font size="2">Initial partitioning type</font></label>
+            <span class="mdl-selectfield__error">Select a value</span>
+          </div>
+
+          <!-- objective type - objtype (active only if ptype = kway) -->
+          <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label" id="objtypeElement">
+            <select id="objtype" class="mdl-selectfield__select">
+              <option value=""></option>
+              <option value="cut">cut</option>
+              <option value="vol">vol</option>
+            </select>
+            <label class="mdl-selectfield__label" for="objtypeElement"><font size="2">Objective type</font></label>
+            <span class="mdl-selectfield__error">Select a value</span>
+          </div>
+
+
         </form>
+
+        
+        
+        <!-- parMetis form -->
+        <form action="#" , id="parMetisForm" , style="display: none">
+         
+          <!-- number of procs -->
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="procsInputParMetisElement">
+            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="procsInputParMetis">
+            <label class="mdl-textfield__label" for="procsInputParMetis"><font size="2">Number of processors</font></label>
+            <span class="mdl-textfield__error">Input is not a number!</span>
+          </div>
+          
+          <!-- number of parts -->
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="numberOfPartsParMetisElement">
+            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="numberOfPartsParMetis">
+            <label class="mdl-textfield__label" for="numberOfPartsParMetis"><font size="2">Number of parts</font></label>
+            <span class="mdl-textfield__error">Input is not a number!</span>
+          </div>
+          
+         <!-- maximum imbalance - ufactor -->
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="maxImbalanceParMetisElement">
+            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="maxImbalanceParMetis">
+            <label class="mdl-textfield__label" for="maxImbalanceParMetis"><font size="2">Max imbalance</font></label>
+            <span class="mdl-textfield__error">Input is not a number!</span>
+          </div>
+          
+          
+        </form>
+
+
+        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="visResultsCheckBox">
+          <input type="checkbox" id="visResultsCheckBox" class="mdl-checkbox__input" checked>
+          <span class="mdl-checkbox__label">Visualize results</span>
+        </label>
 
         <div class="mdl-card__actions mdl-card--border">
           <button class="mdl-button mdl-button--raised mdl-js-button mdl-js-ripple-effect" id="button-close">Close</button>
