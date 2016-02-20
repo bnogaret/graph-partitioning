@@ -117,6 +117,11 @@
   const rendering = require('./rendering');
   const notifications = require('./notifications/alert');
   const performance = require('./performance/performance.js');
+  const ipcRenderer = require('electron').ipcRenderer;
+  
+  ipcRenderer.on('display-graph', (event,obj) => {
+    rendering.onLoad(obj);
+  });
 
   var exampleGraph = document.querySelector('#example-graph');
   exampleGraph.addEventListener('click', () => {
