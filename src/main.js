@@ -7,6 +7,7 @@ const ipcMain = require('electron').ipcMain;
 const executionLib = require('./executionLib');
 
 const localDatabase = require('./db/localDatabase.js').localDatabase;
+const test = require('./ssh/process.js').process;
 
 var receivedPath = null;
 // Report crashes to our server.
@@ -100,7 +101,17 @@ app.on('ready', function () {
   });
 
   const server = db.getServers().first();
+  const file = '**';
+  const password = '**';
+  const library = 'gpmetis';
+  const nparts = 4;
   console.log(server);
+
+  test(server, file, password, library, nparts);
+
+  console.log(randomIntInc());
+
+  console.log(db.getServer('1645839638'));
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

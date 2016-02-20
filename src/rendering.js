@@ -7,6 +7,7 @@ const Viva = require('../libs/vivagraph.min.js');
 var isFirst = true;
 
 function onLoad(file) {
+  console.log('on load works');
   App.fileInput = file[0];
 
   if (isFirst === false) {
@@ -16,9 +17,9 @@ function onLoad(file) {
     App.renderer.dispose();
   }
   isFirst = false;
-
-  App.graphGenerator = Viva.Graph.generator();
-  App.graph = App.graphGenerator.grid(50, 10);
+  // TODO Check if everything is working this create random graph
+  // App.graphGenerator = Viva.Graph.generator();
+  App.graph = Viva.Graph.graph(); // App.graphGenerator.grid(50, 10);
   App.layout = Viva.Graph.Layout.forceDirected(App.graph);
   App.graphics = Viva.Graph.View.webglGraphics();
   App.renderer = Viva.Graph.View.renderer(App.graph, {
@@ -26,8 +27,6 @@ function onLoad(file) {
     graphics: App.graphics,
     container: document.getElementById('graph-container'),
   });
-
-
 
   // Step 1. Get the library to read and draw
 
@@ -72,8 +71,22 @@ function onLoad(file) {
 
     return nlFirstLine;
   }
+
   var numberOfNodes = firstLine[0];
 
+  function nRender() {
+    for (var i = 1; i < numberOfNodes + 1; i++) {
+      var nlByLine = contentsByLine[i];
+      var out = parseInt(nlByLine, 10);
+
+      while (out) {
+        graph.addLink(i, out);
+        var temp = nlByLine.replace(out, '');
+        nlByLine = temp;
+        out = parseInt(nlByLine, 10);
+      }
+    }
+  }
   switch (firstLine.length) {
   case 1:
   case 2:
@@ -100,6 +113,8 @@ function onLoad(file) {
       fmtNconRender();
     }
     break;
+  default:
+    break;
   }
 
   App.numberOfNodes = numberOfNodes;
@@ -111,19 +126,7 @@ function onLoad(file) {
   // And then draw them for each lines
 
   // First and Second case of the switch (numbers of nodes, numbers of edges)
-  function nRender() {
-    for (var i = 1; i < numberOfNodes + 1; i++) {
-      var nlByLine = contentsByLine[i];
-      var out = parseInt(nlByLine, 10);
 
-      while (out) {
-        graph.addLink(i, out);
-        var temp = nlByLine.replace(out, '');
-        nlByLine = temp;
-        out = parseInt(nlByLine, 10);
-      }
-    }
-  }
 
   // Last case of the switch with only fmt
   // <!-- undefined links[links.length - 1] -->
@@ -486,5 +489,134 @@ dialog.querySelector('.close').addEventListener('click', function () {
   dialog.close();
 });
 
+function preview(type) {
+
+  // In case we have already 
+  if (typeof App.graph !== 'undefined') {
+    App.renderer.dispose();
+  }
+
+  console.log('preview is working');
+  switch (type) {
+  case 'graph':
+    var file = fs.readFileSync('./src/preview-graph.txt', 'utf-8');
+    break;
+  case 'mesh':
+    var file = fs.readFileSync('./src/preview-mesh.txt', 'utf-8');
+  default:
+    break;
+  }
+
+  App.graph = Viva.Graph.graph();
+  App.layout = Viva.Graph.Layout.forceDirected(App.graph);
+  App.graphics = Viva.Graph.View.webglGraphics();
+  App.renderer = Viva.Graph.View.renderer(App.graph, {
+    layout: App.layout,
+    graphics: App.graphics,
+    container: document.getElementById('preview'),
+  });
+
+  function getInteger(target) {
+    var firstLine = [];
+    var temp = [];
+    var outFirstline = parseInt(target, 10);
+    var nlFirstLine = target;
+
+    while (outFirstline) {
+      firstLine.push(outFirstline);
+      temp = nlFirstLine.replace(outFirstline, '');
+      nlFirstLine = temp;
+      outFirstline = parseInt(nlFirstLine, 10);
+    }
+    return firstLine;
+  }
+
+  var graph = App.graph;
+  var contentsByLine = file.split('\n');
+  var firstLine = getInteger(contentsByLine[0]);
+  var numberOfNodes = firstLine[0];
+
+  nRender();
+
+  App.numberOfNodes = numberOfNodes;
+
+  function nRender() {
+    for (var i = 1; i < numberOfNodes + 1; i++) {
+      var nlByLine = contentsByLine[i];
+      var out = parseInt(nlByLine, 10);
+
+      while (out) {
+        graph.addLink(i, out);
+        var temp = nlByLine.replace(out, '');
+        nlByLine = temp;
+        out = parseInt(nlByLine, 10);
+      }
+    }
+  }
+
+  App.layout = Viva.Graph.Layout.forceDirected(graph, {
+    springLength: 80, // 10
+    springCoeff: 0.0008,
+    dragCoeff: 0.01,
+    gravity: -5.20,
+    theta: 1,
+    timestep: 1,
+  });
+
+  App.graphics.node(function (node) {
+    return Viva.Graph.View.webglSquare(10, 0x1f77b4ff);
+  });
+
+  App.renderer = Viva.Graph.View.renderer(graph, {
+    graphics: App.graphics,
+    layout: App.layout,
+    interactive: 'drag, scroll',
+    renderLinks: true,
+  });
+  App.renderer.run();
+}
+
+ // Rendering some random mesh
+function intro() {
+  // In case we have already 
+  if (typeof App.graph !== 'undefined') {
+    App.renderer.dispose();
+  }
+  var generator = Viva.Graph.generator();
+  App.graph = generator.grid(10, 10);
+  App.layout = Viva.Graph.Layout.forceDirected(App.graph);
+  App.graphics = Viva.Graph.View.webglGraphics();
+  App.renderer = Viva.Graph.View.renderer(App.graph, {
+    layout: App.layout,
+    graphics: App.graphics,
+    container: document.getElementById('preview'),
+  });
+  
+  var graph = App.graph;
+  
+  App.layout = Viva.Graph.Layout.forceDirected(graph, {
+    springLength: 50, // 10
+    springCoeff: 0.0008, // 0.0005,
+    dragCoeff: 0.01,
+    gravity: -5.20,
+    theta: 1,
+    timestep: 1,
+  });
+      
+  App.graphics.node(function (node) {
+    return Viva.Graph.View.webglSquare(10, 0x1f77b4ff);
+  });
+
+  App.renderer = Viva.Graph.View.renderer(graph, {
+    graphics: App.graphics,
+    layout: App.layout,
+    interactive: 'drag, scroll',
+    renderLinks: true,
+  });
+  App.renderer.run();
+}
+
 module.exports.onLoad = onLoad;
 module.exports.loadNewGraphWithLinks = loadNewGraphWithLinks;
+module.exports.preview = preview;
+module.exports.intro = intro;

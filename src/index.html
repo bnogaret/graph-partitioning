@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Graph partitioning test</title>
+  <title>Partify</title>
   <script type="text/javascript" src="../node_modules/material-design-lite/material.min.js"></script>
   <link rel="stylesheet" href="../node_modules/material-design-lite/material.min.css">
   <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.min.css">
@@ -12,52 +12,132 @@
 
 <body>
 
-  <div id="snackbar-notification" class="mdl-js-snackbar mdl-snackbar" style="opacity: 0">
-    <div class="mdl-snackbar__text"></div>
-    <button class="mdl-snackbar__action" type="button"></button>
+  <div id="head">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header has-drawer is-upgraded is-small-screen" data-upgraded=",MaterialLayout">
+      <header class="mdl-layout__header is-casting-shadow">
+        <div id="brand" class="mdl-layout__header-row">
+          <span class="mdl-layout-title">PARTIFY</span>
+        </div>
+      </header>
+      <main id="head-example" class="mdl-layout__content">
+        <h3>Example of Graph</h3>
+        <p>
+          Click on the button to show an example of graph or mesh
+        </p>
+        <button id="example-graph" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Graph<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
+        </button>
+        <button id="example-mesh" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Mesh<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
+          <button id="nice-effect" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Nice Effect<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
+      </main>
+      <div class="mdl-layout__obfuscator"></div>
+    </div>
+    <div>
+      <p id="fps"></p>
+    </div>
   </div>
 
-  <button id="displayLinksBtn" style="display: none" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Display Links</button>
-
-  <dialog class="mdl-dialog">
-    <h4 class="mdl-dialog__title">Show the edges</h4>
-    <div class="mdl-dialog__content">
-      <p>
-        Show edges may entails to slow down the computation do you still want to show them ?
+  <div id="content">
+    <button id="displayLinksBtn" style="display: none" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Display Links</button>
+    <span id="preview"></span>
+    <dialog class="mdl-dialog">
+      <h4 class="mdl-dialog__title">Show the edges</h4>
+      <div class="mdl-dialog__content">
         <p>
-    </div>
-    <div class="mdl-dialog__actions">
-      <button type="button" class="mdl-button agree">YES</button>
-      <button type="button" class="mdl-button close">NO</button>
-    </div>
-  </dialog>
-
-  <label for="switch1" id="label_color" style="display: none" class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
-    <input type="checkbox" id="switch1" class="mdl-switch__input">
-    <span class="mdl-switch__label">Color graph</span>
-  </label>
-  <button id="show-notification" type="button" class="mld-button">show notification</button>
-  <script>
-    'use strict';
-    const rendering = require('./rendering');
-    const notifications = require('./notifications/alert');
-    const ipcRenderer = require('electron').ipcRenderer;
-    var showNotification = document.querySelector('#show-notification');
-
-    ipcRenderer.on('display-graph', (event, obj) => {
-      rendering.onLoad(obj);
-    });
-
-
-
-    showNotification.addEventListener('click', function () {
-      notifications.notification('title', 'type of error', 'alert');
-    });
-
-
-    const t = require('./applicationMenu.js')
-    t.createApplicationMenu();
-  </script>
+          Showing edges may entails to slow down the computation do you still want to show them ?
+          <p>
+      </div>
+      <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button agree">YES</button>
+        <button type="button" class="mdl-button close">NO</button>
+      </div>
+    </dialog>
+    <label for="switch1" id="label_color" style="display: none" class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+      <input type="checkbox" id="switch1" class="mdl-switch__input">
+      <span class="mdl-switch__label">Color graph</span>
+    </label>
+  </div>
+  <div id="footer">
+    <footer class="mdl-mega-footer">
+      <div class="mdl-mega-footer--middle-section">
+        <div class="mdl-mega-footer--drop-down-section">
+          <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked="">
+          <h1 class="mdl-mega-footer--heading">Features</h1>
+          <ul class="mdl-mega-footer--link-list">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Terms</a></li>
+            <li><a href="#">Partners</a></li>
+            <li><a href="#">Updates</a></li>
+          </ul>
+        </div>
+        <div class="mdl-mega-footer--drop-down-section">
+          <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked="">
+          <h1 class="mdl-mega-footer--heading">Details</h1>
+          <ul class="mdl-mega-footer--link-list">
+            <li><a href="#">Spec</a></li>
+            <li><a href="#">Tools</a></li>
+            <li><a href="#">Resources</a></li>
+          </ul>
+        </div>
+        <div class="mdl-mega-footer--drop-down-section">
+          <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked="">
+          <h1 class="mdl-mega-footer--heading">Technology</h1>
+          <ul class="mdl-mega-footer--link-list">
+            <li><a href="#">How it works</a></li>
+            <li><a href="#">Patterns</a></li>
+            <li><a href="#">Usage</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">Contracts</a></li>
+          </ul>
+        </div>
+        <div class="mdl-mega-footer--drop-down-section">
+          <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked="">
+          <h1 class="mdl-mega-footer--heading">FAQ</h1>
+          <ul class="mdl-mega-footer--link-list">
+            <li><a href="#">Questions</a></li>
+            <li><a href="#">Answers</a></li>
+            <li><a href="#">Contact us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mdl-mega-footer--bottom-section">
+        <div class="mdl-logo">
+          More Information
+        </div>
+        <ul class="mdl-mega-footer--link-list">
+          <li><a href="https://developers.google.com/web/starter-kit/">Web Starter Kit</a></li>
+          <li><a href="#">Help</a></li>
+          <li><a href="#">Privacy and Terms</a></li>
+        </ul>
+      </div>
+    </footer>
+  </div>
 </body>
+<script>
+  'use strict';
+  const rendering = require('./rendering');
+  const notifications = require('./notifications/alert');
+  const performance = require('./performance/performance.js');
+
+  var exampleGraph = document.querySelector('#example-graph');
+  exampleGraph.addEventListener('click', () => {
+    rendering.preview('graph');
+  });
+
+  var exampleMesh = document.querySelector('#example-mesh');
+  exampleMesh.addEventListener('click', () => {
+    rendering.preview('mesh');
+  });
+
+  var effect = document.querySelector('#head-example');
+  effect.addEventListener('click', () => {
+    performance.changeOpacity(true);
+  });
+
+  rendering.intro();
+
+  const t = require('./applicationMenu.js')
+  t.createApplicationMenu();
+</script>
+<script type="text/javascript" src="./performance/performance.js"></script>
 
 </html>
