@@ -59,6 +59,7 @@ class SSHShell extends SSHConnection {
   */
   executeCommands(commands) {
     if (this._isConnected) {
+      console.log(commands);
       this._commands = commands;
       this.createShell();
     } else {
