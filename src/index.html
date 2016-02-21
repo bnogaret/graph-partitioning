@@ -11,6 +11,8 @@
 </head>
 
 <body>
+  <div id="layout-notification">
+  </div>
 
   <div id="head">
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header has-drawer is-upgraded is-small-screen" data-upgraded=",MaterialLayout">
@@ -22,7 +24,7 @@
       <main id="head-example" class="mdl-layout__content">
         <h3>Example of Graph</h3>
         <p>
-          Click on the button to show an example of graph or mesh
+          Click on the button to show an example of graph or mesh. <button id="show-notification" type="button" class="mld-button">show notification</button>
         </p>
         <button id="example-graph" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Graph<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
         </button>
@@ -115,7 +117,7 @@
 <script>
   'use strict';
   const rendering = require('./rendering');
-  const notifications = require('./notifications/alert');
+  const notification = require('./notifications/alert').notification;
   const performance = require('./performance/performance.js');
 
   var exampleGraph = document.querySelector('#example-graph');
@@ -134,6 +136,11 @@
   });
 
   rendering.intro();
+
+  var showNotification = document.querySelector('#show-notification');
+  showNotification.addEventListener('click', () => {
+    notification('TITLE', 'This is a notification', 'notification');
+  });
 
   const t = require('./applicationMenu.js')
   t.createApplicationMenu();
