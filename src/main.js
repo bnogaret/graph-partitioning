@@ -97,6 +97,9 @@ app.on('ready', function () {
       console.log('\n');
     } else {
       // TODO: condition if user choose running calculations remotely
+      // NOTE: receive all parameters here, Baptiste will ask user for password and run it remotely.
+      //       in Metis and parMetis put dropdown with server list if any exists. Remove 3rd radioButton for remote
+      //       invokation.
     }
   });
 
