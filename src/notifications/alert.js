@@ -1,79 +1,64 @@
+/* global componentHandler */
+
 'use strict';
 
 function notification(title, text, type) {
-  var snackbarContainer = document.querySelector('#snackbar-notification');
-  snackbarContainer.style.opacity = 1;
-  //icon  
-  var icon = document.createElement('i');
-  snackbarContainer.insertBefore(icon, snackbarContainer.firstChild);
+  const layoutNotification = document.querySelector('#layout-notification');
+
+  const separator = document.createElement('div');
+  separator.className = 'separator';
+
+  const snackbarNotification = document.createElement('div');
+  snackbarNotification.className = 'mdl-js-snackbar mdl-snackbar mdl-shadow--4dp';
+
+  const icon = document.createElement('i');
+  icon.className = 'fa fa-10px';
+
+  const snackbarText = document.createElement('div');
+  snackbarText.className = 'mdl-snackbar__text';
+
+  const snackbarAction = document.createElement('button');
+  snackbarAction.className = 'mdl-snackbar__action';
+  snackbarAction.type = 'button';
+
+  snackbarNotification.appendChild(icon);
+  snackbarNotification.appendChild(snackbarText);
+  snackbarNotification.appendChild(snackbarAction);
+  componentHandler.upgradeElement(snackbarNotification);
+
+  layoutNotification.appendChild(snackbarNotification);
+  layoutNotification.appendChild(separator);
 
   var data = {
     message: title + ' ' + text,
-    timeout: 2000,
     actionText: 'Undo',
   };
 
   switch (type) {
-  case 'alert':
-    snackbarContainer.style.color = '#ff0000';
-    snackbarContainer.style.backgroundColor = '#ffb3b3';
-    icon.id = 'alert-icon';
-    icon.className = 'fa fa-times-circle fa-5px';
-    snackbarContainer.MaterialSnackbar.showSnackbar(data);
-    break;
-  case 'notification':
-    snackbarContainer.style.color = '#0000cc';
-    snackbarContainer.style.backgroundColor = '#ccccff';
-    icon.id = 'notification-icon';
-    icon.className = 'fa fa-info-circle fa-5px';
-    snackbarContainer.MaterialSnackbar.showSnackbar(data);
-    break;
-  case 'warning':
-    snackbarContainer.style.color = '#cca300';
-    snackbarContainer.style.backgroundColor = '#ffd633';
-    icon.id = 'warning-icon';
-    icon.className = 'fa fa-exclamation-triangle fa-5px';
-    snackbarContainer.MaterialSnackbar.showSnackbar(data);
-    break;
-  default:
-    break;
+    case 'alert':
+      snackbarNotification.className += ' alert';
+      data.timeout = 10000;
+      icon.className += ' fa-times-circle';
+      break;
+    case 'warning':
+      snackbarNotification.className += ' warning';
+      data.timeout = 75000;
+      icon.className += ' fa-exclamation-triangle';
+      break;
+    case 'notification':
+    default:
+      snackbarNotification.className += ' notification';
+      data.timeout = 5000;
+      icon.className += ' fa-info-circle';
+      break;
   }
 
-  setTimeout(function () {
-    snackbarContainer.style.opacity = 0;
-    snackbarContainer.removeChild(icon);
-  }, 2000);
+  snackbarNotification.MaterialSnackbar.showSnackbar(data);
 
+  setTimeout(function () {
+    layoutNotification.removeChild(snackbarNotification);
+    layoutNotification.removeChild(separator);
+  }, data.timeout);
 }
 
 module.exports.notification = notification;
-
-// Dynamically create a snackbar
-/* 
-const test = document.getElementById('test');
-var notif = document.createElement('div');
-test.appendChild(notif);
-
-function notification(title, text, type) {
-
-  if (type === 'warning') {
-    notif.id = 'warning';
-    notif.className = 'mdl-js-snackbar mdl-snackbar';
-    var notifText = document.createElement('div');
-    notifText.className = 'mdl-snackbar__text';
-    var notifAction = document.createElement('button');
-    notifAction.className = 'mdl-snackbar__action';
-    notifAction.type = 'button';
-
-    notif.appendChild(notifText);
-    notif.appendChild(notifAction);
-
-    var data = {
-      message: title + ' ' + text,
-      timeout: 2000,
-      actionText: 'Undo',
-    };
-  }
-  notif.MaterialSnackbar.showSnackbar(data);
-}
-*/

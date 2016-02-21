@@ -4,19 +4,15 @@ const fs = require('fs');
 var App = {};
 const Viva = require('../libs/vivagraph.min.js');
 
-var isFirst = true;
-
 function onLoad(file) {
   console.log('on load works');
   App.fileInput = file[0];
 
-  if (isFirst === false) {
-    // if we are already displaying any graph - dispose it firstly.
-    console.debug('Fileinput:' + App.fileInput);
-    console.log('\nim inside IF fileInput != NULL');
+  // In case we have already something draw
+  if (typeof App.graph !== 'undefined') {
     App.renderer.dispose();
   }
-  isFirst = false;
+
   // TODO Check if everything is working this create random graph
   // App.graphGenerator = Viva.Graph.generator();
   App.graph = Viva.Graph.graph(); // App.graphGenerator.grid(50, 10);
@@ -491,7 +487,7 @@ dialog.querySelector('.close').addEventListener('click', function () {
 
 function preview(type) {
 
-  // In case we have already 
+  // In case we have already something draw
   if (typeof App.graph !== 'undefined') {
     App.renderer.dispose();
   }
@@ -578,7 +574,7 @@ function preview(type) {
 
  // Rendering some random mesh
 function intro() {
-  // In case we have already 
+  // In case we have already something draw
   if (typeof App.graph !== 'undefined') {
     App.renderer.dispose();
   }
