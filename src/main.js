@@ -84,7 +84,6 @@ app.on('ready', function () {
       console.log('iptype: ' + obj.iptype);
       console.log('objtype: ' + obj.objtype);
       console.log('\n');
-
     } else if ((obj.metisRadioValue === false) && (obj.parMetisRadioValue === true)) {
       executionLib.execGpMetis(receivedPath, obj.numberOfProcessors = 4);
       if (obj.visResultsCheckBox === true) {
@@ -107,7 +106,7 @@ app.on('ready', function () {
   const nparts = 4;
   console.log(server);
 
-  test(server, file, password, library, nparts);
+  // test(server, file, password, library, nparts);
 
   console.log(randomIntInc());
 
