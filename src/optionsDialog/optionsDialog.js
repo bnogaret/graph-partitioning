@@ -87,10 +87,6 @@ remoteMetisOption.addEventListener('click', () => {
 });
 
 buttonOk.addEventListener('click', () => {
-<<<<<<< HEAD
-  
-=======
->>>>>>> d7c7b7df9b084b3f181433879e8cee8eed87f191
   if (metisOption.checked === true) {
     let options = {
       // radiobuttons options
@@ -125,24 +121,9 @@ buttonOk.addEventListener('click', () => {
   } else if (remoteMetisOption.checked === true) {
     // TODO: implement option for remote server
     let options = {
-<<<<<<< HEAD
-      visResultsCheckBox: visResultsCheckBox.checked
-    }
-  }
-  
-  
-
-
-  
-  
-  
-  //window.close();
-});
-=======
       visResultsCheckBox: visResultsCheckBox.checked,
     };
     console.log(options);
   }
   window.close();
 });
->>>>>>> d7c7b7df9b084b3f181433879e8cee8eed87f191
