@@ -1,15 +1,15 @@
 'use strict';
-
 const os = require('os');
 const exec = require('child_process').exec; // Prefer use spawn if big data
+const ipcMain = require('electron').ipcMain; // Send library performance
 
 /**
-* Transform the keys /value of the object options into a string with the format: -key=value -key=value.
-* If options is null or not an object, it returns an empty string.
-* @param {Object} options
-* @return {string}
-*/
-function getStringFromOptions (options) {
+ * Transform the keys /value of the object options into a string with the format: -key=value -key=value.
+ * If options is null or not an object, it returns an empty string.
+ * @param {Object} options
+ * @return {string}
+ */
+function getStringFromOptions(options) {
   let option = '';
   if (options !== null && typeof options === 'object') {
     for (let key in options) {
@@ -31,13 +31,11 @@ function execApp(program, file, nPartition, options, callback) {
   exec(command, (error, stdout, stderr) => {
     console.log(`stderr: ${stderr}`);
     console.log(`stdout: ${stdout.split(os.EOL)}`);
-    if (error !== null) {
-      callback(error);
-    }
-  });
+    callback(stdout, error);
+  });  
 }
 
-function execGpMetis(file, nPartition) {
+function execGpMetis(file, nPartition, callback) {
   let options = {
     'ptype': 'rb',
     'ctype': 'rm',
@@ -49,20 +47,22 @@ function execGpMetis(file, nPartition) {
   } else if (process.platform === 'linux') {
     program = __dirname + '/../native/gpmetis';
   }
-  execApp(program, file, nPartition, options, (error) => {
+  execApp(program, file, nPartition, options, (result, error) => {
     console.log(`${error}`);
+    callback(result, error);
   });
 }
 
-function execMpMetis(file, nPartition) {
+function execMpMetis(file, nPartition, callback) {
   let program = '';
   if (process.platform === 'win32') {
     program = __dirname + '/../native/mpmetis.exe';
   } else if (process.platform === 'linux') {
     program = __dirname + '/../native/mpmetis';
   }
-  execApp(program, file, nPartition, null, (error) => {
+  execApp(program, file, nPartition, null, (result, error) => {
     console.log(`${error}`);
+    callback(result, error);
   });
 }
 
