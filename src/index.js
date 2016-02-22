@@ -11,6 +11,10 @@ ipcRenderer.on('display-graph', (event, obj) => {
   rendering.onLoad(obj);
 });
 
+ipcRenderer.on('display-notification', (event, message, type) => {
+  notification(message, type);
+});
+
 var exampleGraph = document.querySelector('#example-graph');
 exampleGraph.addEventListener('click', () => {
   rendering.preview('graph');
