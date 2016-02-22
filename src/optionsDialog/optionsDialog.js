@@ -46,7 +46,7 @@ ptype.addEventListener('click', () => {
       objtypeElement.style.display = 'block';
       this.options.value = '';
     }
-  }
+  };
 });
 
 metisOption.addEventListener('click', () => {
@@ -66,7 +66,6 @@ remoteMetisOption.addEventListener('click', () => {
 });
 
 buttonOk.addEventListener('click', () => {
-
   if (metisOption.checked === true) {
     let options = {
       // radiobuttons options
@@ -82,10 +81,9 @@ buttonOk.addEventListener('click', () => {
       iptype: iptype.value,
       objtype: objtype.value,
       // visualization
-      visResultsCheckBox: visResultsCheckBox.checked
+      visResultsCheckBox: visResultsCheckBox.checked,
     };
     ipcRenderer.send('exec-configuration', options);
-
   } else if (parMetisOption.checked === true) {
     let options = {
       // radiobuttons options
@@ -96,16 +94,15 @@ buttonOk.addEventListener('click', () => {
       procsInputParMetis: procsInputParMetis.value,
       numberOfPartsParMetis: numberOfPartsParMetis.value,
       maxImbalanceParMetis: maxImbalanceParMetis.value,
-      visResultsCheckBox: visResultsCheckBox.checked
-    }
+      visResultsCheckBox: visResultsCheckBox.checked,
+    };
     ipcRenderer.send('exec-configuration', options);
-
   } else if (remoteMetisOption.checked === true) {
     // TODO: implement option for remote server
     let options = {
-
-      visResultsCheckBox: visResultsCheckBox.checked
-    }
+      visResultsCheckBox: visResultsCheckBox.checked,
+    };
+    console.log(options);
   }
   window.close();
 });
