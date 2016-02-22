@@ -30,7 +30,6 @@ function randomIntInc () {
   return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
 }
 
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function () {
@@ -39,8 +38,6 @@ app.on('ready', function () {
     width: 1200,
     height: 1000,
   });
-
-  // applicationMenu.createApplicationMenu();
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
@@ -67,14 +64,13 @@ app.on('ready', function () {
     receivedPath = fp;
   });
 
-
+  // TODO for mesh
   ipcMain.on('exec-configuration', (event, obj) => {
-    if ((obj.metisRadioValue === true) && (obj.parMetisRadioValue === false)) {
-      executionLib.execGpMetis(receivedPath, obj.numberOfProcessors = 4);
+    if (obj.visResultsCheckBox === true) {
+      mainWindow.webContents.send('display-graph', receivedPath);
+    }
 
-      if (obj.visResultsCheckBox === true) {
-        mainWindow.webContents.send('display-graph', receivedPath);
-      }
+    if (obj.metisRadioValue) {
       console.log('\nValues send from UI:');
       console.log('numberOfPartitions: ' + obj.numberOfPartitions);
       console.log('ctype: ' + obj.ctype);
@@ -84,36 +80,40 @@ app.on('ready', function () {
       console.log('iptype: ' + obj.iptype);
       console.log('objtype: ' + obj.objtype);
       console.log('\n');
-    } else if ((obj.metisRadioValue === false) && (obj.parMetisRadioValue === true)) {
-      executionLib.execGpMetis(receivedPath, obj.numberOfProcessors = 4);
-      if (obj.visResultsCheckBox === true) {
-        mainWindow.webContents.send('display-graph', receivedPath);
+
+      if (obj.remoteServerId) {
+        const server = db.getServer(obj.remoteServerId);
+        console.log(server);
+        // TODO: ask password and execute
+      } else {
+        executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, {});
       }
+    } else if (obj.parMetisRadioValue) {
       console.log('\nValues send from UI:');
       console.log('procsInputParMetis: ' + obj.procsInputParMetis);
       console.log('numberOfPartsParMetis: ' + obj.numberOfPartsParMetis);
       console.log('maxImbalanceParMetis: ' + obj.maxImbalanceParMetis);
       console.log('\n');
-    } else {
-      // TODO: condition if user choose running calculations remotely
-      // NOTE: receive all parameters here, Baptiste will ask user for password and run it remotely.
-      //       in Metis and parMetis put dropdown with server list if any exists. Remove 3rd radioButton for remote
-      //       invokation.
-    }
+
+      if (obj.remoteServerId) {
+        const server = db.getServer(obj.remoteServerId);
+        console.log(server);
+        // TODO: ask password and execute
+      } else {
+        // TODO add parmetis execution
+      }
+    } // TODO other libraries for linux
   });
 
-  const server = db.getServers().first();
-  const file = '**';
-  const password = '**';
-  const library = 'gpmetis';
-  const nparts = 4;
-  console.log(server);
-
+  // const server = db.getServers().first();
+  // const file = '**';
+  // const password = '**';
+  // const library = 'gpmetis';
+  // const nparts = 4;
+  // console.log(server);
   // test(server, file, password, library, nparts);
-
-  console.log(randomIntInc());
-
-  console.log(db.getServer('1645839638'));
+  // console.log(randomIntInc());
+  // console.log(db.getServer('1645839638'));
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

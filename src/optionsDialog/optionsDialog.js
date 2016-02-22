@@ -5,23 +5,18 @@ const ipcRenderer = require('electron').ipcRenderer;
 
 const metisOption = document.querySelector('#metisOption');
 const parMetisOption = document.querySelector('#parMetisOption');
-const remoteMetisOption = document.querySelector('#remoteMetisOption');
+
 const numberOfPartitions = document.querySelector('#numberOfPartitions');
 const visResultsCheckBox = document.querySelector('#visResultsCheckBox');
 const buttonClose = document.getElementById('button-close');
 const buttonOk = document.querySelector('#button-ok');
 
 const metisForm = document.getElementById('metisForm');
-const numberOfPartitionsElement = document.querySelector('#numberOfPartitionsElement');
-const ctypeElement = document.getElementById('ctypeElement');
 const ctype = document.getElementById('ctype');
 const maxImbalance = document.getElementById('maxImbalance');
 const niter = document.getElementById('niter');
 const iptype = document.getElementById('iptype');
 const objtype = document.getElementById('objtype');
-
-const maxImbalanceElement = document.getElementById('maxImbalanceElement');
-const ptypeElement = document.getElementById('ptypeElement');
 const iptypeElement = document.getElementById('iptypeElement');
 const ptype = document.getElementById('ptype');
 const objtypeElement = document.getElementById('objtypeElement');
@@ -32,21 +27,22 @@ const procsInputParMetis = document.getElementById('procsInputParMetis');
 const numberOfPartsParMetis = document.getElementById('numberOfPartsParMetis');
 const maxImbalanceParMetis = document.getElementById('maxImbalanceParMetis');
 
+
 const db = new localDatabase();
 const servers = db.getServers();
 let selectOption = '';
 
 if (servers) {
   selectOption = '<div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label" id="remoteServerDiv"> \
-                    <select id="remoteServer" class="mdl-selectfield__select">';
+                    <select id="remoteServer" class="mdl-selectfield__select"> \
+                      <option value=""></option>';
 
   servers.forEach((i) => {
     selectOption += `<option value="${i.id}">${i.username}@${i.host}</option>`;
   });
 
   selectOption += '</select> \
-                  <label class="mdl-selectfield__label" for="remoteServerDiv"><font size="2">Select remote server</font></label> \
-                  <span class="mdl-selectfield__error">Select a value</span> \
+                  <label class="mdl-selectfield__label" for="remoteServerDiv"><font size="2">Select a remote server</font></label> \
                 </div>';
   metisForm.innerHTML += selectOption;
   parMetisForm.innerHTML += selectOption;
@@ -82,17 +78,13 @@ parMetisOption.addEventListener('click', () => {
   parMetisForm.style.display = 'block';
 });
 
-remoteMetisOption.addEventListener('click', () => {
-  console.log('remoteMETIS radio button is clicked now');
-});
-
 buttonOk.addEventListener('click', () => {
+  const remoteServerSelect = document.getElementById('remoteServer');
   if (metisOption.checked === true) {
     let options = {
       // radiobuttons options
       parMetisRadioValue: parMetisOption.checked,
       metisRadioValue: metisOption.checked,
-      remoteMetisRadioValue: remoteMetisOption.checked,
       // values. Sending all values, validation is in main.js before executing lib
       numberOfPartitions: numberOfPartitions.value,
       ctype: ctype.value,
@@ -103,6 +95,8 @@ buttonOk.addEventListener('click', () => {
       objtype: objtype.value,
       // visualization
       visResultsCheckBox: visResultsCheckBox.checked,
+      // remote server
+      remoteServerId: remoteServerSelect ? remoteServerSelect.value : '',
     };
     ipcRenderer.send('exec-configuration', options);
   } else if (parMetisOption.checked === true) {
@@ -110,20 +104,16 @@ buttonOk.addEventListener('click', () => {
       // radiobuttons options
       parMetisRadioValue: parMetisOption.checked,
       metisRadioValue: metisOption.checked,
-      remoteMetisRadioValue: remoteMetisOption.checked,
       // values
       procsInputParMetis: procsInputParMetis.value,
       numberOfPartsParMetis: numberOfPartsParMetis.value,
       maxImbalanceParMetis: maxImbalanceParMetis.value,
       visResultsCheckBox: visResultsCheckBox.checked,
+      // remote server
+      remoteServerId: remoteServerSelect ? remoteServerSelect.value : '',
     };
     ipcRenderer.send('exec-configuration', options);
-  } else if (remoteMetisOption.checked === true) {
-    // TODO: implement option for remote server
-    let options = {
-      visResultsCheckBox: visResultsCheckBox.checked,
-    };
-    console.log(options);
-  }
+  } // TODO other libraries for linux
+
   window.close();
 });
