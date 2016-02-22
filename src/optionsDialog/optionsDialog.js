@@ -6,11 +6,13 @@ const ipcRenderer = require('electron').ipcRenderer;
 const metisOption = document.querySelector('#metisOption');
 const parMetisOption = document.querySelector('#parMetisOption');
 
+// Common multiple libraries
 const numberOfPartitions = document.querySelector('#numberOfPartitions');
 const visResultsCheckBox = document.querySelector('#visResultsCheckBox');
 const buttonClose = document.getElementById('button-close');
 const buttonOk = document.querySelector('#button-ok');
 
+// Metis form
 const metisForm = document.getElementById('metisForm');
 const ctype = document.getElementById('ctype');
 const maxImbalance = document.getElementById('maxImbalance');
@@ -32,6 +34,7 @@ const db = new localDatabase();
 const servers = db.getServers();
 let selectOption = '';
 
+// Add a select field to the metis and parmetis option to select a remote server (if there is at least one existing server)
 if (servers) {
   selectOption = '<div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label" id="remoteServerDiv"> \
                     <select id="remoteServer" class="mdl-selectfield__select"> \
@@ -47,10 +50,6 @@ if (servers) {
   metisForm.innerHTML += selectOption;
   parMetisForm.innerHTML += selectOption;
 }
-
-buttonClose.addEventListener('click', () => {
-  window.close();
-});
 
 // handle case when iptype/objtype should be hidden/visible in case of ptype value
 ptype.addEventListener('click', () => {
@@ -76,6 +75,10 @@ metisOption.addEventListener('click', () => {
 parMetisOption.addEventListener('click', () => {
   metisForm.style.display = 'none';
   parMetisForm.style.display = 'block';
+});
+
+buttonClose.addEventListener('click', () => {
+  window.close();
 });
 
 buttonOk.addEventListener('click', () => {
