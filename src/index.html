@@ -29,7 +29,7 @@
         <button id="example-graph" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Graph<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
         </button>
         <button id="example-mesh" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Mesh<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
-          <button id="nice-effect" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Nice Effect<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
+        <button id="nice-effect" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Nice Effect<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
       </main>
       <div class="mdl-layout__obfuscator"></div>
     </div>
@@ -46,7 +46,7 @@
       <div class="mdl-dialog__content">
         <p>
           Showing edges may entails to slow down the computation do you still want to show them ?
-          <p>
+        </p>
       </div>
       <div class="mdl-dialog__actions">
         <button type="button" class="mdl-button agree">YES</button>
@@ -120,7 +120,7 @@
   const notification = require('./notifications/alert').notification;
   const performance = require('./performance/performance.js');
   const ipcRenderer = require('electron').ipcRenderer;
-  
+
   ipcRenderer.on('display-graph', (event,obj) => {
     rendering.onLoad(obj);
   });
