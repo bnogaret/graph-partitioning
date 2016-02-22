@@ -2,7 +2,7 @@
 
 'use strict';
 
-function notification(title, text, type) {
+function notification(message, type) {
   const layoutNotification = document.querySelector('#layout-notification');
 
   const separator = document.createElement('div');
@@ -30,8 +30,8 @@ function notification(title, text, type) {
   layoutNotification.appendChild(separator);
 
   var data = {
-    message: title + ' ' + text,
-    actionText: 'Undo',
+    'message': message,
+    'actionText': 'Undo',
   };
 
   switch (type) {
