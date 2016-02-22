@@ -76,7 +76,7 @@ app.on('ready', function () {
         mainWindow.webContents.send('display-graph', receivedPath);
       }
       console.log('\nValues send from UI:');
-      console.log('procsInput: ' + obj.procsInput);
+      console.log('numberOfPartitions: ' + obj.numberOfPartitions);
       console.log('ctype: ' + obj.ctype);
       console.log('maxImbalance: ' + obj.maxImbalance);
       console.log('niter: ' + obj.niter);

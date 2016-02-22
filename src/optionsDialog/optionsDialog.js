@@ -4,13 +4,13 @@ const ipcRenderer = require('electron').ipcRenderer;
 const metisOption = document.querySelector('#metisOption');
 const parMetisOption = document.querySelector('#parMetisOption');
 const remoteMetisOption = document.querySelector('#remoteMetisOption');
-const procsInput = document.querySelector('#procsInput');
+const numberOfPartitions = document.querySelector('#numberOfPartitions');
 const visResultsCheckBox = document.querySelector('#visResultsCheckBox');
 const buttonClose = document.getElementById('button-close');
 const buttonOk = document.querySelector('#button-ok');
 
 const metisForm = document.getElementById('metisForm');
-const procsInputElement = document.querySelector('#procsInputElement');
+const numberOfPartitionsElement = document.querySelector('#numberOfPartitionsElement');
 const ctypeElement = document.getElementById('ctypeElement');
 const ctype = document.getElementById('ctype');
 const maxImbalance = document.getElementById('maxImbalance');
@@ -66,7 +66,7 @@ remoteMetisOption.addEventListener('click', () => {
 });
 
 buttonOk.addEventListener('click', () => {
-
+  
   if (metisOption.checked === true) {
     let options = {
       // radiobuttons options
@@ -74,7 +74,7 @@ buttonOk.addEventListener('click', () => {
       metisRadioValue: metisOption.checked,
       remoteMetisRadioValue: remoteMetisOption.checked,
       // values. Sending all values, validation is in main.js before executing lib
-      procsInput: procsInput.value,
+      numberOfPartitions: numberOfPartitions.value,
       ctype: ctype.value,
       maxImbalance: maxImbalance.value,
       niter: niter.value,
@@ -103,9 +103,15 @@ buttonOk.addEventListener('click', () => {
   } else if (remoteMetisOption.checked === true) {
     // TODO: implement option for remote server
     let options = {
-
       visResultsCheckBox: visResultsCheckBox.checked
     }
   }
-  window.close();
+  
+  
+
+
+  
+  
+  
+  //window.close();
 });
