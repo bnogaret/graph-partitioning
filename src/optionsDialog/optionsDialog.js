@@ -1,6 +1,8 @@
 'use strict';
 
+const localDatabase = require('../db/localDatabase.js').localDatabase;
 const ipcRenderer = require('electron').ipcRenderer;
+
 const metisOption = document.querySelector('#metisOption');
 const parMetisOption = document.querySelector('#parMetisOption');
 const remoteMetisOption = document.querySelector('#remoteMetisOption');
@@ -30,6 +32,25 @@ const procsInputParMetis = document.getElementById('procsInputParMetis');
 const numberOfPartsParMetis = document.getElementById('numberOfPartsParMetis');
 const maxImbalanceParMetis = document.getElementById('maxImbalanceParMetis');
 
+const db = new localDatabase();
+const servers = db.getServers();
+let selectOption = '';
+
+if (servers) {
+  selectOption = '<div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label" id="remoteServerDiv"> \
+                    <select id="remoteServer" class="mdl-selectfield__select">';
+
+  servers.forEach((i) => {
+    selectOption += `<option value="${i.id}">${i.username}@${i.host}</option>`;
+  });
+
+  selectOption += '</select> \
+                  <label class="mdl-selectfield__label" for="remoteServerDiv"><font size="2">Select remote server</font></label> \
+                  <span class="mdl-selectfield__error">Select a value</span> \
+                </div>';
+  metisForm.innerHTML += selectOption;
+  parMetisForm.innerHTML += selectOption;
+}
 
 buttonClose.addEventListener('click', () => {
   window.close();
