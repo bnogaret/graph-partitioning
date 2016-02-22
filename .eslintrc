@@ -47,7 +47,6 @@
     "dot-location": [2, "property"],
     "dot-notation": 2,
     "eqeqeq": 2,
-    "no-array-constructor": 2,
     "no-alert": 1,
     "no-class-assign": 2,
     "no-caller": 2,
