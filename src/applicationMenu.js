@@ -33,9 +33,7 @@ function createApplicationMenu() {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
               createWindow(661, 606, '/optionsDialog/optionsDialog.html');
-              ipcRenderer.send('file-path', file);              
-              // executionLib.execMpMetis(file, 4);
-              
+              ipcRenderer.send('graph-path', file);
             }
           },
         },

@@ -63,7 +63,7 @@ app.on('ready', function () {
   });
 
   // get file path from applicationMenu
-  ipcMain.on('file-path', (event, fp) => {
+  ipcMain.on('graph-path', (event, fp) => {
     receivedPath = fp;
   });
 

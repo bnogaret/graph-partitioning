@@ -33,12 +33,11 @@
             <input type="radio" id="remoteMetisOption" class="mdl-radio__button" name="options" value="3">
             <span class="mdl-radio__label">remote METIS</span>
           </label>
-
         </form>
 
 
         <!-- Metis form -->
-        <form action="#" , id="metisForm" , style="display: none">
+        <form action="#" id="metisForm" style="display: none">
 
           <!-- number of procs -->
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="procsInputElement">
@@ -104,37 +103,32 @@
             <label class="mdl-selectfield__label" for="objtype"><font size="2">Objective type</font></label>
             <span class="mdl-selectfield__error">Select a value</span>
           </div>
-
-
         </form>
 
-        
-        
+
         <!-- parMetis form -->
-        <form action="#" , id="parMetisForm" , style="display: none">
-         
+        <form action="#" id="parMetisForm" style="display: none">
+
           <!-- number of procs -->
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="procsInputParMetisElement">
             <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="procsInputParMetis">
             <label class="mdl-textfield__label" for="procsInputParMetis"><font size="2">Number of processors</font></label>
             <span class="mdl-textfield__error">Input is not a number!</span>
           </div>
-          
+
           <!-- number of parts -->
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="numberOfPartsParMetisElement">
             <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="numberOfPartsParMetis">
             <label class="mdl-textfield__label" for="numberOfPartsParMetis"><font size="2">Number of parts</font></label>
             <span class="mdl-textfield__error">Input is not a number!</span>
           </div>
-          
+
          <!-- maximum imbalance - ufactor -->
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="maxImbalanceParMetisElement">
             <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="maxImbalanceParMetis">
             <label class="mdl-textfield__label" for="maxImbalanceParMetis"><font size="2">Max imbalance</font></label>
             <span class="mdl-textfield__error">Input is not a number!</span>
           </div>
-          
-          
         </form>
 
 
@@ -147,8 +141,7 @@
           <button class="mdl-button mdl-button--raised mdl-js-button mdl-js-ripple-effect" id="button-close">Close</button>
           <button class="mdl-button mdl-button--raised mdl-button--colored mdl-js-button mdl-js-ripple-effect" id="button-ok">Ok</button>
         </div>
-
-
+        
       </div>
     </main>
   </div>

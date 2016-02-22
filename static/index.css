@@ -100,7 +100,7 @@ body {
 }
 
 #layout-notification .mdl-snackbar .mdl-snackbar__action {
-  padding: 0px;
+  padding: 0;
 }
 
 #layout-notification .mdl-snackbar .mdl-snackbar__text {
