@@ -37,7 +37,7 @@ function execApp(program, file, nPartition, options, callback) {
   });
 }
 
-function execGpMetis(file, nPartition) {
+function execGpMetis(file, nPartition, parameters) {
   let options = {
     'ptype': 'rb',
     'ctype': 'rm',
@@ -50,11 +50,13 @@ function execGpMetis(file, nPartition) {
     program = __dirname + '/../native/gpmetis';
   }
   execApp(program, file, nPartition, options, (error) => {
-    console.log(`${error}`);
+    if (error) {
+      console.log(`${error}`);
+    }
   });
 }
 
-function execMpMetis(file, nPartition) {
+function execMpMetis(file, nPartition, parameters) {
   let program = '';
   if (process.platform === 'win32') {
     program = __dirname + '/../native/mpmetis.exe';
@@ -62,7 +64,9 @@ function execMpMetis(file, nPartition) {
     program = __dirname + '/../native/mpmetis';
   }
   execApp(program, file, nPartition, null, (error) => {
-    console.log(`${error}`);
+    if (error) {
+      console.log(`${error}`);
+    }
   });
 }
 
