@@ -13,7 +13,9 @@ function getStringFromOptions (options) {
   let option = '';
   if (options !== null && typeof options === 'object') {
     for (let key in options) {
-      option += ` -${key}=${options[key]}`;
+      if (options[key]) {
+        option += ` -${key}=${options[key]}`;
+      }
     }
     /*
     Object.keys(options).forEach((key) => {
