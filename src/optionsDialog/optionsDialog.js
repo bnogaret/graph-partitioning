@@ -1,6 +1,8 @@
 'use strict';
 
+const localDatabase = require('../db/localDatabase.js').localDatabase;
 const ipcRenderer = require('electron').ipcRenderer;
+
 const metisOption = document.querySelector('#metisOption');
 const parMetisOption = document.querySelector('#parMetisOption');
 const remoteMetisOption = document.querySelector('#remoteMetisOption');
@@ -30,6 +32,25 @@ const procsInputParMetis = document.getElementById('procsInputParMetis');
 const numberOfPartsParMetis = document.getElementById('numberOfPartsParMetis');
 const maxImbalanceParMetis = document.getElementById('maxImbalanceParMetis');
 
+const db = new localDatabase();
+const servers = db.getServers();
+let selectOption = '';
+
+if (servers) {
+  selectOption = '<div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label" id="remoteServerDiv"> \
+                    <select id="remoteServer" class="mdl-selectfield__select">';
+
+  servers.forEach((i) => {
+    selectOption += `<option value="${i.id}">${i.username}@${i.host}</option>`;
+  });
+
+  selectOption += '</select> \
+                  <label class="mdl-selectfield__label" for="remoteServerDiv"><font size="2">Select remote server</font></label> \
+                  <span class="mdl-selectfield__error">Select a value</span> \
+                </div>';
+  metisForm.innerHTML += selectOption;
+  parMetisForm.innerHTML += selectOption;
+}
 
 buttonClose.addEventListener('click', () => {
   window.close();
@@ -46,7 +67,7 @@ ptype.addEventListener('click', () => {
       objtypeElement.style.display = 'block';
       this.options.value = '';
     }
-  }
+  };
 });
 
 metisOption.addEventListener('click', () => {
@@ -66,7 +87,10 @@ remoteMetisOption.addEventListener('click', () => {
 });
 
 buttonOk.addEventListener('click', () => {
+<<<<<<< HEAD
   
+=======
+>>>>>>> d7c7b7df9b084b3f181433879e8cee8eed87f191
   if (metisOption.checked === true) {
     let options = {
       // radiobuttons options
@@ -82,10 +106,9 @@ buttonOk.addEventListener('click', () => {
       iptype: iptype.value,
       objtype: objtype.value,
       // visualization
-      visResultsCheckBox: visResultsCheckBox.checked
+      visResultsCheckBox: visResultsCheckBox.checked,
     };
     ipcRenderer.send('exec-configuration', options);
-
   } else if (parMetisOption.checked === true) {
     let options = {
       // radiobuttons options
@@ -96,13 +119,13 @@ buttonOk.addEventListener('click', () => {
       procsInputParMetis: procsInputParMetis.value,
       numberOfPartsParMetis: numberOfPartsParMetis.value,
       maxImbalanceParMetis: maxImbalanceParMetis.value,
-      visResultsCheckBox: visResultsCheckBox.checked
-    }
+      visResultsCheckBox: visResultsCheckBox.checked,
+    };
     ipcRenderer.send('exec-configuration', options);
-
   } else if (remoteMetisOption.checked === true) {
     // TODO: implement option for remote server
     let options = {
+<<<<<<< HEAD
       visResultsCheckBox: visResultsCheckBox.checked
     }
   }
@@ -115,3 +138,11 @@ buttonOk.addEventListener('click', () => {
   
   //window.close();
 });
+=======
+      visResultsCheckBox: visResultsCheckBox.checked,
+    };
+    console.log(options);
+  }
+  window.close();
+});
+>>>>>>> d7c7b7df9b084b3f181433879e8cee8eed87f191
