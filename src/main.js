@@ -76,7 +76,7 @@ app.on('ready', function () {
         mainWindow.webContents.send('display-graph', receivedPath);
       }
       console.log('\nValues send from UI:');
-      console.log('procsInput: ' + obj.procsInput);
+      console.log('numberOfPartitions: ' + obj.numberOfPartitions);
       console.log('ctype: ' + obj.ctype);
       console.log('maxImbalance: ' + obj.maxImbalance);
       console.log('niter: ' + obj.niter);
@@ -96,6 +96,9 @@ app.on('ready', function () {
       console.log('\n');
     } else {
       // TODO: condition if user choose running calculations remotely
+      // NOTE: receive all parameters here, Baptiste will ask user for password and run it remotely.
+      //       in Metis and parMetis put dropdown with server list if any exists. Remove 3rd radioButton for remote
+      //       invokation.
     }
   });
 
