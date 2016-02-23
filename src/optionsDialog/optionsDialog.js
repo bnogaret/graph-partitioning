@@ -120,3 +120,10 @@ buttonOk.addEventListener('click', () => {
 
   window.close();
 });
+
+function isLinux() {
+  return (navigator.appVersion.indexOf('Linux') !== -1);
+}
+
+console.log(navigator.appVersion);
+console.log(isLinux());
