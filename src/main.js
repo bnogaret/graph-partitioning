@@ -95,7 +95,8 @@ app.on('ready', function () {
   }
 
   function processReceivedParMetisData(object) {
-    var executionParameters = {      
+    var executionParameters = {
+      nparts: object.numberOfPartsParMetis,
       maxub: object.maxImbalanceParMetis,
       seed: object.seed
     }
@@ -143,7 +144,7 @@ app.on('ready', function () {
         // TODO: ask password and execute
       } else {
         let params = processReceivedParMetisData(obj);
-        executionLib.execParMetis(receivedPath, obj.numberOfPartsParMetis, params);
+        executionLib.execParMetis(receivedPath, obj.procsInputParMetis, params);
 
       }
     } // TODO other libraries for linux

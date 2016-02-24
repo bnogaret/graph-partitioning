@@ -27,8 +27,9 @@ function getStringFromOptions(options) {
 }
 
 function execApp(program, file, nPartition, options, callback) {
+  let nPart = nPartition;
   let option = getStringFromOptions(options);
-  let command = `${program} ${option} ${file} ${nPartition}`;
+  let command = `${program} ${option} ${file} ${nPart}`;
   console.log(`myExec's command: ${command}`);
   exec(command, (error, stdout, stderr) => {
     console.log(`stderr: ${stderr}`);
@@ -40,6 +41,7 @@ function execApp(program, file, nPartition, options, callback) {
 }
 
 function execGpMetis(file, nPartition, parameters) {
+  let nPart = nPartition;
   /*let options = {
     'ptype': 'rb',
     'ctype': 'rm',
@@ -52,7 +54,7 @@ function execGpMetis(file, nPartition, parameters) {
   } else if (process.platform === 'linux') {
     program = __dirname + '/../native/gpmetis';
   }
-  execApp(program, file, nPartition, options, (error) => {
+  execApp(program, file, nPart, options, (error) => {
     if (error) {
       console.log(`${error}`);
     }
@@ -60,6 +62,7 @@ function execGpMetis(file, nPartition, parameters) {
 }
 
 function execMpMetis(file, nPartition, parameters) {
+  let nPart = nPartition;
   let program = '';
   let options = parameters;
   if (process.platform === 'win32') {
@@ -68,7 +71,7 @@ function execMpMetis(file, nPartition, parameters) {
     program = __dirname + '/../native/mpmetis';
   }
   // should in 'execApp' be parameters or null?
-  execApp(program, file, nPartition, parameters, (error) => {
+  execApp(program, file, nPart, parameters, (error) => {
     if (error) {
       console.log(`${error}`);
     }
@@ -76,9 +79,9 @@ function execMpMetis(file, nPartition, parameters) {
 }
 
 
-function execParMetisApp(program, file, nPartition, options, callback) {
+function execParMetisApp(program, file, nOfProcessors, options, callback) {
   let option = getStringFromOptions(options);
-  let command = `${program} ${file} ${nPartition} ${option}  `;
+  let command = `mpiexec -n ${nOfProcessors} ${program} ${file} ${option}  `;
   console.log(`myExec's command: ${command}`);
   exec(command, (error, stdout, stderr) => {
     console.log(`stderr: ${stderr}`);
@@ -89,7 +92,8 @@ function execParMetisApp(program, file, nPartition, options, callback) {
   });
 }
 
-function execParMetis(file, nPartition, parameters) {
+function execParMetis(file, nOfProcessors, parameters) {
+  let noproc = nOfProcessors;
   let program = '';
   let options = parameters;
   if (process.platform === 'win32') {
@@ -97,7 +101,7 @@ function execParMetis(file, nPartition, parameters) {
   } else if (process.platform === 'linux') {
     program = __dirname + '/../native/parmetis';
   }
-  execParMetisApp(program, file, nPartition, options, (error) => {
+  execParMetisApp(program, file, noproc, options, (error) => {
     if (error) {
       console.log(`${error}`);
     }
