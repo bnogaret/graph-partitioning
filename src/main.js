@@ -64,8 +64,8 @@ app.on('ready', function () {
     receivedPath = fp;
   });
 
-// function which prepare data to be sent to exec file. We need to send appropriate data in accordance to different ptype parameter passed by user
-  function processReceivedData(object) {
+  // function which prepare data to be sent to exec file. We need to send appropriate data in accordance to different ptype parameter passed by user
+  function processReceivedMetisData(object) {
     if (object.ptype == 'rb') {
       var executionParameters = {
         ptype: object.ptype,
@@ -73,8 +73,8 @@ app.on('ready', function () {
         iptype: object.iptype,
         seed: object.seed,
         niter: object.niter,
-        ubvec: object.maxImbalance,     
-        
+        ubvec: object.maxImbalance,
+
       }
       console.log('FUNCTION processReceivedData returns FOR: rb');
       return executionParameters;
@@ -83,15 +83,24 @@ app.on('ready', function () {
       var executionParameters = {
         ptype: object.ptype,
         ctype: object.ctype,
-        objtype: object.objtype,        
+        objtype: object.objtype,
         niter: object.niter,
         seed: object.seed,
-        ubvec: object.maxImbalance   
-        
+        ubvec: object.maxImbalance
+
       }
       console.log('FUNCTION processReceivedData returns FOR: kway');
       return executionParameters;
     }
+  }
+
+  function processReceivedParMetisData(object) {
+    var executionParameters = {      
+      maxub: object.maxImbalanceParMetis,
+      seed: object.seed
+    }
+    console.log('FUNCTION processReceivedParMetisData returned data');
+    return executionParameters;
   }
   // TODO for mesh
   ipcMain.on('exec-configuration', (event, obj) => {
@@ -117,8 +126,7 @@ app.on('ready', function () {
         console.log(server);
         // TODO: ask password and execute
       } else {
-        let params = processReceivedData(obj);
-
+        let params = processReceivedMetisData(obj);
         executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params);
       }
     } else if (obj.parMetisRadioValue) {
@@ -126,6 +134,7 @@ app.on('ready', function () {
       console.log('procsInputParMetis: ' + obj.procsInputParMetis);
       console.log('numberOfPartsParMetis: ' + obj.numberOfPartsParMetis);
       console.log('maxImbalanceParMetis: ' + obj.maxImbalanceParMetis);
+      console.log('parMetisSeed: ' + obj.seed);
       console.log('\n');
 
       if (obj.remoteServerId) {
@@ -133,8 +142,9 @@ app.on('ready', function () {
         console.log(server);
         // TODO: ask password and execute
       } else {
-        // TODO add parmetis execution
-        
+        let params = processReceivedParMetisData(obj);
+        executionLib.execParMetis(receivedPath, obj.numberOfPartsParMetis, params);
+
       }
     } // TODO other libraries for linux
   });

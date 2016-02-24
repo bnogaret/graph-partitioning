@@ -61,6 +61,8 @@ const parMetisForm = document.getElementById('parMetisForm');
 const procsInputParMetis = document.getElementById('procsInputParMetis');
 const numberOfPartsParMetis = document.getElementById('numberOfPartsParMetis');
 const maxImbalanceParMetis = document.getElementById('maxImbalanceParMetis');
+const parMetisSeed = document.getElementById('parMetisSeed');
+const parMetisSeedElement = document.getElementById('parMetisSeedElement');
 
 // handle case when iptype/objtype should be hidden/visible in case of ptype value
 ptype.addEventListener('change', () => {
@@ -127,6 +129,7 @@ buttonOk.addEventListener('click', () => {
       procsInputParMetis: procsInputParMetis.value,
       numberOfPartsParMetis: numberOfPartsParMetis.value,
       maxImbalanceParMetis: maxImbalanceParMetis.value,
+      seed: parMetisSeed.value,
       visResultsCheckBox: visResultsCheckBox.checked,
       // remote server
       remoteServerId: remoteServerSelect ? remoteServerSelect.value : '',
