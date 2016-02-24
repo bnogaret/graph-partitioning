@@ -26,7 +26,7 @@ app.on('window-all-closed', function () {
   }
 });
 
-function randomIntInc () {
+function randomIntInc() {
   return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
 }
 
@@ -64,8 +64,36 @@ app.on('ready', function () {
     receivedPath = fp;
   });
 
+// function which prepare data to be sent to exec file. We need to send appropriate data in accordance to different ptype parameter passed by user
+  function processReceivedData(object) {
+    if (object.ptype == 'rb') {
+      var executionParameters = {
+        ptype: object.ptype,
+        ctype: object.ctype,
+        iptype: object.iptype,
+        niter: object.niter,
+        ubvec: object.maxImbalance,     
+        
+      }
+      console.log('FUNCTION processReceivedData returns FOR: rb');
+      return executionParameters;
+    }
+    if (object.ptype == 'kway') {
+      var executionParameters = {
+        ptype: object.ptype,
+        ctype: object.ctype,
+        objtype: object.objtype,        
+        niter: object.niter,
+        ubvec: object.maxImbalance   
+        
+      }
+      console.log('FUNCTION processReceivedData returns FOR: kway');
+      return executionParameters;
+    }
+  }
   // TODO for mesh
   ipcMain.on('exec-configuration', (event, obj) => {
+
     if (obj.visResultsCheckBox === true) {
       mainWindow.webContents.send('display-graph', receivedPath);
     }
@@ -86,7 +114,9 @@ app.on('ready', function () {
         console.log(server);
         // TODO: ask password and execute
       } else {
-        executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, {});
+        let params = processReceivedData(obj);
+
+        executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params);
       }
     } else if (obj.parMetisRadioValue) {
       console.log('\nValues send from UI:');

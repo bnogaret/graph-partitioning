@@ -40,11 +40,12 @@ function execApp(program, file, nPartition, options, callback) {
 }
 
 function execGpMetis(file, nPartition, parameters) {
-  let options = {
+  /*let options = {
     'ptype': 'rb',
     'ctype': 'rm',
     'niter': 5,
-  };
+  };*/
+  let options = parameters;
   let program = '';
   if (process.platform === 'win32') {
     program = __dirname + '/../native/gpmetis.exe';
