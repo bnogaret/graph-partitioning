@@ -71,6 +71,7 @@ app.on('ready', function () {
         ptype: object.ptype,
         ctype: object.ctype,
         iptype: object.iptype,
+        seed: object.seed,
         niter: object.niter,
         ubvec: object.maxImbalance,     
         
@@ -84,6 +85,7 @@ app.on('ready', function () {
         ctype: object.ctype,
         objtype: object.objtype,        
         niter: object.niter,
+        seed: object.seed,
         ubvec: object.maxImbalance   
         
       }
@@ -104,6 +106,7 @@ app.on('ready', function () {
       console.log('ctype: ' + obj.ctype);
       console.log('maxImbalance: ' + obj.maxImbalance);
       console.log('niter: ' + obj.niter);
+      console.log('seed: ' + obj.seed);
       console.log('ptype: ' + obj.ptype);
       console.log('iptype: ' + obj.iptype);
       console.log('objtype: ' + obj.objtype);
@@ -131,6 +134,7 @@ app.on('ready', function () {
         // TODO: ask password and execute
       } else {
         // TODO add parmetis execution
+        
       }
     } // TODO other libraries for linux
   });

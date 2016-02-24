@@ -53,6 +53,8 @@ const objtype = document.getElementById('objtype');
 const iptypeElement = document.getElementById('iptypeElement');
 const ptype = document.getElementById('ptype');
 const objtypeElement = document.getElementById('objtypeElement');
+const metisSeed = document.getElementById('metisSeed');
+const metisSeedElement = document.getElementById('metisSeedElement');
 
 // par metis form
 const parMetisForm = document.getElementById('parMetisForm');
@@ -106,6 +108,7 @@ buttonOk.addEventListener('click', () => {
       ctype: ctype.value,
       maxImbalance: maxImbalance.value,
       niter: niter.value,
+      seed: metisSeed.value,
       ptype: ptype.value,
       iptype: iptype.value,
       objtype: objtype.value,

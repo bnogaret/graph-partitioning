@@ -67,6 +67,13 @@
               <span class="mdl-textfield__error">Input is not a number!</span>
             </div>
 
+            <!-- seed -->
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="metisSeedElement">
+              <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="metisSeed">
+              <label class="mdl-textfield__label" for="metisSeed"><font size="2">Seed</font></label>
+              <span class="mdl-textfield__error">Input is not a number!</span>
+            </div>
+
             <!-- partitioning type - ptype -->
             <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label" id="ptypeElement">
               <select id="ptype" class="mdl-selectfield__select">
@@ -117,7 +124,7 @@
               <span class="mdl-textfield__error">Input is not a number!</span>
             </div>
 
-           <!-- maximum imbalance - ufactor -->
+            <!-- maximum imbalance - ufactor -->
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="maxImbalanceParMetisElement">
               <input class="mdl-textfield__input" type="text" pattern="[0-9]*(\.[0-9]+)?" id="maxImbalanceParMetis">
               <label class="mdl-textfield__label" for="maxImbalanceParMetis"><font size="2">Max imbalance</font></label>
