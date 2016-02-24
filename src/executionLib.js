@@ -14,7 +14,8 @@ function getStringFromOptions(options) {
   if (options !== null && typeof options === 'object') {
     for (let key in options) {
       if (options[key]) {
-        option += ` -${key}=${options[key]}`;
+        //option += ` -${key}=${options[key]}`;
+        option += ` ${options[key]}`; // with this parMetis works!
       }
     }
     /*
