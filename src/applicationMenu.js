@@ -41,8 +41,9 @@ function createApplicationMenu() {
           label: 'New mesh',
           click: () => {
             let file = fileDialog.getFile();
-            if (typeof file !== 'undefined') {
-               // executionLib.execMpMetis(file, 4);
+            if (typeof file !== 'undefined') {               
+              createWindow(661, 606, '/optionsDialog/optionsDialog.html');
+              ipcRenderer.send('graph-path', file);
             }
           },
         },
