@@ -14,8 +14,7 @@ function getStringFromOptions(options) {
   if (options !== null && typeof options === 'object') {
     for (let key in options) {
       if (options[key]) {
-        //option += ` -${key}=${options[key]}`;
-        option += ` ${options[key]}`; // with this parMetis works!
+        option += ` -${key}=${options[key]}`;
       }
     }
     /*
@@ -23,6 +22,19 @@ function getStringFromOptions(options) {
       option += ` -${key}=${options[key]}`;
     });
     */
+  }
+  return option.trim();
+}
+
+function getStringFromParMetisOptions(options) {
+  let option = '';
+  if (options !== null && typeof options === 'object') {
+    for (let key in options) {
+      if (options[key]) {
+        option += ` ${options[key]}`; // with this parMetis works!
+      }
+    }
+
   }
   return option.trim();
 }
@@ -43,11 +55,6 @@ function execApp(program, file, nPartition, options, callback) {
 
 function execGpMetis(file, nPartition, parameters) {
   let nPart = nPartition;
-  /*let options = {
-    'ptype': 'rb',
-    'ctype': 'rm',
-    'niter': 5,
-  };*/
   let options = parameters;
   let program = '';
   if (process.platform === 'win32') {
@@ -79,9 +86,8 @@ function execMpMetis(file, nPartition, parameters) {
   });
 }
 
-
 function execParMetisApp(program, file, nOfProcessors, options, callback) {
-  let option = getStringFromOptions(options);
+  let option = getStringFromParMetisOptions(options);
   let command = `mpiexec -n ${nOfProcessors} ${program} ${file} ${option}  `;
   console.log(`myExec's command: ${command}`);
   exec(command, (error, stdout, stderr) => {
