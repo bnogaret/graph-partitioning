@@ -26,7 +26,7 @@ app.on('window-all-closed', function () {
   }
 });
 
-function randomIntInc () {
+function randomIntInc() {
   return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
 }
 
@@ -64,8 +64,48 @@ app.on('ready', function () {
     receivedPath = fp;
   });
 
+  // function which prepare data to be sent to exec file. We need to send appropriate data in accordance to different ptype parameter passed by user
+  function processReceivedMetisData(object) {
+    if (object.ptype == 'rb') {
+      var executionParameters = {
+        ptype: object.ptype,
+        ctype: object.ctype,
+        iptype: object.iptype,
+        seed: object.seed,
+        niter: object.niter,
+        ubvec: object.maxImbalance,
+
+      }
+      console.log('FUNCTION processReceivedData returns FOR: rb');
+      return executionParameters;
+    }
+    if (object.ptype == 'kway') {
+      var executionParameters = {
+        ptype: object.ptype,
+        ctype: object.ctype,
+        objtype: object.objtype,
+        niter: object.niter,
+        seed: object.seed,
+        ubvec: object.maxImbalance
+
+      }
+      console.log('FUNCTION processReceivedData returns FOR: kway');
+      return executionParameters;
+    }
+  }
+
+  function processReceivedParMetisData(object) {
+    var executionParameters = {
+      nparts: object.numberOfPartsParMetis,
+      maxub: object.maxImbalanceParMetis,
+      seed: object.seed
+    }
+    console.log('FUNCTION processReceivedParMetisData returned data');
+    return executionParameters;
+  }
   // TODO for mesh
   ipcMain.on('exec-configuration', (event, obj) => {
+
     if (obj.visResultsCheckBox === true) {
       mainWindow.webContents.send('display-graph', receivedPath);
     }
@@ -76,6 +116,7 @@ app.on('ready', function () {
       console.log('ctype: ' + obj.ctype);
       console.log('maxImbalance: ' + obj.maxImbalance);
       console.log('niter: ' + obj.niter);
+      console.log('seed: ' + obj.seed);
       console.log('ptype: ' + obj.ptype);
       console.log('iptype: ' + obj.iptype);
       console.log('objtype: ' + obj.objtype);
@@ -86,13 +127,15 @@ app.on('ready', function () {
         console.log(server);
         // TODO: ask password and execute
       } else {
-        executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, {});
+        let params = processReceivedMetisData(obj);
+        executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params);
       }
     } else if (obj.parMetisRadioValue) {
       console.log('\nValues send from UI:');
       console.log('procsInputParMetis: ' + obj.procsInputParMetis);
       console.log('numberOfPartsParMetis: ' + obj.numberOfPartsParMetis);
       console.log('maxImbalanceParMetis: ' + obj.maxImbalanceParMetis);
+      console.log('parMetisSeed: ' + obj.seed);
       console.log('\n');
 
       if (obj.remoteServerId) {
@@ -100,7 +143,9 @@ app.on('ready', function () {
         console.log(server);
         // TODO: ask password and execute
       } else {
-        // TODO add parmetis execution
+        let params = processReceivedParMetisData(obj);
+        executionLib.execParMetis(receivedPath, obj.procsInputParMetis, params);
+
       }
     } // TODO other libraries for linux
   });

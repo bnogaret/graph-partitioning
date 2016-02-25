@@ -53,7 +53,7 @@
               <span class="mdl-selectfield__error">Select a value</span>
             </div>
 
-            <!-- maximum imbalance - ufactor -->
+            <!-- maximum imbalance - ubvec -->
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="maxImbalanceElement">
               <input class="mdl-textfield__input" type="text" pattern="[0-9]*(\.[0-9]+)?" id="maxImbalance">
               <label class="mdl-textfield__label" for="maxImbalance"><font size="2">Max imbalance</font></label>
@@ -64,6 +64,13 @@
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="niterElement">
               <input class="mdl-textfield__input" type="text" pattern="[0-9]*(\.[0-9]+)?" id="niter">
               <label class="mdl-textfield__label" for="niter"><font size="2">Number of iterations</font></label>
+              <span class="mdl-textfield__error">Input is not a number!</span>
+            </div>
+
+            <!-- seed -->
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="metisSeedElement">
+              <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="metisSeed">
+              <label class="mdl-textfield__label" for="metisSeed"><font size="2">Seed</font></label>
               <span class="mdl-textfield__error">Input is not a number!</span>
             </div>
 
@@ -117,10 +124,17 @@
               <span class="mdl-textfield__error">Input is not a number!</span>
             </div>
 
-           <!-- maximum imbalance - ufactor -->
+            <!-- maximum imbalance - ubvec -->
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="maxImbalanceParMetisElement">
               <input class="mdl-textfield__input" type="text" pattern="[0-9]*(\.[0-9]+)?" id="maxImbalanceParMetis">
               <label class="mdl-textfield__label" for="maxImbalanceParMetis"><font size="2">Max imbalance</font></label>
+              <span class="mdl-textfield__error">Input is not a number!</span>
+            </div>
+
+            <!-- seed -->
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="parMetisSeedElement">
+              <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="parMetisSeed">
+              <label class="mdl-textfield__label" for="parMetisSeed"><font size="2">Seed</font></label>
               <span class="mdl-textfield__error">Input is not a number!</span>
             </div>
           </form>

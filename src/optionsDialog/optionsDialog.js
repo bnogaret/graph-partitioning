@@ -53,12 +53,16 @@ const objtype = document.getElementById('objtype');
 const iptypeElement = document.getElementById('iptypeElement');
 const ptype = document.getElementById('ptype');
 const objtypeElement = document.getElementById('objtypeElement');
+const metisSeed = document.getElementById('metisSeed');
+const metisSeedElement = document.getElementById('metisSeedElement');
 
 // par metis form
 const parMetisForm = document.getElementById('parMetisForm');
 const procsInputParMetis = document.getElementById('procsInputParMetis');
 const numberOfPartsParMetis = document.getElementById('numberOfPartsParMetis');
 const maxImbalanceParMetis = document.getElementById('maxImbalanceParMetis');
+const parMetisSeed = document.getElementById('parMetisSeed');
+const parMetisSeedElement = document.getElementById('parMetisSeedElement');
 
 // handle case when iptype/objtype should be hidden/visible in case of ptype value
 ptype.addEventListener('change', () => {
@@ -106,6 +110,7 @@ buttonOk.addEventListener('click', () => {
       ctype: ctype.value,
       maxImbalance: maxImbalance.value,
       niter: niter.value,
+      seed: metisSeed.value,
       ptype: ptype.value,
       iptype: iptype.value,
       objtype: objtype.value,
@@ -124,6 +129,7 @@ buttonOk.addEventListener('click', () => {
       procsInputParMetis: procsInputParMetis.value,
       numberOfPartsParMetis: numberOfPartsParMetis.value,
       maxImbalanceParMetis: maxImbalanceParMetis.value,
+      seed: parMetisSeed.value,
       visResultsCheckBox: visResultsCheckBox.checked,
       // remote server
       remoteServerId: remoteServerSelect ? remoteServerSelect.value : '',
