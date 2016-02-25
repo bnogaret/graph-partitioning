@@ -2,6 +2,7 @@
 
 const os = require('os');
 const exec = require('child_process').exec; // Prefer use spawn if big data
+const path = require('path');
 
 /**
 * Transform the keys /value of the object options into a string with the format: -key=value -key=value.
@@ -33,7 +34,7 @@ function execApp(program, file, nPartition, options, callback) {
   exec(command, (error, stdout, stderr) => {
     console.log(`stderr: ${stderr}`);
     console.log(`stdout: ${stdout.split(os.EOL)}`);
-    if (error !== null) {
+    if (error) {
       callback(error);
     }
   });
@@ -72,5 +73,18 @@ function execMpMetis(file, nPartition, parameters) {
   });
 }
 
+function execChaco(file, nPartition) {
+  let output = path.dirname(file) + '/' + path.basename(file) + '.npart.' + nPartition;
+  let command = `echo '${file} ${output} 1 1000 2 1 n' | ./chaco`;
+  exec(command, (error, stdout, stderr) => {
+    console.log(`stderr: ${stderr}`);
+    console.log(`stdout: ${stdout.split(os.EOL)}`);
+    if (error) {
+      console.log(`${error}`);
+    }
+  });
+}
+
 module.exports.execGpMetis = execGpMetis;
 module.exports.execMpMetis = execMpMetis;
+module.exports.execChaco = execChaco;
