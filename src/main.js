@@ -64,48 +64,51 @@ app.on('ready', function () {
     receivedPath = fp;
   });
 
-  // function which prepare data to be sent to exec file. We need to send appropriate data in accordance to different ptype parameter passed by user
+  /**
+  * function which prepare data to be sent to exec file.We need to send appropriate data in accordance to different ptype parameter passed by user
+  * @param {object} object
+  * @return {object}
+  */
   function processReceivedMetisData(object) {
-    if (object.ptype == 'rb') {
-      var executionParameters = {
+    let executionParameters = {};
+    if (object.ptype === 'rb') {
+      executionParameters = {
         ptype: object.ptype,
         ctype: object.ctype,
         iptype: object.iptype,
         seed: object.seed,
         niter: object.niter,
         ubvec: object.maxImbalance,
-
-      }
+      };
       console.log('FUNCTION processReceivedData returns FOR: rb');
       return executionParameters;
-    }
-    if (object.ptype == 'kway') {
-      var executionParameters = {
+    } else if (object.ptype === 'kway') {
+      executionParameters = {
         ptype: object.ptype,
         ctype: object.ctype,
         objtype: object.objtype,
         niter: object.niter,
         seed: object.seed,
-        ubvec: object.maxImbalance
-
-      }
+        ubvec: object.maxImbalance,
+      };
       console.log('FUNCTION processReceivedData returns FOR: kway');
       return executionParameters;
     }
+    return {};
   }
 
   function processReceivedParMetisData(object) {
-    var executionParameters = {
-      nparts: object.numberOfPartsParMetis,
+    const executionParameters = {
+      nparts: object.numberOfPartitions,
       maxub: object.maxImbalanceParMetis,
-      seed: object.seed
-    }
+      seed: object.seed,
+    };
     console.log('FUNCTION processReceivedParMetisData returned data');
     return executionParameters;
   }
+
   // TODO for mesh
   ipcMain.on('exec-configuration', (event, obj) => {
-
     if (obj.visResultsCheckBox === true) {
       mainWindow.webContents.send('display-graph', receivedPath);
     }
@@ -133,7 +136,7 @@ app.on('ready', function () {
     } else if (obj.parMetisRadioValue) {
       console.log('\nValues send from UI:');
       console.log('procsInputParMetis: ' + obj.procsInputParMetis);
-      console.log('numberOfPartsParMetis: ' + obj.numberOfPartsParMetis);
+      console.log('numberOfPartitions: ' + obj.numberOfPartitions);
       console.log('maxImbalanceParMetis: ' + obj.maxImbalanceParMetis);
       console.log('parMetisSeed: ' + obj.seed);
       console.log('\n');
@@ -145,20 +148,11 @@ app.on('ready', function () {
       } else {
         let params = processReceivedParMetisData(obj);
         executionLib.execParMetis(receivedPath, obj.procsInputParMetis, params);
-
       }
-    } // TODO other libraries for linux
+    } else if (obj.chacoOption) {
+      console.log(obj);
+    }
   });
-
-  // const server = db.getServers().first();
-  // const file = '**';
-  // const password = '**';
-  // const library = 'gpmetis';
-  // const nparts = 4;
-  // console.log(server);
-  // test(server, file, password, library, nparts);
-  // console.log(randomIntInc());
-  // console.log(db.getServer('1645839638'));
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

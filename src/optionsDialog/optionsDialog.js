@@ -36,9 +36,10 @@ if (servers) {
 
 const metisOption = document.querySelector('#metisOption');
 const parMetisOption = document.querySelector('#parMetisOption');
+const chacoOption = document.querySelector('#chacoOption');
 
 // Common multiple libraries
-const numberOfPartitions = document.querySelector('#numberOfPartitions');
+const numberOfPartitions = document.querySelector('#input-number_partitions');
 const visResultsCheckBox = document.querySelector('#visResultsCheckBox');
 const buttonClose = document.getElementById('button-close');
 const buttonOk = document.querySelector('#button-ok');
@@ -54,15 +55,49 @@ const iptypeElement = document.getElementById('iptypeElement');
 const ptype = document.getElementById('ptype');
 const objtypeElement = document.getElementById('objtypeElement');
 const metisSeed = document.getElementById('metisSeed');
-const metisSeedElement = document.getElementById('metisSeedElement');
 
-// par metis form
+// parmetis form
 const parMetisForm = document.getElementById('parMetisForm');
 const procsInputParMetis = document.getElementById('procsInputParMetis');
-const numberOfPartsParMetis = document.getElementById('numberOfPartsParMetis');
 const maxImbalanceParMetis = document.getElementById('maxImbalanceParMetis');
 const parMetisSeed = document.getElementById('parMetisSeed');
-const parMetisSeedElement = document.getElementById('parMetisSeedElement');
+
+// chaco form
+const chacoForm = document.getElementById('chaco-form');
+const chacoPartitioningMethod = document.getElementById('chaco-select-partitioning_method');
+const chacoDivVertices = document.getElementById('chaco-div-vertices');
+const chacoInputVertices = document.getElementById('chaco-input-vertices');
+const chacoDivEigensolver = document.getElementById('chaco-div-eigensolver');
+const chacoSelectEigensolver = document.getElementById('chaco-select-eigensolver');
+const chacoDivLocalRefinement = document.getElementById('chaco-div-local_refinement');
+const chacoSelectLocalRefinement = document.getElementById('chaco-select-local_refinement');
+const chacoPartitioningDimension = document.getElementById('chaco-select-partitioning_dimension');
+
+if (isLinux()) {
+  const div = chacoOption.parentNode;
+  div.style.display = 'inline-block';
+}
+
+metisOption.addEventListener('click', () => {
+  console.log('metisOption');
+  metisForm.style.display = 'block';
+  parMetisForm.style.display = 'none';
+  chacoForm.style.display = 'none';
+});
+
+parMetisOption.addEventListener('click', () => {
+  console.log('parMetisOption');
+  metisForm.style.display = 'none';
+  parMetisForm.style.display = 'block';
+  chacoForm.style.display = 'none';
+});
+
+chacoOption.addEventListener('click', () => {
+  console.log('chacoOption');
+  metisForm.style.display = 'none';
+  parMetisForm.style.display = 'none';
+  chacoForm.style.display = 'block';
+});
 
 // handle case when iptype/objtype should be hidden/visible in case of ptype value
 ptype.addEventListener('change', () => {
@@ -80,18 +115,32 @@ ptype.addEventListener('change', () => {
   }
 });
 
-metisOption.addEventListener('click', () => {
-  console.log('metisOption');
-  iptypeElement.style.display = 'none';
-  objtypeElement.style.display = 'none';
-  metisForm.style.display = 'block';
-  parMetisForm.style.display = 'none';
-});
-
-parMetisOption.addEventListener('click', () => {
-  console.log('parMetisOption');
-  metisForm.style.display = 'none';
-  parMetisForm.style.display = 'block';
+// Handle display / hide of chaco options
+chacoPartitioningMethod.addEventListener('change', () => {
+  switch(chacoPartitioningMethod.options[chacoPartitioningMethod.selectedIndex].value) {
+    case '1':
+      chacoDivVertices.style.display = 'block';
+      chacoDivEigensolver.style.display = 'none';
+      chacoDivLocalRefinement.style.display = 'none';
+      break;
+    case '2':
+      chacoDivVertices.style.display = 'block';
+      chacoDivEigensolver.style.display = 'block';
+      chacoDivLocalRefinement.style.display = 'block';
+      break;
+    case '4':
+    case '5':
+    case '6':
+      chacoDivVertices.style.display = 'block';
+      chacoDivEigensolver.style.display = 'none';
+      chacoDivLocalRefinement.style.display = 'block';
+      break;
+    default:
+      chacoDivVertices.style.display = 'none';
+      chacoDivEigensolver.style.display = 'none';
+      chacoDivLocalRefinement.style.display = 'none';
+      break;
+  }
 });
 
 buttonClose.addEventListener('click', () => {
@@ -105,8 +154,9 @@ buttonOk.addEventListener('click', () => {
       // radiobuttons options
       parMetisRadioValue: parMetisOption.checked,
       metisRadioValue: metisOption.checked,
-      // values. Sending all values, validation is in main.js before executing lib
+      // Number of partitions
       numberOfPartitions: numberOfPartitions.value,
+      // Metis values. Sending all values, validation is in main.js before executing lib
       ctype: ctype.value,
       maxImbalance: maxImbalance.value,
       niter: niter.value,
@@ -125,20 +175,43 @@ buttonOk.addEventListener('click', () => {
       // radiobuttons options
       parMetisRadioValue: parMetisOption.checked,
       metisRadioValue: metisOption.checked,
-      // values
+      // Number of partitions
+      numberOfPartitions: numberOfPartitions.value,
+      // Parmetis values
       procsInputParMetis: procsInputParMetis.value,
-      numberOfPartsParMetis: numberOfPartsParMetis.value,
+      // numberOfPartsParMetis: numberOfPartsParMetis.value,
       maxImbalanceParMetis: maxImbalanceParMetis.value,
       seed: parMetisSeed.value,
+      // visualization
       visResultsCheckBox: visResultsCheckBox.checked,
       // remote server
       remoteServerId: remoteServerSelect ? remoteServerSelect.value : '',
     };
     ipcRenderer.send('exec-configuration', options);
-  } // TODO other libraries for linux
+  } else if (chacoOption.checked) {
+    let options = {
+      // radiobuttons options
+      parMetisRadioValue: parMetisOption.checked,
+      metisRadioValue: metisOption.checked,
+      chacoRadioValue: chacoOption.checked,
+      // Number of partitions
+      numberOfPartitions: numberOfPartitions.value,
+      // Chaco values
+      vertices: chacoInputVertices.value,
+      eigensolver: chacoSelectEigensolver.value,
+      localRefinement: chacoSelectLocalRefinement.value,
+      partitioningDimension: chacoPartitioningDimension.value,
+      // visualization
+      visResultsCheckBox: visResultsCheckBox.checked,
+    };
+    console.log(options);
+    ipcRenderer.send('exec-configuration', options);
+  }
 
   window.close();
 });
 
+console.log(document.querySelectorAll('input[name="choice-library"]'));
+console.log(document.querySelectorAll('input[name="choice-library"]:checked').value);
 console.log(navigator.appVersion);
 console.log(isLinux());
