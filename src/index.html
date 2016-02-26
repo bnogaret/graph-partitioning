@@ -11,6 +11,8 @@
 </head>
 
 <body>
+  <div id="layout-notification">
+  </div>
   <div id="overlay">
     <h2>Welcome to Partify !</h2>
     <p>
@@ -76,7 +78,7 @@
       <div class="mdl-dialog__content">
         <p>
           Showing edges may entails to slow down the computation do you still want to show them ?
-          <p>
+        </p>
       </div>
       <div class="mdl-dialog__actions">
         <button type="button" class="mdl-button agree">YES</button>
@@ -114,46 +116,8 @@
     </footer>
     </div>
 </body>
-<script>
-  'use strict';
-  const rendering = require('./rendering');
-  const notifications = require('./notifications/alert');
-  const performance = require('./performance/performance.js');
-  const ipcRenderer = require('electron').ipcRenderer;
 
-  ipcRenderer.on('display-graph', (event, obj) => {
-    rendering.onLoad(obj);
-  });
-
-  ipcRenderer.on('performance', (event, obj) => {
-    console.log('\n INDEXHTML PERFORMANCE: \n' + obj + '\n');
-    performance.perf(obj);
-  });
-
-  var exampleGraph = document.querySelector('#example-graph');
-  exampleGraph.addEventListener('click', () => {
-    rendering.preview('graph');
-  });
-
-  var exampleMesh = document.querySelector('#example-mesh');
-  exampleMesh.addEventListener('click', () => {
-    rendering.preview('mesh');
-  });
-
-  var overlay = document.querySelector('#overlay');
-  overlay.addEventListener('click', () => {
-    overlay.style.display = 'none';
-  });
-
-  setTimeout(() => {
-    overlay.style.display = 'none';
-  }, 20000);
-
-  rendering.intro();
-
-  const t = require('./applicationMenu.js')
-  t.createApplicationMenu();
-</script>
+<script type="text/javascript" src="./index.js"></script>
 <script type="text/javascript" src="./performance/performance.js"></script>
 
 </html>

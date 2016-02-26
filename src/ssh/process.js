@@ -49,12 +49,12 @@ function download(config, localFile, remoteFile, eventEmitter) {
 }
 
 // TODO: create notifications
-function process(server, file, password, library, nparts) {
+function process(server, file, library, nparts) {
   const eventEmitter = new EventEmitter();
   const config = {
     'host': server.host,
     'username': server.username,
-    'password': password,
+    'password': server.password,
     'port': server.port,
     'tryKeyboard': true,
     'readyTimeout': 10000,
@@ -62,7 +62,7 @@ function process(server, file, password, library, nparts) {
   const basename = path.basename(file);
   const inputFile = server.defaultPath + '/' + basename;
   let outputFile = server.defaultPath + '/' + basename + '.part';
-  const resultFile = file + '.part.' + nparts.toString();
+  const resultFile = file + '.part.' + nparts;
   let commands = null;
   if (library === 'parmetis') {
     commands = [
@@ -76,13 +76,13 @@ function process(server, file, password, library, nparts) {
       'module load metis',
       'mpmetis ' + inputFile + ' ' + nparts,
     ];
-    outputFile += '.' + nparts.toString();
+    outputFile += '.' + nparts;
   } else {
     commands = [
       'module load metis',
       'gpmetis ' + inputFile + ' ' + nparts,
     ];
-    outputFile += '.' + nparts.toString();
+    outputFile += '.' + nparts;
   }
 
   console.log(`basename : ${basename}`);

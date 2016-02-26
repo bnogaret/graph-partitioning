@@ -11,9 +11,14 @@
   flex: none;
 }
 
-.mdl-textfield{
+.mdl-textfield {
   display: block;
-  width: 120px;
+  width: 300px;
+}
+
+.mdl-selectfield {
+  display: block;
+  width: 300px;
 }
 
 .mdl-card__supporting-text {

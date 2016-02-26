@@ -499,10 +499,10 @@ function preview(type) {
   console.log('preview is working');
   switch (type) {
   case 'graph':
-    var file = fs.readFileSync('./src/graph.txt', 'utf-8');
+    var file = fs.readFileSync('../static/graph.txt', 'utf-8');
     break;
   case 'mesh':
-    var file = fs.readFileSync('./src/tet.mesh', 'utf-8');
+    var file = fs.readFileSync('../static/tet.mesh', 'utf-8');
   default:
     break;
   }
