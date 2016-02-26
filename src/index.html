@@ -11,33 +11,65 @@
 </head>
 
 <body>
+  <div id="overlay">
+    <h2>Welcome to Partify !</h2>
+    <p>
+      Partify is a desktop application, using web technologies based on <strong>atom shell (electron)</strong> technologies and <strong>vivagraph</strong> library using webGL. Partify allows everyone to partition, visualize them graph and mesh using <strong>Metis</strong> and <strong>ParMetis</strong> library. Partitionning your graph enhance the computation by distributed your it to different processors. With partify you can do it on your computer or remotly through a server.Currently available for <strong>Windows</strong>? Partify is also available on Linux and include more libraries?.
+    </p>
+    <p>
+      It was made, under Cranfield University's monitoring during group project, by Marcin Bojarski, Baptiste Nogaret, Anthony Razafindramanana and Maciek Smolarczyk.
+    </p>
+    <p>
 
+    </p>
+    <h3>Basic Partify Usage</h3>
+    <p>
+      Users are allowed to set a new connection by clicking on server menu, by adding a new graph or mesh the user access to the different Metis and ParMetis options. Once the computation done intrisic's performance of the library are shown to the users.
+    </p>
+    <p>
+      Two examples of Metis/ParMetis input can be access through the main windows of Partify. The graph is composed of 766 nodes and 1314 edges whereas the mesh is made of a 3D region, using tetrahedral elements.
+    </p>
+    <h4>Click on the overlay to quit it</h4>
+  </div>
   <div id="head">
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header has-drawer is-upgraded is-small-screen" data-upgraded=",MaterialLayout">
       <header class="mdl-layout__header is-casting-shadow">
         <div id="brand" class="mdl-layout__header-row">
+          <div class="mdl-layout-spacer"></div>
+          <div class="mdl-layout-spacer"></div>
           <span class="mdl-layout-title">PARTIFY</span>
+          <div class="mdl-layout-spacer"></div>
+          <nav class="mdl-navigation">
+            <table>
+              <tr>
+                <td>
+                  </span>EXAMPLE</span>
+                </td>
+                <td>
+                  <button id="example-graph" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Graph</button>
+                </td>
+                <td>
+                  <button id="example-mesh" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Mesh</button>
+                </td>
+              </tr>
+            </table>
+          </nav>
         </div>
       </header>
-      <main id="head-example" class="mdl-layout__content">
-        <h3>Example of Graph</h3>
-        <p>
-          Click on the button to show an example of graph or mesh
-        </p>
-        <button id="example-graph" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Graph<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
-        </button>
-        <button id="example-mesh" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Mesh<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
-          <button id="nice-effect" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Nice Effect<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span>
-      </main>
-      <div class="mdl-layout__obfuscator"></div>
-    </div>
-    <div>
-      <p id="fps"></p>
     </div>
   </div>
 
   <div id="content">
-    <button id="displayLinksBtn" style="display: none" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Display Links</button>
+    <table id="displayTable">
+      <tr>
+        <td>
+          <button id="displayLinksBtn" style="display: none" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect">Display Links</button>
+        </td>
+        <td>
+          <button id="displayColors" style="display: none" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect">Display Colors</button>
+        </td>
+      </tr>
+    </table>
     <span id="preview"></span>
     <dialog class="mdl-dialog">
       <h4 class="mdl-dialog__title">Show the edges</h4>
@@ -51,66 +83,36 @@
         <button type="button" class="mdl-button close">NO</button>
       </div>
     </dialog>
-    <label for="switch1" id="label_color" style="display: none" class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
-      <input type="checkbox" id="switch1" class="mdl-switch__input">
-      <span class="mdl-switch__label">Color graph</span>
-    </label>
   </div>
-  <div id="footer">
+  <div id="footer" style="opacity: 0">
     <footer class="mdl-mega-footer">
       <div class="mdl-mega-footer--middle-section">
         <div class="mdl-mega-footer--drop-down-section">
           <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked="">
-          <h1 class="mdl-mega-footer--heading">Features</h1>
+          <h2 class="mdl-mega-footer--heading">Recursive Partitionning</h2>
           <ul class="mdl-mega-footer--link-list">
-            <li><a href="#">About</a></li>
-            <li><a href="#">Terms</a></li>
-            <li><a href="#">Partners</a></li>
-            <li><a href="#">Updates</a></li>
+            <li><a id="edgecut">Edgecut: </a></li>
+            <li><a id="communication-volume">Communication volume: </a></li>
           </ul>
         </div>
         <div class="mdl-mega-footer--drop-down-section">
           <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked="">
-          <h1 class="mdl-mega-footer--heading">Details</h1>
+          <h2 class="mdl-mega-footer--heading">Timing Information</h2>
           <ul class="mdl-mega-footer--link-list">
-            <li><a href="#">Spec</a></li>
-            <li><a href="#">Tools</a></li>
-            <li><a href="#">Resources</a></li>
+            <li><a id="IO">I/O: </a></li>
+            <li><a id="partitioning">Partitioning: </a></li>
+            <li><a id="reporting">Reporting: </a></li>
           </ul>
         </div>
         <div class="mdl-mega-footer--drop-down-section">
           <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked="">
-          <h1 class="mdl-mega-footer--heading">Technology</h1>
+          <h2 class="mdl-mega-footer--heading">Memory Information</h2>
           <ul class="mdl-mega-footer--link-list">
-            <li><a href="#">How it works</a></li>
-            <li><a href="#">Patterns</a></li>
-            <li><a href="#">Usage</a></li>
-            <li><a href="#">Products</a></li>
-            <li><a href="#">Contracts</a></li>
+            <li><a id="max-memory-used">Max memory used: </a></li>
           </ul>
         </div>
-        <div class="mdl-mega-footer--drop-down-section">
-          <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked="">
-          <h1 class="mdl-mega-footer--heading">FAQ</h1>
-          <ul class="mdl-mega-footer--link-list">
-            <li><a href="#">Questions</a></li>
-            <li><a href="#">Answers</a></li>
-            <li><a href="#">Contact us</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="mdl-mega-footer--bottom-section">
-        <div class="mdl-logo">
-          More Information
-        </div>
-        <ul class="mdl-mega-footer--link-list">
-          <li><a href="https://developers.google.com/web/starter-kit/">Web Starter Kit</a></li>
-          <li><a href="#">Help</a></li>
-          <li><a href="#">Privacy and Terms</a></li>
-        </ul>
-      </div>
     </footer>
-  </div>
+    </div>
 </body>
 <script>
   'use strict';
@@ -118,9 +120,14 @@
   const notifications = require('./notifications/alert');
   const performance = require('./performance/performance.js');
   const ipcRenderer = require('electron').ipcRenderer;
-  
-  ipcRenderer.on('display-graph', (event,obj) => {
+
+  ipcRenderer.on('display-graph', (event, obj) => {
     rendering.onLoad(obj);
+  });
+
+  ipcRenderer.on('performance', (event, obj) => {
+    console.log('\n INDEXHTML PERFORMANCE: \n' + obj + '\n');
+    performance.perf(obj);
   });
 
   var exampleGraph = document.querySelector('#example-graph');
@@ -133,10 +140,14 @@
     rendering.preview('mesh');
   });
 
-  var effect = document.querySelector('#head-example');
-  effect.addEventListener('click', () => {
-    performance.changeOpacity(true);
+  var overlay = document.querySelector('#overlay');
+  overlay.addEventListener('click', () => {
+    overlay.style.display = 'none';
   });
+
+  setTimeout(() => {
+    overlay.style.display = 'none';
+  }, 20000);
 
   rendering.intro();
 

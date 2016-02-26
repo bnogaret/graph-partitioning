@@ -26,7 +26,7 @@ app.on('window-all-closed', function () {
   }
 });
 
-function randomIntInc () {
+function randomIntInc() {
   return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
 }
 
@@ -67,11 +67,16 @@ app.on('ready', function () {
     receivedPath = fp;
   });
 
-
   ipcMain.on('exec-configuration', (event, obj) => {
     if ((obj.metisRadioValue === true) && (obj.parMetisRadioValue === false)) {
-      executionLib.execGpMetis(receivedPath, obj.numberOfProcessors = 4);
-
+      executionLib.execGpMetis(receivedPath, obj.numberOfProcessors = 4, (result, error) => {
+        if (error) {
+          // TODO
+        } else {
+          mainWindow.webContents.send('performance', result);
+        }
+      });      
+            
       if (obj.visResultsCheckBox === true) {
         mainWindow.webContents.send('display-graph', receivedPath);
       }
@@ -98,7 +103,10 @@ app.on('ready', function () {
     } else {
       // TODO: condition if user choose running calculations remotely
     }
+        
   });
+
+
 
   const server = db.getServers().first();
   const file = '**';
@@ -107,7 +115,7 @@ app.on('ready', function () {
   const nparts = 4;
   console.log(server);
 
-  test(server, file, password, library, nparts);
+  // test(server, file, password, library, nparts);
 
   console.log(randomIntInc());
 
