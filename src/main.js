@@ -107,6 +107,10 @@ app.on('ready', function () {
     return executionParameters;
   }
 
+  function processReceivedChacoData(object) {
+    return {};
+  }
+
   // TODO for mesh
   ipcMain.on('exec-configuration', (event, obj) => {
     if (obj.visResultsCheckBox === true) {
@@ -151,6 +155,8 @@ app.on('ready', function () {
       }
     } else if (obj.chacoOption) {
       console.log(obj);
+      let params = processReceivedChacoData(obj);
+      console.log(params);
     }
   });
 
