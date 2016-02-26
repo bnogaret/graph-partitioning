@@ -135,7 +135,13 @@ app.on('ready', function () {
         // TODO: ask password and execute
       } else {
         let params = processReceivedMetisData(obj);
-        executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params);
+        executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
+          if (error) {
+            // TODO notification
+          } else {
+            mainWindow.webContents.send('performance', result);
+          }
+        });
       }
     } else if (obj.parMetisRadioValue) {
       console.log('\nValues send from UI:');
@@ -151,7 +157,13 @@ app.on('ready', function () {
         // TODO: ask password and execute
       } else {
         let params = processReceivedParMetisData(obj);
-        executionLib.execParMetis(receivedPath, obj.procsInputParMetis, params);
+        executionLib.execParMetis(receivedPath, obj.procsInputParMetis, params, (result, error) => {
+          if (error) {
+            // TODO
+          } else {
+            mainWindow.webContents.send('performance', result);
+          }
+        });
       }
     } else if (obj.chacoOption) {
       console.log(obj);

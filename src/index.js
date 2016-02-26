@@ -25,14 +25,18 @@ exampleMesh.addEventListener('click', () => {
   rendering.preview('mesh');
 });
 
-var effect = document.querySelector('#head-example');
-effect.addEventListener('click', () => {
-  performance.changeOpacity(true);
+var overlay = document.querySelector('#overlay');
+overlay.addEventListener('click', () => {
+  overlay.style.display = 'none';
 });
 
-var showNotification = document.querySelector('#show-notification');
-showNotification.addEventListener('click', () => {
-  notification('TITLE', 'This is a notification', 'notification');
+setTimeout(() => {
+  overlay.style.display = 'none';
+}, 20000);
+
+ipcRenderer.on('performance', (event, obj) => {
+  console.log('\n INDEXHTML PERFORMANCE: \n' + obj + '\n');
+  performance.perf(obj);
 });
 
 t.createApplicationMenu();

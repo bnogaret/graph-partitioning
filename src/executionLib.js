@@ -1,5 +1,4 @@
 'use strict';
-
 const os = require('os');
 const exec = require('child_process').exec; // Prefer use spawn if big data
 const path = require('path');
@@ -47,9 +46,7 @@ function execApp(program, file, nPartition, options, callback) {
   exec(command, (error, stdout, stderr) => {
     console.log(`stderr: ${stderr}`);
     console.log(`stdout: ${stdout.split(os.EOL)}`);
-    if (error) {
-      callback(error);
-    }
+    callback(stdout, error);
   });
 }
 
@@ -60,53 +57,53 @@ function execParMetisApp(program, file, nOfProcessors, options, callback) {
   exec(command, (error, stdout, stderr) => {
     console.log(`stderr: ${stderr}`);
     console.log(`stdout: ${stdout.split(os.EOL)}`);
-    if (error !== null) {
-      callback(error);
-    }
+    callback(stdout, error);
   });
 }
 
-function execGpMetis(file, nPartition, parameters) {
-  let nPart = nPartition;
+function execGpMetis(file, nPartition, parameters, callback) {
   let program = '';
   if (process.platform === 'win32') {
     program = __dirname + '/../native/gpmetis.exe';
   } else if (process.platform === 'linux') {
     program = __dirname + '/../native/gpmetis';
   }
-  execApp(program, file, nPart, parameters, (error) => {
+  execApp(program, file, nPartition, parameters, (result, error) => {
     if (error) {
       console.log(`${error}`);
     }
+    callback(result, error);
   });
 }
 
-function execMpMetis(file, nPartition, parameters) {
+function execMpMetis(file, nPartition, parameters, callback) {
   let program = '';
   if (process.platform === 'win32') {
     program = __dirname + '/../native/mpmetis.exe';
   } else if (process.platform === 'linux') {
     program = __dirname + '/../native/mpmetis';
   }
-  // should in 'execApp' be parameters or null?
-  execApp(program, file, nPartition, parameters, (error) => {
+
+  execApp(program, file, nPartition, parameters, (result, error) => {
     if (error) {
       console.log(`${error}`);
     }
+    callback(result, error);
   });
 }
 
-function execParMetis(file, nOfProcessors, parameters) {
+function execParMetis(file, nOfProcessors, parameters, callback) {
   let program = '';
   if (process.platform === 'win32') {
     program = __dirname + '/../native/parmetis.exe';
   } else if (process.platform === 'linux') {
     program = __dirname + '/../native/parmetis';
   }
-  execParMetisApp(program, file, nOfProcessors, parameters, (error) => {
+  execParMetisApp(program, file, nOfProcessors, parameters, (result, error) => {
     if (error) {
       console.log(`${error}`);
     }
+    callback(result, error);
   });
 }
 

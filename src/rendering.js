@@ -4,6 +4,10 @@ const fs = require('fs');
 var App = {};
 const Viva = require('../libs/vivagraph.min.js');
 
+var renderLinksBtn = document.getElementById('displayLinksBtn');
+var switchColor = document.getElementById('displayColors');
+var color = false;
+
 function onLoad(file) {
   console.log('on load works');
   App.fileInput = file[0];
@@ -180,8 +184,6 @@ function onLoad(file) {
         }
       }
 
-
-
       // case fmt = 011
       // nodes weigth links[0]
       // edges weight links[j+1]
@@ -355,10 +357,8 @@ function onLoad(file) {
 
   // Step 5. Render the graph
 
-  var renderLinksBtn = document.getElementById('displayLinksBtn');
-  renderLinksBtn.style.display = 'block';
 
-  var switchColor = document.getElementById('label_color');
+  renderLinksBtn.style.display = 'block';
   switchColor.style.display = 'block';
 
 
@@ -372,7 +372,7 @@ function onLoad(file) {
   });
 
   App.graphics.node(function (node) {
-    return Viva.Graph.View.webglSquare(100, 0x1f77b4ff);
+    return Viva.Graph.View.webglSquare(10, 0x1f77b4ff);
   });
 
   App.renderer = Viva.Graph.View.renderer(graph, {
@@ -439,12 +439,8 @@ function removeColor() {
 }
 
 
-var switchColor = document.getElementById('switch1');
-var color = false;
-
-switchColor.addEventListener('change', function () {
+switchColor.addEventListener('click', function () {
   if (color === false) {
-    console.log('color ' + color);
     addColor();
     color = !color;
   } else {
@@ -457,6 +453,10 @@ switchColor.addEventListener('change', function () {
 function loadNewGraphWithLinks() {
   App.renderer.dispose();
   App.renderer = null;
+  // Resize vertices
+  App.graphics.node(function (node) {
+    return Viva.Graph.View.webglSquare(100, 0x1f77b4ff);
+  });
   App.renderer = Viva.Graph.View.renderer(App.graph, {
     graphics: App.graphics,
     layout: App.layout,
@@ -485,8 +485,12 @@ dialog.querySelector('.close').addEventListener('click', function () {
   dialog.close();
 });
 
-function preview(type) {
 
+// Preview with metis example
+function preview(type) {
+  // Case we draw a new graph
+  renderLinksBtn.style.display = 'none';
+  switchColor.style.display = 'none';
   // In case we have already something draw
   if (typeof App.graph !== 'undefined') {
     App.renderer.dispose();
@@ -495,10 +499,10 @@ function preview(type) {
   console.log('preview is working');
   switch (type) {
   case 'graph':
-    var file = fs.readFileSync('./src/preview-graph.txt', 'utf-8');
+    var file = fs.readFileSync('../static/graph.txt', 'utf-8');
     break;
   case 'mesh':
-    var file = fs.readFileSync('./src/preview-mesh.txt', 'utf-8');
+    var file = fs.readFileSync('../static/tet.mesh', 'utf-8');
   default:
     break;
   }
@@ -572,14 +576,14 @@ function preview(type) {
   App.renderer.run();
 }
 
- // Rendering some random mesh
+// Rendering some random mesh
 function intro() {
   // In case we have already something draw
   if (typeof App.graph !== 'undefined') {
     App.renderer.dispose();
   }
-  var generator = Viva.Graph.generator();
-  App.graph = generator.grid(10, 10);
+  
+  App.graph = Viva.Graph.graph();
   App.layout = Viva.Graph.Layout.forceDirected(App.graph);
   App.graphics = Viva.Graph.View.webglGraphics();
   App.renderer = Viva.Graph.View.renderer(App.graph, {
@@ -587,9 +591,9 @@ function intro() {
     graphics: App.graphics,
     container: document.getElementById('preview'),
   });
-  
+
   var graph = App.graph;
-  
+
   App.layout = Viva.Graph.Layout.forceDirected(graph, {
     springLength: 50, // 10
     springCoeff: 0.0008, // 0.0005,
@@ -598,7 +602,7 @@ function intro() {
     theta: 1,
     timestep: 1,
   });
-      
+
   App.graphics.node(function (node) {
     return Viva.Graph.View.webglSquare(10, 0x1f77b4ff);
   });
@@ -610,6 +614,57 @@ function intro() {
     renderLinks: true,
   });
   App.renderer.run();
+  
+  beginAddNodesLoop(graph);
+
+
+}
+// Add some effect to the graph
+function beginAddNodesLoop(graph) {
+  var i = 0,
+    m = 10,
+    n = 50;
+  var addInterval = setInterval(function () {
+    graph.beginUpdate();
+    for (var j = 0; j < m; ++j) {
+      var node = i + j * n;
+      if (i > 0) {
+        graph.addLink(node, i - 1 + j * n);
+      }
+      if (j > 0) {
+        graph.addLink(node, i + (j - 1) * n);
+      }
+    }
+    i++;
+    graph.endUpdate();
+    if (i >= n) {
+      clearInterval(addInterval);
+      setTimeout(function () {
+        beginRemoveNodesLoop(graph);
+      }, 10000);
+    }
+  }, 500);
+}
+
+function beginRemoveNodesLoop(graph) {
+  var nodesLeft = [];
+  graph.forEachNode(function (node) {
+    nodesLeft.push(node.id);
+  });
+  var removeInterval = setInterval(function () {
+    var nodesCount = nodesLeft.length;
+    if (nodesCount > 0) {
+      var nodeToRemove = Math.min((Math.random() * nodesCount) << 0, nodesCount - 1);
+      graph.removeNode(nodesLeft[nodeToRemove]);
+      nodesLeft.splice(nodeToRemove, 1);
+    }
+    if (nodesCount === 0) {
+      clearInterval(removeInterval);
+      setTimeout(function () {
+        beginAddNodesLoop(graph);
+      }, 100);
+    }
+  }, 500);
 }
 
 module.exports.onLoad = onLoad;
