@@ -30,13 +30,6 @@ exampleMesh.addEventListener('click', () => {
   rendering.preview('mesh');
 });
 
-
-//var showNotification = document.querySelector('#show-notification');
-//showNotification.addEventListener('click', () => {
-//  notification('TITLE', 'This is a notification', 'notification');
-//});
-
-
 var overlay = document.querySelector('#overlay');
 overlay.addEventListener('click', () => {
   overlay.style.display = 'none';

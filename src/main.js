@@ -64,123 +64,125 @@ app.on('ready', function () {
     receivedPath = fp;
   });
 
-  // function which prepare data to be sent to exec file. We need to send appropriate data in accordance to different ptype parameter passed by user
+  /**
+   * function which prepare data to be sent to exec file.We need to send appropriate data in accordance to different ptype parameter passed by user
+   * @param {object} object
+   * @return {object}
+   */
   function processReceivedMetisData(object) {
-    if (object.ptype == 'rb') {
-      var executionParameters = {
+    let executionParameters = {};
+    if (object.ptype === 'rb') {
+      executionParameters = {
         ptype: object.ptype,
         ctype: object.ctype,
         iptype: object.iptype,
         seed: object.seed,
         niter: object.niter,
         ubvec: object.maxImbalance,
-
       };
       console.log('FUNCTION processReceivedData returns FOR: rb');
       return executionParameters;
-    }
-    if (object.ptype == 'kway') {
-      var executionParameters = {
+    } else if (object.ptype === 'kway') {
+      executionParameters = {
         ptype: object.ptype,
         ctype: object.ctype,
         objtype: object.objtype,
         niter: object.niter,
         seed: object.seed,
-        ubvec: object.maxImbalance
-      }
+        ubvec: object.maxImbalance,
+      };
       console.log('FUNCTION processReceivedData returns FOR: kway');
       return executionParameters;
     }
+    return {};
   }
 
   function processReceivedParMetisData(object) {
-    var executionParameters = {
-      nparts: object.numberOfPartsParMetis,
+    const executionParameters = {
+      nparts: object.numberOfPartitions,
       maxub: object.maxImbalanceParMetis,
-      seed: object.seed
-    }
+      seed: object.seed,
+    };
     console.log('FUNCTION processReceivedParMetisData returned data');
     return executionParameters;
   }
-  
+
+  function processReceivedChacoData(object) {
+    return {};
+  }
+
   // TODO for mesh
   ipcMain.on('exec-configuration', (event, obj) => {
-    
-    var pathNumberOfPartitions = {
-      p: receivedPath,
-      n: obj.numberOfPartitions,
-    };
-    
-    if (obj.visResultsCheckBox === true) {
-      mainWindow.webContents.send('display-graph', pathNumberOfPartitions);
+
+      var pathNumberOfPartitions = {
+        p: receivedPath,
+        n: obj.numberOfPartitions,
+      };
+
+      if (obj.visResultsCheckBox === true) {
+        mainWindow.webContents.send('display-graph', pathNumberOfPartitions);
+      }
+
+      if (obj.metisRadioValue) {
+        console.log('\nValues send from UI:');
+        console.log('numberOfPartitions: ' + obj.numberOfPartitions);
+        console.log('ctype: ' + obj.ctype);
+        console.log('maxImbalance: ' + obj.maxImbalance);
+        console.log('niter: ' + obj.niter);
+        console.log('seed: ' + obj.seed);
+        console.log('ptype: ' + obj.ptype);
+        console.log('iptype: ' + obj.iptype);
+        console.log('objtype: ' + obj.objtype);
+        console.log('\n');
+
+        if (obj.remoteServerId) {
+          const server = db.getServer(obj.remoteServerId);
+          console.log(server);
+          // TODO: ask password and execute
+        } else {
+          let params = processReceivedMetisData(obj);
+          executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
+            if (error) {
+              mainWindow.webContents.send('error', error);
+            } else {
+              mainWindow.webContents.send('performance', result);
+            }
+          });
+        }
+      } else if (obj.parMetisRadioValue) {
+        console.log('\nValues send from UI:');
+        console.log('procsInputParMetis: ' + obj.procsInputParMetis);
+        console.log('numberOfPartitions: ' + obj.numberOfPartitions);
+        console.log('maxImbalanceParMetis: ' + obj.maxImbalanceParMetis);
+        console.log('parMetisSeed: ' + obj.seed);
+        console.log('\n');
+
+        if (obj.remoteServerId) {
+          const server = db.getServer(obj.remoteServerId);
+          console.log(server);
+          // TODO: ask password and execute
+        } else {
+          let params = processReceivedParMetisData(obj);
+          executionLib.execParMetis(receivedPath, obj.procsInputParMetis, params, (result, error) => {
+            if (error) {
+              mainWindow.webContents.send('error', error);
+            } else {
+              mainWindow.webContents.send('performance', result);
+            }
+          }); 
     }
+  } else if (obj.chacoOption) {
+    console.log(obj);
+    let params = processReceivedChacoData(obj);
+    console.log(params);
+  }
+});
 
-    if (obj.metisRadioValue) {
-      console.log('\nValues send from UI:');
-      console.log('numberOfPartitions: ' + obj.numberOfPartitions);
-      console.log('ctype: ' + obj.ctype);
-      console.log('maxImbalance: ' + obj.maxImbalance);
-      console.log('niter: ' + obj.niter);
-      console.log('seed: ' + obj.seed);
-      console.log('ptype: ' + obj.ptype);
-      console.log('iptype: ' + obj.iptype);
-      console.log('objtype: ' + obj.objtype);
-      console.log('\n');
-
-      if (obj.remoteServerId) {
-        const server = db.getServer(obj.remoteServerId);
-        console.log(server);
-        // TODO: ask password and execute
-      } else {
-        let params = processReceivedMetisData(obj);
-        executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
-        if (error) {
-          mainWindow.webContents.send('error', error);
-        } else {
-          mainWindow.webContents.send('performance', result);
-        }
-      });
-      }
-    } else if (obj.parMetisRadioValue) {
-      console.log('\nValues send from UI:');
-      console.log('procsInputParMetis: ' + obj.procsInputParMetis);
-      console.log('numberOfPartsParMetis: ' + obj.numberOfPartsParMetis);
-      console.log('maxImbalanceParMetis: ' + obj.maxImbalanceParMetis);
-      console.log('parMetisSeed: ' + obj.seed);
-      console.log('\n');
-
-      if (obj.remoteServerId) {
-        const server = db.getServer(obj.remoteServerId);
-        console.log(server);
-        // TODO: ask password and execute
-      } else {
-        let params = processReceivedParMetisData(obj);
-        executionLib.execParMetis(receivedPath, obj.procsInputParMetis, params, (result, error) => {
-        if (error) {
-          mainWindow.webContents.send('error', error);
-        } else {
-          mainWindow.webContents.send('performance', result);
-        }
-      });
-      }
-    } // TODO other libraries for linux
-  });
-
-  // const server = db.getServers().first();
-  // const file = '**';
-  // const password = '**';
-  // const library = 'gpmetis';
-  // const nparts = 4;
-  // console.log(server);
-  // test(server, file, password, library, nparts);
-  // console.log(randomIntInc());
-  // console.log(db.getServer('1645839638'));
-
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null;
-  });
+// Emitted when the window is closed.
+mainWindow.on('closed', function () {
+// Dereference the window object, usually you would store windows
+// in an array if your app supports multi windows, this is the time
+// when you should delete the corresponding element.
+mainWindow = null;
+});
 });

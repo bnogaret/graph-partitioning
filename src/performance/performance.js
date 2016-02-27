@@ -1,4 +1,5 @@
 'use strict';
+
 var footer = document.getElementById('footer');
 
 // Read performance value from graph partitionning library
@@ -12,16 +13,15 @@ function readValue(input, keyword) {
 
 // Show the footer
 function changeOpacity(show) {
-
   switch (show) {
-  case true:
-    footer.style.opacity = '1';
-    break;
-  case false:
-    footer.style.opacity = '0';
-    break;
-  default:
-    break;
+    case true:
+      footer.style.opacity = '1';
+      break;
+    case false:
+      footer.style.opacity = '0';
+      break;
+    default:
+      break;
   }
 }
 
@@ -29,7 +29,6 @@ function changeOpacity(show) {
 var perfValues = {};
 
 function perf(input) {
-
   perfValues.vertices = readValue(input, '#Vertices');
   perfValues.edges = readValue(input, '#Edges');
   perfValues.parts = readValue(input, '#Parts');

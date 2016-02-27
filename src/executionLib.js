@@ -1,7 +1,6 @@
 'use strict';
 const os = require('os');
 const exec = require('child_process').exec; // Prefer use spawn if big data
-const ipcMain = require('electron').ipcMain; // Send library
 const path = require('path');
 
 /**
@@ -10,7 +9,7 @@ const path = require('path');
  * @param {Object} options
  * @return {string}
  */
-function getStringFromOptions(options) {
+function getStringFromMetisOptions(options) {
   let option = '';
   if (options !== null && typeof options === 'object') {
     for (let key in options) {
@@ -35,52 +34,19 @@ function getStringFromParMetisOptions(options) {
         option += ` ${options[key]}`; // with this parMetis works!
       }
     }
-
   }
   return option.trim();
 }
 
 function execApp(program, file, nPartition, options, callback) {
   let nPart = nPartition;
-  let option = getStringFromOptions(options);
+  let option = getStringFromMetisOptions(options);
   let command = `${program} ${option} ${file} ${nPart}`;
   console.log(`myExec's command: ${command}`);
   exec(command, (error, stdout, stderr) => {
     console.log(`stderr: ${stderr}`);
     console.log(`stdout: ${stdout.split(os.EOL)}`);
     callback(stdout, error);
-  });  
-}
-
-function execGpMetis(file, nPartition, parameters, callback) {
-  let nPart = nPartition;
-  let options = parameters;
-  let program = '';
-  if (process.platform === 'win32') {
-    program = __dirname + '/../native/gpmetis.exe';
-  } else if (process.platform === 'linux') {
-    program = __dirname + '/../native/gpmetis';
-  }
-  execApp(program, file, nPartition, options, (result, error) => {
-    console.log(`${error}`);
-    callback(result, error);
-  });
-}
-
-function execMpMetis(file, nPartition, parameters, callback) {
-  let program = '';
-  let options = parameters;
-  if (process.platform === 'win32') {
-    program = __dirname + '/../native/mpmetis.exe';
-  } else if (process.platform === 'linux') {
-    program = __dirname + '/../native/mpmetis';
-  }
-  // should in 'execApp' be parameters or null?
-  execApp(program, file, nPartition, parameters, (result, error) => {
-    if (error) {
-      console.log(`${error}`);
-    }
-  callback(result, error);
   });
 }
 
@@ -91,31 +57,60 @@ function execParMetisApp(program, file, nOfProcessors, options, callback) {
   exec(command, (error, stdout, stderr) => {
     console.log(`stderr: ${stderr}`);
     console.log(`stdout: ${stdout.split(os.EOL)}`);
-    if (error !== null) {
-      callback(error);
-    }
+    callback(stdout, error);
   });
 }
 
-function execParMetis(file, nOfProcessors, parameters) {
-  let noproc = nOfProcessors;
+function execGpMetis(file, nPartition, parameters, callback) {
   let program = '';
-  let options = parameters;
+  if (process.platform === 'win32') {
+    program = __dirname + '/../native/gpmetis.exe';
+  } else if (process.platform === 'linux') {
+    program = __dirname + '/../native/gpmetis';
+  }
+  execApp(program, file, nPartition, parameters, (result, error) => {
+    if (error) {
+      console.log(`${error}`);
+    }
+    callback(result, error);
+  });
+}
+
+function execMpMetis(file, nPartition, parameters, callback) {
+  let program = '';
+  if (process.platform === 'win32') {
+    program = __dirname + '/../native/mpmetis.exe';
+  } else if (process.platform === 'linux') {
+    program = __dirname + '/../native/mpmetis';
+  }
+
+  execApp(program, file, nPartition, parameters, (result, error) => {
+    if (error) {
+      console.log(`${error}`);
+    }
+    callback(result, error);
+  });
+}
+
+function execParMetis(file, nOfProcessors, parameters, callback) {
+  let program = '';
   if (process.platform === 'win32') {
     program = __dirname + '/../native/parmetis.exe';
   } else if (process.platform === 'linux') {
     program = __dirname + '/../native/parmetis';
   }
-  execParMetisApp(program, file, noproc, options, (error) => {
+  execParMetisApp(program, file, nOfProcessors, parameters, (result, error) => {
     if (error) {
       console.log(`${error}`);
     }
+    callback(result, error);
   });
 }
 
 function execChaco(file, nPartition) {
-  let output = path.dirname(file) + '/' + path.basename(file) + '.npart.' + nPartition;
-  let command = `echo '${file} ${output} 1 1000 2 1 n' | ./chaco`;
+  const output = path.dirname(file) + '/' + path.basename(file) + '.npart.' + nPartition;
+  const program = __dirname + '/../native/chaco';
+  const command = `${program} ${file} ${output} 1 1000 2 1 n`;
   exec(command, (error, stdout, stderr) => {
     console.log(`stderr: ${stderr}`);
     console.log(`stdout: ${stdout.split(os.EOL)}`);
