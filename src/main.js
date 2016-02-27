@@ -107,8 +107,42 @@ app.on('ready', function () {
     return executionParameters;
   }
 
+  function getPartitioningDimension(numberOfPartitions, partitioningDimension) {
+    const np = parseInt(numberOfPartitions, 10);
+    const pd = parseInt(partitioningDimension, 10);
+    if (np < 4) {
+      return '';
+    } else if (np >= 4 && np <= 7 && (pd === 1 || pd === 2)) {
+      return pd.toString();
+    } else if (np > 7 && (pd > 0 && pd < 4)) {
+      return pd.toString();
+    }
+    return '1';
+  }
+
   function processReceivedChacoData(object) {
-    return {};
+    let executionParameters = {
+      partitioningMethod: object.partitioningMethod ? object.partitioningMethod : '5',
+    };
+    switch(object.partitioningMethod) {
+      case '1': // Multilevel - Kernighan-Lin
+        executionParameters['vertices'] = object.vertices;
+        break;
+      case '2': // Spectral
+        executionParameters['eigensolver'] = object.eigensolver;
+        executionParameters['vertices'] = object.eigensolver === '1' ? object.vertices : '';
+        executionParameters['localRefinement'] = object.localRefinement;
+        break;
+      case '4': // Linear
+      case '5': // Random
+      case '6': // Scattered
+      default:
+        executionParameters['localRefinement'] = object.localRefinement;
+        break;
+    }
+    executionParameters['numberOfPartitions'] = object.numberOfPartitions;
+    executionParameters['partitioningDimension'] = getPartitioningDimension(object.numberOfPartitions, object.partitioningDimension);
+    return executionParameters;
   }
 
   // TODO for mesh
@@ -124,14 +158,7 @@ app.on('ready', function () {
 
     if (obj.choiceLibrary === '1') {
       console.log('\nValues send from UI:');
-      console.log('numberOfPartitions: ' + obj.numberOfPartitions);
-      console.log('ctype: ' + obj.ctype);
-      console.log('maxImbalance: ' + obj.maxImbalance);
-      console.log('niter: ' + obj.niter);
-      console.log('seed: ' + obj.seed);
-      console.log('ptype: ' + obj.ptype);
-      console.log('iptype: ' + obj.iptype);
-      console.log('objtype: ' + obj.objtype);
+      console.log(obj);
       console.log('\n');
 
       if (obj.remoteServerId) {
@@ -150,10 +177,7 @@ app.on('ready', function () {
       }
     } else if (obj.parMetisRadioValue === '2') {
       console.log('\nValues send from UI:');
-      console.log('procsInputParMetis: ' + obj.procsInputParMetis);
-      console.log('numberOfPartitions: ' + obj.numberOfPartitions);
-      console.log('maxImbalanceParMetis: ' + obj.maxImbalanceParMetis);
-      console.log('parMetisSeed: ' + obj.seed);
+      console.log(obj);
       console.log('\n');
 
       if (obj.remoteServerId) {
@@ -174,6 +198,13 @@ app.on('ready', function () {
       console.log(obj);
       let params = processReceivedChacoData(obj);
       console.log(params);
+      executionLib.execChaco(receivedPath, params, (result, error) => {
+        if (error) {
+          mainWindow.webContents.send('error', error);
+        } else {
+          mainWindow.webContents.send('performance', result);
+        }
+      });
     }
   });
 

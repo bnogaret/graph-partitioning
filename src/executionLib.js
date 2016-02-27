@@ -86,15 +86,17 @@ function execParMetis(file, nbProcessors, parameters, callback) {
   });
 }
 
-function execChaco(file, nbPartitions, parameters, callback) {
-  const output = path.dirname(file) + '/' + path.basename(file) + '.npart.' + nbPartitions;
+function execChaco(file, parameters, callback) {
+  const output = path.dirname(file) + '/' + path.basename(file) + '.part.' + parameters.numberOfPartitions;
   const program = PROGRAM_DIRECTORY + 'chaco';
   const option = getStringFromOptions(parameters);
-  const command = `${program} ${file} ${output} ${option} n`;
+  const command = `echo '${file} ${output} ${option} n' | ${program}`;
 
-  // exec(command, (result, error) => {
-  //   callback(result, error);
-  // });
+  console.log(command);
+
+  execApp(command, (result, error) => {
+    callback(result, error);
+  });
 }
 
 module.exports.execGpMetis = execGpMetis;
