@@ -194,6 +194,7 @@ buttonOk.addEventListener('click', () => {
       // Number of partitions
       numberOfPartitions: numberOfPartitions.value,
       // Chaco values
+      partitioningMethod: chacoPartitioningMethod.value,
       vertices: chacoInputVertices.value,
       eigensolver: chacoSelectEigensolver.value,
       localRefinement: chacoSelectLocalRefinement.value,
