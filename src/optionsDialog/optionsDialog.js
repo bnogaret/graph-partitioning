@@ -131,7 +131,7 @@ chacoPartitioningMethod.addEventListener('change', () => {
     case '4':
     case '5':
     case '6':
-      chacoDivVertices.style.display = 'block';
+      chacoDivVertices.style.display = 'none';
       chacoDivEigensolver.style.display = 'none';
       chacoDivLocalRefinement.style.display = 'block';
       break;
