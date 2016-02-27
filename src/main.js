@@ -75,7 +75,7 @@ app.on('ready', function () {
         niter: object.niter,
         ubvec: object.maxImbalance,
 
-      }
+      };
       console.log('FUNCTION processReceivedData returns FOR: rb');
       return executionParameters;
     }
@@ -105,9 +105,14 @@ app.on('ready', function () {
   
   // TODO for mesh
   ipcMain.on('exec-configuration', (event, obj) => {
-
+    
+    var pathNumberOfPartitions = {
+      p: receivedPath,
+      n: obj.numberOfPartitions,
+    };
+    
     if (obj.visResultsCheckBox === true) {
-      mainWindow.webContents.send('display-graph', receivedPath);
+      mainWindow.webContents.send('display-graph', pathNumberOfPartitions);
     }
 
     if (obj.metisRadioValue) {
@@ -130,7 +135,7 @@ app.on('ready', function () {
         let params = processReceivedMetisData(obj);
         executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
         if (error) {
-          // TODO notification
+          mainWindow.webContents.send('error', error);
         } else {
           mainWindow.webContents.send('performance', result);
         }
@@ -152,7 +157,7 @@ app.on('ready', function () {
         let params = processReceivedParMetisData(obj);
         executionLib.execParMetis(receivedPath, obj.procsInputParMetis, params, (result, error) => {
         if (error) {
-          // TODO
+          mainWindow.webContents.send('error', error);
         } else {
           mainWindow.webContents.send('performance', result);
         }

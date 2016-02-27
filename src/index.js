@@ -8,13 +8,18 @@ const performance = require('./performance/performance.js');
 const t = require('./applicationMenu.js');
 
 ipcRenderer.on('display-graph', (event, obj) => {
-  rendering.onLoad(obj);
+  notification('Load: ' + obj.p, 'notification');
+  rendering.setNumberOfPartitions(obj.n);
+  rendering.onLoad(obj.p);  
 });
 
 ipcRenderer.on('display-notification', (event, message, type) => {
   notification(message, type);
 });
 
+ipcRenderer.on('error', (event, obj) => {
+    notification(obj, 'alert');
+});
 var exampleGraph = document.querySelector('#example-graph');
 exampleGraph.addEventListener('click', () => {
   rendering.preview('graph');
@@ -25,10 +30,12 @@ exampleMesh.addEventListener('click', () => {
   rendering.preview('mesh');
 });
 
+
 //var showNotification = document.querySelector('#show-notification');
 //showNotification.addEventListener('click', () => {
 //  notification('TITLE', 'This is a notification', 'notification');
 //});
+
 
 var overlay = document.querySelector('#overlay');
 overlay.addEventListener('click', () => {
@@ -38,6 +45,17 @@ overlay.addEventListener('click', () => {
 setTimeout(() => {
   overlay.style.display = 'none';
 }, 20000);
+
+
+function showOverlay() {
+  overlay.style.display = 'block';
+  setTimeout(() => {
+    overlay.style.display = 'none';
+  }, 20000);
+}
+
+var about = document.querySelector('#about');
+about.addEventListener('click', showOverlay);
 
 ipcRenderer.on('performance', (event, obj) => {
   console.log('\n INDEXHTML PERFORMANCE: \n' + obj + '\n');

@@ -13,7 +13,33 @@
 <body>
   <div id="layout-notification">
   </div>
-  <div id="overlay">
+  
+  <div id="head">
+    <header class="mdl-layout__header is-casting-shadow">
+      <div id="brand" class="mdl-layout__header-row">
+        <button id="run-graph" class="mdl-button mdl-js-button mdl-button--icon">
+            <i class="fa fa-play-circle-o"></i>
+        </button>
+        <button id="pause-graph" class="mdl-button mdl-js-button mdl-button--icon">
+            <i class="fa fa-pause-circle-o"></i>
+        </button>
+        <div class="mdl-layout-spacer"></div>
+        <span class="mdl-layout-title">PARTIFY</span>
+        <div class="mdl-layout-spacer"></div>
+        <nav class="mdl-navigation">
+          <button id="menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
+            <i class="fa fa-bars"></i>
+          </button>
+          <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="menu-lower-right">
+            <li id="example-graph" class="mdl-menu__item">Graph example</li>
+            <li id="example-mesh" class="mdl-menu__item">Mesh example</li>
+            <li id="about" class="mdl-menu__item">About</li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+  </div>
+<div id="overlay">
     <h2>Welcome to Partify !</h2>
     <p>
       Partify is a desktop application, using web technologies based on <strong>atom shell (electron)</strong> technologies and <strong>vivagraph</strong> library using webGL. Partify allows everyone to partition, visualize them graph and mesh using <strong>Metis</strong> and <strong>ParMetis</strong> library. Partitionning your graph enhance the computation by distributed your it to different processors. With partify you can do it on your computer or remotly through a server.Currently available for <strong>Windows</strong>? Partify is also available on Linux and include more libraries?.
@@ -33,34 +59,6 @@
     </p>
     <h4>Click on the overlay to quit it</h4>
   </div>
-  <div id="head">
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header has-drawer is-upgraded is-small-screen" data-upgraded=",MaterialLayout">
-      <header class="mdl-layout__header is-casting-shadow">
-        <div id="brand" class="mdl-layout__header-row">
-          <div class="mdl-layout-spacer"></div>
-          <div class="mdl-layout-spacer"></div>
-          <span class="mdl-layout-title">PARTIFY</span>
-          <div class="mdl-layout-spacer"></div>
-          <nav class="mdl-navigation">
-            <table>
-              <tr>
-                <td>
-                  </span>EXAMPLE</span>
-                </td>
-                <td>
-                  <button id="example-graph" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Graph</button>
-                </td>
-                <td>
-                  <button id="example-mesh" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Mesh</button>
-                </td>
-              </tr>
-            </table>
-          </nav>
-        </div>
-      </header>
-    </div>
-  </div>
-
   <div id="content">
     <table id="displayTable">
       <tr>

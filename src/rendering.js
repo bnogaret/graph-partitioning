@@ -7,6 +7,16 @@ const Viva = require('../libs/vivagraph.min.js');
 var renderLinksBtn = document.getElementById('displayLinksBtn');
 var switchColor = document.getElementById('displayColors');
 var color = false;
+var runGraphBtn = document.getElementById('run-graph');
+var pauseGraphBtn = document.getElementById('pause-graph');
+
+runGraphBtn.addEventListener('click',() => {
+  App.renderer.resume();
+});
+
+pauseGraphBtn.addEventListener('click',() => {
+  App.renderer.pause();
+});
 
 function onLoad(file) {
   console.log('on load works');
@@ -385,6 +395,10 @@ function onLoad(file) {
   App.renderer.run();
   App.renderer.pause();
 }
+App.numberOfPartitions = 0;
+function setNumberOfPartitions(n) {
+  App.numberOfPartitions = n;
+}
 
 function addColor() {
   // Colors up until (20 processors for more add more colors)
@@ -402,8 +416,7 @@ function addColor() {
   ];
   // Read output file from metis
 
-  var output = App.fileInput + '.part.4';
-
+  var output = App.fileInput + '.part.' + App.numberOfPartitions;
   function addColors(link) {
     var outputs = fs.readFileSync(link, 'utf-8');
     var processors = outputs.split('\n');
@@ -423,8 +436,7 @@ function removeColor() {
 
   // Read output file from metis
 
-  var output = App.fileInput + '.part.4';
-
+  var output = App.fileInput + '.part.' + App.numberOfPartitions;
   function addColors(link) {
     var outputs = fs.readFileSync(link, 'utf-8');
     var processors = outputs.split('\n');
@@ -495,14 +507,13 @@ function preview(type) {
   if (typeof App.graph !== 'undefined') {
     App.renderer.dispose();
   }
-
   console.log('preview is working');
   switch (type) {
   case 'graph':
-    var file = fs.readFileSync('../static/graph.txt', 'utf-8');
+    var file = fs.readFileSync(process.cwd() + '/static/graph.txt', 'utf-8');
     break;
   case 'mesh':
-    var file = fs.readFileSync('../static/tet.mesh', 'utf-8');
+    var file = fs.readFileSync(process.cwd() + '/static/tet.mesh', 'utf-8');
   default:
     break;
   }
@@ -671,3 +682,4 @@ module.exports.onLoad = onLoad;
 module.exports.loadNewGraphWithLinks = loadNewGraphWithLinks;
 module.exports.preview = preview;
 module.exports.intro = intro;
+module.exports.setNumberOfPartitions = setNumberOfPartitions;
