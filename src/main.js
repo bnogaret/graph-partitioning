@@ -113,76 +113,75 @@ app.on('ready', function () {
 
   // TODO for mesh
   ipcMain.on('exec-configuration', (event, obj) => {
+    var pathNumberOfPartitions = {
+      p: receivedPath,
+      n: obj.numberOfPartitions,
+    };
 
-      var pathNumberOfPartitions = {
-        p: receivedPath,
-        n: obj.numberOfPartitions,
-      };
-
-      if (obj.visResultsCheckBox === true) {
-        mainWindow.webContents.send('display-graph', pathNumberOfPartitions);
-      }
-
-      if (obj.metisRadioValue) {
-        console.log('\nValues send from UI:');
-        console.log('numberOfPartitions: ' + obj.numberOfPartitions);
-        console.log('ctype: ' + obj.ctype);
-        console.log('maxImbalance: ' + obj.maxImbalance);
-        console.log('niter: ' + obj.niter);
-        console.log('seed: ' + obj.seed);
-        console.log('ptype: ' + obj.ptype);
-        console.log('iptype: ' + obj.iptype);
-        console.log('objtype: ' + obj.objtype);
-        console.log('\n');
-
-        if (obj.remoteServerId) {
-          const server = db.getServer(obj.remoteServerId);
-          console.log(server);
-          // TODO: ask password and execute
-        } else {
-          let params = processReceivedMetisData(obj);
-          executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
-            if (error) {
-              mainWindow.webContents.send('error', error);
-            } else {
-              mainWindow.webContents.send('performance', result);
-            }
-          });
-        }
-      } else if (obj.parMetisRadioValue) {
-        console.log('\nValues send from UI:');
-        console.log('procsInputParMetis: ' + obj.procsInputParMetis);
-        console.log('numberOfPartitions: ' + obj.numberOfPartitions);
-        console.log('maxImbalanceParMetis: ' + obj.maxImbalanceParMetis);
-        console.log('parMetisSeed: ' + obj.seed);
-        console.log('\n');
-
-        if (obj.remoteServerId) {
-          const server = db.getServer(obj.remoteServerId);
-          console.log(server);
-          // TODO: ask password and execute
-        } else {
-          let params = processReceivedParMetisData(obj);
-          executionLib.execParMetis(receivedPath, obj.procsInputParMetis, params, (result, error) => {
-            if (error) {
-              mainWindow.webContents.send('error', error);
-            } else {
-              mainWindow.webContents.send('performance', result);
-            }
-          }); 
+    if (obj.visResultsCheckBox === true) {
+      mainWindow.webContents.send('display-graph', pathNumberOfPartitions);
     }
-  } else if (obj.chacoOption) {
-    console.log(obj);
-    let params = processReceivedChacoData(obj);
-    console.log(params);
-  }
-});
 
-// Emitted when the window is closed.
-mainWindow.on('closed', function () {
-// Dereference the window object, usually you would store windows
-// in an array if your app supports multi windows, this is the time
-// when you should delete the corresponding element.
-mainWindow = null;
-});
+    if (obj.choiceLibrary === '1') {
+      console.log('\nValues send from UI:');
+      console.log('numberOfPartitions: ' + obj.numberOfPartitions);
+      console.log('ctype: ' + obj.ctype);
+      console.log('maxImbalance: ' + obj.maxImbalance);
+      console.log('niter: ' + obj.niter);
+      console.log('seed: ' + obj.seed);
+      console.log('ptype: ' + obj.ptype);
+      console.log('iptype: ' + obj.iptype);
+      console.log('objtype: ' + obj.objtype);
+      console.log('\n');
+
+      if (obj.remoteServerId) {
+        const server = db.getServer(obj.remoteServerId);
+        console.log(server);
+        // TODO: ask password and execute
+      } else {
+        let params = processReceivedMetisData(obj);
+        executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
+          if (error) {
+            mainWindow.webContents.send('error', error);
+          } else {
+            mainWindow.webContents.send('performance', result);
+          }
+        });
+      }
+    } else if (obj.parMetisRadioValue === '2') {
+      console.log('\nValues send from UI:');
+      console.log('procsInputParMetis: ' + obj.procsInputParMetis);
+      console.log('numberOfPartitions: ' + obj.numberOfPartitions);
+      console.log('maxImbalanceParMetis: ' + obj.maxImbalanceParMetis);
+      console.log('parMetisSeed: ' + obj.seed);
+      console.log('\n');
+
+      if (obj.remoteServerId) {
+        const server = db.getServer(obj.remoteServerId);
+        console.log(server);
+        // TODO: ask password and execute
+      } else {
+        let params = processReceivedParMetisData(obj);
+        executionLib.execParMetis(receivedPath, obj.procsInputParMetis, params, (result, error) => {
+          if (error) {
+            mainWindow.webContents.send('error', error);
+          } else {
+            mainWindow.webContents.send('performance', result);
+          }
+        });
+      }
+    } else if (process.platform === 'linux' && obj.choiceLibrary === '3') {
+      console.log(obj);
+      let params = processReceivedChacoData(obj);
+      console.log(params);
+    }
+  });
+
+  // Emitted when the window is closed.
+  mainWindow.on('closed', function () {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    mainWindow = null;
+  });
 });

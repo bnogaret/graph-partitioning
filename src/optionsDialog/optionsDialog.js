@@ -149,11 +149,11 @@ buttonClose.addEventListener('click', () => {
 
 buttonOk.addEventListener('click', () => {
   const remoteServerSelect = document.getElementById('remoteServer');
+  const choiceLibrary = document.querySelector('input[name="choice-library"]:checked');
   if (metisOption.checked === true) {
     let options = {
-      // radiobuttons options
-      parMetisRadioValue: parMetisOption.checked,
-      metisRadioValue: metisOption.checked,
+      // choice of the library
+      choiceLibrary: choiceLibrary.value,
       // Number of partitions
       numberOfPartitions: numberOfPartitions.value,
       // Metis values. Sending all values, validation is in main.js before executing lib
@@ -172,9 +172,8 @@ buttonOk.addEventListener('click', () => {
     ipcRenderer.send('exec-configuration', options);
   } else if (parMetisOption.checked === true) {
     let options = {
-      // radiobuttons options
-      parMetisRadioValue: parMetisOption.checked,
-      metisRadioValue: metisOption.checked,
+      // choice of the library
+      choiceLibrary: choiceLibrary.value,
       // Number of partitions
       numberOfPartitions: numberOfPartitions.value,
       // Parmetis values
@@ -190,10 +189,8 @@ buttonOk.addEventListener('click', () => {
     ipcRenderer.send('exec-configuration', options);
   } else if (chacoOption.checked) {
     let options = {
-      // radiobuttons options
-      parMetisRadioValue: parMetisOption.checked,
-      metisRadioValue: metisOption.checked,
-      chacoRadioValue: chacoOption.checked,
+      // choice of the library
+      choiceLibrary: choiceLibrary.value,
       // Number of partitions
       numberOfPartitions: numberOfPartitions.value,
       // Chaco values
@@ -207,11 +204,10 @@ buttonOk.addEventListener('click', () => {
     console.log(options);
     ipcRenderer.send('exec-configuration', options);
   }
-
   window.close();
 });
 
-console.log(document.querySelectorAll('input[name="choice-library"]'));
-console.log(document.querySelectorAll('input[name="choice-library"]:checked').value);
-console.log(navigator.appVersion);
-console.log(isLinux());
+// console.log(document.querySelectorAll('input[name="choice-library"]'));
+// console.log(document.querySelector('input[name="choice-library"]:checked').value);
+// console.log(navigator.appVersion);
+// console.log(isLinux());
