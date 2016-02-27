@@ -4,6 +4,7 @@ const ipcRenderer = require('electron').ipcRenderer;
 
 const localDatabase = require('../db/localDatabase.js').localDatabase;
 
+
 function isLinux() {
   return (navigator.appVersion.indexOf('Linux') !== -1);
 }
@@ -37,6 +38,10 @@ if (servers) {
 const metisOption = document.querySelector('#metisOption');
 const parMetisOption = document.querySelector('#parMetisOption');
 const chacoOption = document.querySelector('#chacoOption');
+
+const remoteServerSelect = document.getElementById('remoteServer');
+const password = document.getElementById('password');
+const passwordElement = document.getElementById('passwordElement');
 
 // Common multiple libraries
 const numberOfPartitions = document.querySelector('#input-number_partitions');
@@ -115,6 +120,16 @@ ptype.addEventListener('change', () => {
   }
 });
 
+remoteServerSelect.addEventListener('change', () => {
+  if (remoteServerSelect.value !== '') {
+    console.log('User has chosen a SERVER!');
+    passwordElement.style.display = 'block';
+  } else {
+    passwordElement.style.display = 'none';
+    passwordElement.value = '';
+  }
+});
+
 // Handle display / hide of chaco options
 chacoPartitioningMethod.addEventListener('change', () => {
   switch(chacoPartitioningMethod.options[chacoPartitioningMethod.selectedIndex].value) {
@@ -148,7 +163,6 @@ buttonClose.addEventListener('click', () => {
 });
 
 buttonOk.addEventListener('click', () => {
-  const remoteServerSelect = document.getElementById('remoteServer');
   const choiceLibrary = document.querySelector('input[name="choice-library"]:checked');
   if (metisOption.checked === true) {
     let options = {
@@ -205,6 +219,8 @@ buttonOk.addEventListener('click', () => {
     console.log(options);
     ipcRenderer.send('exec-configuration', options);
   }
+
+
   window.close();
 });
 
