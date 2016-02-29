@@ -33,7 +33,7 @@ function createApplicationMenu() {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
               createWindow(661, 606, '/optionsDialog/optionsDialog.html');
-              ipcRenderer.send('graph-path', file);
+              ipcRenderer.send('exe-initialization', file, false);
             }
           },
         },
@@ -41,12 +41,9 @@ function createApplicationMenu() {
           label: 'New mesh',
           click: () => {
             let file = fileDialog.getFile();
-            if (typeof file !== 'undefined') {               
-             var win = createWindow(661, 606, '/optionsDialog/optionsDialog.html');
-              ipcRenderer.send('graph-path', file);              
-              
-              let isMesh = true;
-              ipcRenderer.send('isMesh', isMesh);
+            if (typeof file !== 'undefined') {
+              createWindow(661, 606, '/optionsDialog/optionsDialog.html');
+              ipcRenderer.send('exe-initialization', file, true);
             }
           },
         },

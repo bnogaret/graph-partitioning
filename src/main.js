@@ -62,13 +62,9 @@ app.on('ready', function () {
   });
 
   // get file path from applicationMenu
-  ipcMain.on('graph-path', (event, fp) => {
+  ipcMain.on('exe-initialization', (event, fp, isMeshOption) => {
     receivedPath = fp;
-  });
-
-  ipcMain.on('isMesh', (event, fp) => {
-    isMesh = fp;
-    console.log('MESSAGE RECEIVED IN MAIN.JS: ' + fp);
+    isMesh = isMeshOption;
   });
 
   /**
