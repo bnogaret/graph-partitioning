@@ -21,6 +21,15 @@ ipcRenderer.on('display-notification', (event, message, type) => {
 ipcRenderer.on('error', (event, obj) => {
   notification(obj, 'alert');
 });
+
+ipcRenderer.on('check-error', (event, obj) => {
+  console.log('\n CHECK ERROR \n' + obj);
+  if (/Missing parameters/.test(obj)) {
+    notification(obj, 'alert');
+  }
+    
+});
+
 var exampleGraph = document.querySelector('#example-graph');
 exampleGraph.addEventListener('click', () => {
   rendering.preview('graph');
@@ -52,7 +61,6 @@ var about = document.querySelector('#about');
 about.addEventListener('click', showOverlay);
 
 ipcRenderer.on('performance', (event, obj) => {
-  console.log('\n INDEXHTML PERFORMANCE: \n' + obj + '\n');
   performance.perf(obj);
 });
 

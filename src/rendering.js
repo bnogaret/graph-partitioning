@@ -425,7 +425,7 @@ function addColor() {
     0x17becfff, 0x9edae5ff,
   ];
   // Read output file from metis
-  if (isMesh) {
+  if (App.isMesh) {
     var output = App.fileInput + '.npart.' + App.numberOfPartitions;
   } else {
     var output = App.fileInput + '.part.' + App.numberOfPartitions;
