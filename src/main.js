@@ -7,7 +7,6 @@ const ipcMain = require('electron').ipcMain;
 const executionLib = require('./executionLib');
 
 const localDatabase = require('./db/localDatabase.js').localDatabase;
-const test = require('./ssh/process.js').process;
 const sendToRemote = require('./ssh/process.js').process;
 
 var receivedPath = null;
@@ -129,22 +128,22 @@ app.on('ready', function () {
     };
     switch(object.partitioningMethod) {
       case '1': // Multilevel - Kernighan-Lin
-        executionParameters['vertices'] = object.vertices;
+        executionParameters.vertices = object.vertices;
         break;
       case '2': // Spectral
-        executionParameters['eigensolver'] = object.eigensolver;
-        executionParameters['vertices'] = object.eigensolver === '1' ? object.vertices : '';
-        executionParameters['localRefinement'] = object.localRefinement;
+        executionParameters.eigensolver = object.eigensolver;
+        executionParameters.vertices = object.eigensolver === '1' ? object.vertices : '';
+        executionParameters.localRefinement = object.localRefinement;
         break;
       case '4': // Linear
       case '5': // Random
       case '6': // Scattered
       default:
-        executionParameters['localRefinement'] = object.localRefinement;
+        executionParameters.localRefinement = object.localRefinement;
         break;
     }
-    executionParameters['numberOfPartitions'] = object.numberOfPartitions;
-    executionParameters['partitioningDimension'] = getPartitioningDimension(object.numberOfPartitions, object.partitioningDimension);
+    executionParameters.numberOfPartitions = object.numberOfPartitions;
+    executionParameters.partitioningDimension = getPartitioningDimension(object.numberOfPartitions, object.partitioningDimension);
     return executionParameters;
   }
 
