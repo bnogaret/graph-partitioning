@@ -72,32 +72,25 @@ app.on('ready', function () {
    * @param {object} object
    * @return {object}
    */
-  function processReceivedMetisData(object) {
-    let executionParameters = {};
+  function processReceivedMetisData(object, isMesh) {
+    var executionParameters = {
+      ptype: object.ptype,
+      ctype: object.ctype,
+      seed: object.seed,
+      niter: object.niter,
+      ufactor: object.maxImbalance
+    };
+
     if (object.ptype === 'rb') {
-      executionParameters = {
-        ptype: object.ptype,
-        ctype: object.ctype,
-        iptype: object.iptype,
-        seed: object.seed,
-        niter: object.niter,
-        ubvec: object.maxImbalance,
-      };
-      console.log('FUNCTION processReceivedData returns FOR: rb');
-      return executionParameters;
+      executionParameters.iptype = object.iptype;
+      console.log('FUNCTION processReceivedData returns FOR: rb');      
+      
     } else if (object.ptype === 'kway') {
-      executionParameters = {
-        ptype: object.ptype,
-        ctype: object.ctype,
-        objtype: object.objtype,
-        niter: object.niter,
-        seed: object.seed,
-        ubvec: object.maxImbalance,
-      };
+      executionParameters.objtype = object.objtype;      
       console.log('FUNCTION processReceivedData returns FOR: kway');
-      return executionParameters;
     }
-    return {};
+    console.log( executionParameters);    
+    return executionParameters;
   }
 
   function processReceivedParMetisData(object) {
@@ -127,21 +120,21 @@ app.on('ready', function () {
     let executionParameters = {
       partitioningMethod: object.partitioningMethod ? object.partitioningMethod : '5',
     };
-    switch(object.partitioningMethod) {
-      case '1': // Multilevel - Kernighan-Lin
-        executionParameters['vertices'] = object.vertices;
-        break;
-      case '2': // Spectral
-        executionParameters['eigensolver'] = object.eigensolver;
-        executionParameters['vertices'] = object.eigensolver === '1' ? object.vertices : '';
-        executionParameters['localRefinement'] = object.localRefinement;
-        break;
-      case '4': // Linear
-      case '5': // Random
-      case '6': // Scattered
-      default:
-        executionParameters['localRefinement'] = object.localRefinement;
-        break;
+    switch (object.partitioningMethod) {
+    case '1': // Multilevel - Kernighan-Lin
+      executionParameters['vertices'] = object.vertices;
+      break;
+    case '2': // Spectral
+      executionParameters['eigensolver'] = object.eigensolver;
+      executionParameters['vertices'] = object.eigensolver === '1' ? object.vertices : '';
+      executionParameters['localRefinement'] = object.localRefinement;
+      break;
+    case '4': // Linear
+    case '5': // Random
+    case '6': // Scattered
+    default:
+      executionParameters['localRefinement'] = object.localRefinement;
+      break;
     }
     executionParameters['numberOfPartitions'] = object.numberOfPartitions;
     executionParameters['partitioningDimension'] = getPartitioningDimension(object.numberOfPartitions, object.partitioningDimension);
@@ -174,7 +167,7 @@ app.on('ready', function () {
 
         // sendToRemote(server, pathNumberOfPartitions.p, 'mpmetis', obj.numberOfPartitions, obj.password);
       } else {
-        let params = processReceivedMetisData(obj);
+        let params = processReceivedMetisData(obj,isMesh);
         if (isMesh === false) {
           executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
             if (error) {
@@ -184,9 +177,7 @@ app.on('ready', function () {
             }
           });
         } else {
-          console.log('METIS IS GOING TO WORK FOR A MESH!');
-          let gtype = 'nodal'; // should remain set staticly
-          executionLib.execMpMetis(receivedPath, obj.numberOfPartitions, params, gtype, (result, error) => {
+          executionLib.execMpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
             if (error) {
               mainWindow.webContents.send('error', error);
             } else {
