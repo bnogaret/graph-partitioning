@@ -213,7 +213,7 @@ app.on('ready', function () {
           }
         });
       }
-    } else if (process.platform === 'linux' && obj.choiceLibrary === '3') {
+    } else if (process.platform === 'linux' && obj.choiceLibrary === '3' && !isMesh) {
       console.log(obj);
       let params = processReceivedChacoData(obj);
       console.log(params);
