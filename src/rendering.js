@@ -10,11 +10,11 @@ var color = false;
 var runGraphBtn = document.getElementById('run-graph');
 var pauseGraphBtn = document.getElementById('pause-graph');
 
-runGraphBtn.addEventListener('click',() => {
+runGraphBtn.addEventListener('click', () => {
   App.renderer.resume();
 });
 
-pauseGraphBtn.addEventListener('click',() => {
+pauseGraphBtn.addEventListener('click', () => {
   App.renderer.pause();
 });
 
@@ -395,9 +395,19 @@ function onLoad(file) {
   App.renderer.run();
   App.renderer.pause();
 }
+
+// Variable define within index.js in order to name correctly the output 
 App.numberOfPartitions = 0;
+
 function setNumberOfPartitions(n) {
   App.numberOfPartitions = n;
+}
+
+// Variable define within index.js in order to name correctly the output 
+App.isMesh = null;
+
+function isMesh(mesh) {
+  App.isMesh = mesh;
 }
 
 function addColor() {
@@ -415,8 +425,12 @@ function addColor() {
     0x17becfff, 0x9edae5ff,
   ];
   // Read output file from metis
+  if (isMesh) {
+    var output = App.fileInput + '.npart.' + App.numberOfPartitions;
+  } else {
+    var output = App.fileInput + '.part.' + App.numberOfPartitions;
+  }
 
-  var output = App.fileInput + '.part.' + App.numberOfPartitions;
   function addColors(link) {
     var outputs = fs.readFileSync(link, 'utf-8');
     var processors = outputs.split('\n');
@@ -435,8 +449,12 @@ function removeColor() {
   var defaultColor = 0x1f77b4ff;
 
   // Read output file from metis
+  if (isMesh) {
+    var output = App.fileInput + '.npart.' + App.numberOfPartitions;
+  } else {
+    var output = App.fileInput + '.part.' + App.numberOfPartitions;
+  }
 
-  var output = App.fileInput + '.part.' + App.numberOfPartitions;
   function addColors(link) {
     var outputs = fs.readFileSync(link, 'utf-8');
     var processors = outputs.split('\n');
@@ -593,7 +611,7 @@ function intro() {
   if (typeof App.graph !== 'undefined') {
     App.renderer.dispose();
   }
-  
+
   App.graph = Viva.Graph.graph();
   App.layout = Viva.Graph.Layout.forceDirected(App.graph);
   App.graphics = Viva.Graph.View.webglGraphics();
@@ -625,7 +643,7 @@ function intro() {
     renderLinks: true,
   });
   App.renderer.run();
-  
+
   beginAddNodesLoop(graph);
 
 
@@ -683,3 +701,4 @@ module.exports.loadNewGraphWithLinks = loadNewGraphWithLinks;
 module.exports.preview = preview;
 module.exports.intro = intro;
 module.exports.setNumberOfPartitions = setNumberOfPartitions;
+module.exports.isMesh = isMesh;

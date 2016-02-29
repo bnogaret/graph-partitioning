@@ -149,13 +149,14 @@ app.on('ready', function () {
 
   // TODO for mesh
   ipcMain.on('exec-configuration', (event, obj) => {
-    var pathNumberOfPartitions = {
+    var parametersDisplay = {
       p: receivedPath,
       n: obj.numberOfPartitions,
+      isMesh: isMesh,
     };
 
     if (obj.visResultsCheckBox === true) {
-      mainWindow.webContents.send('display-graph', pathNumberOfPartitions);
+      mainWindow.webContents.send('display-graph', parametersDisplay);
     }
 
     if (obj.choiceLibrary === '1') {

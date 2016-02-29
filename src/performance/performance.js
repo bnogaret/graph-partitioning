@@ -14,14 +14,14 @@ function readValue(input, keyword) {
 // Show the footer
 function changeOpacity(show) {
   switch (show) {
-    case true:
-      footer.style.opacity = '1';
-      break;
-    case false:
-      footer.style.opacity = '0';
-      break;
-    default:
-      break;
+  case true:
+    footer.style.opacity = '1';
+    break;
+  case false:
+    footer.style.opacity = '0';
+    break;
+  default:
+    break;
   }
 }
 
@@ -39,20 +39,20 @@ function perf(input) {
   perfValues.reporting = readValue(input, 'Reporting');
   perfValues.maxMemoryUsed = readValue(input, 'Max memory used');
 
-  (function (perfValues) {
-    var edgecut = document.getElementById('edgecut');
-    edgecut.innerHTML = 'Edgecut: ' + perfValues.edgecut;
-    var communication = document.getElementById('communication-volume');
-    communication.innerHTML = 'Communication volume: ' + perfValues.communicationVolume;
-    var io = document.getElementById('IO');
-    io.innerHTML = 'I/O: ' + perfValues.io + ' sec';
-    var partitioning = document.getElementById('partitioning');
-    partitioning.innerHTML = 'Partitioning: ' + perfValues.partitioning + ' sec';
-    var reporting = document.getElementById('reporting');
-    reporting.innerHTML = 'Reporting: ' + perfValues.reporting + ' sec';
-    var memory = document.getElementById('max-memory-used');
-    memory.innerHTML = 'Max memory used: ' + perfValues.maxMemoryUsed + 'MB';
-  })(perfValues);
+
+  var edgecut = document.getElementById('edgecut');
+  edgecut.innerHTML = 'Edgecut: ' + perfValues.edgecut;
+  var communication = document.getElementById('communication-volume');
+  communication.innerHTML = 'Communication volume: ' + perfValues.communicationVolume;
+  var io = document.getElementById('IO');
+  io.innerHTML = 'I/O: ' + perfValues.io + ' sec';
+  var partitioning = document.getElementById('partitioning');
+  partitioning.innerHTML = 'Partitioning: ' + perfValues.partitioning + ' sec';
+  var reporting = document.getElementById('reporting');
+  reporting.innerHTML = 'Reporting: ' + perfValues.reporting + ' sec';
+  var memory = document.getElementById('max-memory-used');
+  memory.innerHTML = 'Max memory used: ' + perfValues.maxMemoryUsed + 'MB';
+
 
   changeOpacity(true);
 }
