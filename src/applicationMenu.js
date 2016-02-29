@@ -33,7 +33,7 @@ function createApplicationMenu() {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
               createWindow(661, 606, '/optionsDialog/optionsDialog.html');
-              ipcRenderer.send('exe-initialization', file, false);
+              ipcRenderer.send('exe-initialization', file[0], false);
             }
           },
         },
@@ -43,7 +43,7 @@ function createApplicationMenu() {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
               createWindow(661, 606, '/optionsDialog/optionsDialog.html');
-              ipcRenderer.send('exe-initialization', file, true);
+              ipcRenderer.send('exe-initialization', file[0], true);
             }
           },
         },
@@ -84,27 +84,6 @@ function createApplicationMenu() {
           label: 'See servers',
           click: () => {
             createWindow(600, 500, '/server/seeServer.html');
-          },
-        },
-        {
-          label: 'Ask for password',
-          click: () => {
-            createWindow(600, 500, '/server/askPassword.html');
-          },
-        },
-        {
-          label: 'Test servers',
-          click: () => {
-            let file = fileDialog.getFile();
-            if (typeof file !== 'undefined') {
-              console.debug(`Ask for the password`);
-
-              console.debug(`Upload the file`);
-
-              console.debug(`Execute commands`);
-
-              console.debug(`Download the file`);
-            }
           },
         },
       ],

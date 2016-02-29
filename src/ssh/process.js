@@ -49,7 +49,13 @@ function download(config, localFile, remoteFile, eventEmitter) {
 }
 
 // TODO: create notifications
-function process(server, file, library, nparts, password) {
+function process(server, password, file, library, nparts, options) {
+  console.log(server);
+  console.log(password);
+  console.log(file);
+  console.log(library);
+  console.log(nparts);
+
   const eventEmitter = new EventEmitter();
   const config = {
     'host': server.host,
@@ -60,9 +66,18 @@ function process(server, file, library, nparts, password) {
     'readyTimeout': 10000,
   };
   const basename = path.basename(file);
+  let outputFile;
+  let resultFile;
+  if(library === 'mpmetis'){
+    outputFile = server.defaultPath + '/' + basename + '.npart';
+    resultFile = file + '.npart.' + nparts;
+  }
+  else{
+    outputFile = server.defaultPath + '/' + basename + '.part';
+    resultFile = file + '.part.' + nparts;
+  }
   const inputFile = server.defaultPath + '/' + basename;
-  let outputFile = server.defaultPath + '/' + basename + '.part';
-  const resultFile = file + '.part.' + nparts;
+  
   let commands = null;
   if (library === 'parmetis') {
     commands = [
@@ -105,6 +120,8 @@ function process(server, file, library, nparts, password) {
     console.log('UPLOAD - COMMAND - DOWNLOAD : SUCCESS!!!!');
   });
 
+  console.log(typeof file);
+  console.log(typeof inputFile);
   upload(config, file, inputFile, eventEmitter);
 }
 

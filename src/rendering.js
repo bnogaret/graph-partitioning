@@ -20,7 +20,7 @@ pauseGraphBtn.addEventListener('click', () => {
 
 function onLoad(file) {
   console.log('on load works');
-  App.fileInput = file[0];
+  App.fileInput = file;
 
   // In case we have already something draw
   if (typeof App.graph !== 'undefined') {
@@ -40,7 +40,7 @@ function onLoad(file) {
 
   // Step 1. Get the library to read and draw
 
-  var contents = fs.readFileSync(file[0], 'utf-8');
+  var contents = fs.readFileSync(App.fileInput, 'utf-8');
   var graph = App.graph;
 
   // Step 2. Each value of the array correspond to one line
@@ -396,14 +396,14 @@ function onLoad(file) {
   App.renderer.pause();
 }
 
-// Variable define within index.js in order to name correctly the output 
+// Variable define within index.js in order to name correctly the output
 App.numberOfPartitions = 0;
 
 function setNumberOfPartitions(n) {
   App.numberOfPartitions = n;
 }
 
-// Variable define within index.js in order to name correctly the output 
+// Variable define within index.js in order to name correctly the output
 App.isMesh = null;
 
 function isMesh(mesh) {
@@ -449,7 +449,7 @@ function removeColor() {
   var defaultColor = 0x1f77b4ff;
 
   // Read output file from metis
-  if (isMesh) {
+  if (App.isMesh) {
     var output = App.fileInput + '.npart.' + App.numberOfPartitions;
   } else {
     var output = App.fileInput + '.part.' + App.numberOfPartitions;
