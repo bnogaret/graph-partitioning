@@ -49,7 +49,13 @@ function download(config, localFile, remoteFile, eventEmitter) {
 }
 
 // TODO: create notifications
-function process(server, file, library, nparts, password) {
+function process(server, password, file, library, nparts, options) {
+  console.log(server);
+  console.log(password);
+  console.log(file);
+  console.log(library);
+  console.log(nparts);
+
   const eventEmitter = new EventEmitter();
   const config = {
     'host': server.host,
@@ -105,6 +111,8 @@ function process(server, file, library, nparts, password) {
     console.log('UPLOAD - COMMAND - DOWNLOAD : SUCCESS!!!!');
   });
 
+  console.log(typeof file);
+  console.log(typeof inputFile);
   upload(config, file, inputFile, eventEmitter);
 }
 

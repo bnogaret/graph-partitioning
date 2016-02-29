@@ -33,7 +33,7 @@ function createApplicationMenu() {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
               createWindow(661, 606, '/optionsDialog/optionsDialog.html');
-              ipcRenderer.send('exe-initialization', file, false);
+              ipcRenderer.send('exe-initialization', file[0], false);
             }
           },
         },
@@ -43,7 +43,7 @@ function createApplicationMenu() {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
               createWindow(661, 606, '/optionsDialog/optionsDialog.html');
-              ipcRenderer.send('exe-initialization', file, true);
+              ipcRenderer.send('exe-initialization', file[0], true);
             }
           },
         },

@@ -71,24 +71,21 @@ app.on('ready', function () {
    * @param {object} object
    * @return {object}
    */
-  function processReceivedMetisData(object, isMesh) {
+  function processReceivedMetisData(object) {
     var executionParameters = {
       ptype: object.ptype,
       ctype: object.ctype,
       seed: object.seed,
       niter: object.niter,
-      ufactor: object.maxImbalance
+      ufactor: object.maxImbalance,
     };
 
     if (object.ptype === 'rb') {
       executionParameters.iptype = object.iptype;
-      console.log('FUNCTION processReceivedData returns FOR: rb');      
-      
     } else if (object.ptype === 'kway') {
-      executionParameters.objtype = object.objtype;      
-      console.log('FUNCTION processReceivedData returns FOR: kway');
+      executionParameters.objtype = object.objtype;
     }
-    console.log( executionParameters);    
+    console.log(executionParameters);
     return executionParameters;
   }
 
@@ -120,20 +117,20 @@ app.on('ready', function () {
       partitioningMethod: object.partitioningMethod ? object.partitioningMethod : '5',
     };
     switch (object.partitioningMethod) {
-    case '1': // Multilevel - Kernighan-Lin
-      executionParameters.vertices = object.vertices;
-      break;
-    case '2': // Spectral
-      executionParameters.eigensolver = object.eigensolver;
-      executionParameters.vertices = object.eigensolver === '1' ? object.vertices : '';
-      executionParameters.localRefinement = object.localRefinement;
-      break;
-    case '4': // Linear
-    case '5': // Random
-    case '6': // Scattered
-    default:
-      executionParameters.localRefinement = object.localRefinement;
-      break;
+      case '1': // Multilevel - Kernighan-Lin
+        executionParameters.vertices = object.vertices;
+        break;
+      case '2': // Spectral
+        executionParameters.eigensolver = object.eigensolver;
+        executionParameters.vertices = object.eigensolver === '1' ? object.vertices : '';
+        executionParameters.localRefinement = object.localRefinement;
+        break;
+      case '4': // Linear
+      case '5': // Random
+      case '6': // Scattered
+      default:
+        executionParameters.localRefinement = object.localRefinement;
+        break;
     }
     executionParameters.numberOfPartitions = object.numberOfPartitions;
     executionParameters.partitioningDimension = getPartitioningDimension(object.numberOfPartitions, object.partitioningDimension);
@@ -152,53 +149,46 @@ app.on('ready', function () {
       mainWindow.webContents.send('display-graph', parametersDisplay);
     }
 
+    console.log('\nValues send from UI:');
+    console.log(obj);
+    console.log('\n');
+
     if (obj.choiceLibrary === '1') {
-      console.log('\nValues send from UI:');
-      console.log(obj);
-      console.log('\n');
+      let params = processReceivedMetisData(obj);
 
       if (obj.remoteServerId) {
         const server = db.getServer(obj.remoteServerId);
-
-        console.log('Server: ' + server);
-        // TODO: ask password and execute
-        // password already in variable obj.password;
-        console.log('PASSWORD IS: ' + obj.password);
-
-        // sendToRemote(server, pathNumberOfPartitions.p, 'mpmetis', obj.numberOfPartitions, obj.password);
-      } else {
-        let params = processReceivedMetisData(obj,isMesh);
-        if (isMesh === false) {
-          executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
-            if (error) {
-              mainWindow.webContents.send('error', error);
-            } else {
-              mainWindow.webContents.send('performance', result);
-              mainWindow.webContents.send('check-error', result); // it can compute with error such as missing parameters   
-            }
-          });
+        if (isMesh) {
+          sendToRemote(server, obj.password, receivedPath, 'mpmetis', obj.numberOfPartitions, params);
         } else {
-          executionLib.execMpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
-            if (error) {
-              mainWindow.webContents.send('error', error);
-            } else {
-              mainWindow.webContents.send('performance', result);
-              mainWindow.webContents.send('check-error', result); // it can compute with error such as missing parameters   
-            }
-          });
+          sendToRemote(server, obj.password, receivedPath, 'gpmetis', obj.numberOfPartitions, params);
         }
+      } else if (!isMesh) {
+        executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
+          if (error) {
+            mainWindow.webContents.send('error', error);
+          } else {
+            mainWindow.webContents.send('performance', result);
+            mainWindow.webContents.send('check-error', result); // it can compute with error such as missing parameters
+          }
+        });
+      } else {
+        executionLib.execMpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
+          if (error) {
+            mainWindow.webContents.send('error', error);
+          } else {
+            mainWindow.webContents.send('performance', result);
+            mainWindow.webContents.send('check-error', result); // it can compute with error such as missing parameters
+          }
+        });
       }
     } else if (obj.parMetisRadioValue === '2') {
-      console.log('\nValues send from UI:');
-      console.log(obj);
-      console.log('\n');
+      let params = processReceivedParMetisData(obj);
 
       if (obj.remoteServerId) {
         const server = db.getServer(obj.remoteServerId);
-        console.log(server);
-        // TODO: ask password and execute
+        sendToRemote(server, receivedPath, obj.password, 'parmetis', obj.numberOfPartitions, params);
       } else {
-        let params = processReceivedParMetisData(obj);
         executionLib.execParMetis(receivedPath, obj.procsInputParMetis, params, (result, error) => {
           if (error) {
             mainWindow.webContents.send('error', error);
