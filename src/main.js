@@ -8,8 +8,10 @@ const executionLib = require('./executionLib');
 
 const localDatabase = require('./db/localDatabase.js').localDatabase;
 const test = require('./ssh/process.js').process;
+const sendToRemote = require('./ssh/process.js').process;
 
 var receivedPath = null;
+var isMesh = false;
 // Report crashes to our server.
 electron.crashReporter.start();
 
@@ -62,6 +64,11 @@ app.on('ready', function () {
   // get file path from applicationMenu
   ipcMain.on('graph-path', (event, fp) => {
     receivedPath = fp;
+  });
+
+  ipcMain.on('isMesh', (event, fp) => {
+    isMesh = fp;
+    console.log('MESSAGE RECEIVED IN MAIN.JS: ' + fp);
   });
 
   /**
@@ -163,17 +170,34 @@ app.on('ready', function () {
 
       if (obj.remoteServerId) {
         const server = db.getServer(obj.remoteServerId);
-        console.log(server);
+
+        console.log('Server: ' + server);
         // TODO: ask password and execute
+        // password already in variable obj.password;
+        console.log('PASSWORD IS: ' + obj.password);
+
+        // sendToRemote(server, pathNumberOfPartitions.p, 'mpmetis', obj.numberOfPartitions, obj.password);
       } else {
         let params = processReceivedMetisData(obj);
-        executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
-          if (error) {
-            mainWindow.webContents.send('error', error);
-          } else {
-            mainWindow.webContents.send('performance', result);
-          }
-        });
+        if (isMesh === false) {
+          executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
+            if (error) {
+              mainWindow.webContents.send('error', error);
+            } else {
+              mainWindow.webContents.send('performance', result);
+            }
+          });
+        } else {
+          console.log('METIS IS GOING TO WORK FOR A MESH!');
+          let gtype = 'nodal'; // should remain set staticly
+          executionLib.execMpMetis(receivedPath, obj.numberOfPartitions, params, gtype, (result, error) => {
+            if (error) {
+              mainWindow.webContents.send('error', error);
+            } else {
+              mainWindow.webContents.send('performance', result);
+            }
+          });
+        }
       }
     } else if (obj.parMetisRadioValue === '2') {
       console.log('\nValues send from UI:');

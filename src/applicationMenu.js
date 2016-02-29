@@ -42,8 +42,11 @@ function createApplicationMenu() {
           click: () => {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {               
-              createWindow(661, 606, '/optionsDialog/optionsDialog.html');
-              ipcRenderer.send('graph-path', file);
+             var win = createWindow(661, 606, '/optionsDialog/optionsDialog.html');
+              ipcRenderer.send('graph-path', file);              
+              
+              let isMesh = true;
+              ipcRenderer.send('isMesh', isMesh);
             }
           },
         },

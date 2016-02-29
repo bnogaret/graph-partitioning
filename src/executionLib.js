@@ -58,7 +58,7 @@ function execGpMetis(file, nbPartitions, parameters, callback) {
   });
 }
 
-function execMpMetis(file, nbPartitions, parameters, callback) {
+function execMpMetis(file, nbPartitions, parameters, gtype, callback) {
   let program = PROGRAM_DIRECTORY + 'mpmetis';
   if (process.platform === 'win32') {
     program += '.exe';

@@ -104,6 +104,8 @@ chacoOption.addEventListener('click', () => {
   chacoForm.style.display = 'block';
 });
 
+
+
 // handle case when iptype/objtype should be hidden/visible in case of ptype value
 ptype.addEventListener('change', () => {
   console.log('ptype');
@@ -182,6 +184,7 @@ buttonOk.addEventListener('click', () => {
       visResultsCheckBox: visResultsCheckBox.checked,
       // remote server
       remoteServerId: remoteServerSelect ? remoteServerSelect.value : '',
+      password: password.value,
     };
     ipcRenderer.send('exec-configuration', options);
   } else if (parMetisOption.checked === true) {
@@ -199,6 +202,7 @@ buttonOk.addEventListener('click', () => {
       visResultsCheckBox: visResultsCheckBox.checked,
       // remote server
       remoteServerId: remoteServerSelect ? remoteServerSelect.value : '',
+      password: password.value,
     };
     ipcRenderer.send('exec-configuration', options);
   } else if (chacoOption.checked) {

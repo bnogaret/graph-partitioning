@@ -49,12 +49,12 @@ function download(config, localFile, remoteFile, eventEmitter) {
 }
 
 // TODO: create notifications
-function process(server, file, library, nparts) {
+function process(server, file, library, nparts, password) {
   const eventEmitter = new EventEmitter();
   const config = {
     'host': server.host,
     'username': server.username,
-    'password': server.password,
+    'password': password,
     'port': server.port,
     'tryKeyboard': true,
     'readyTimeout': 10000,
