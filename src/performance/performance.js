@@ -41,17 +41,17 @@ function perf(input) {
 
   (function (perfValues) {
     var edgecut = document.getElementById('edgecut');
-    edgecut.innerHTML += perfValues.edgecut;
+    edgecut.innerHTML = 'Edgecut: ' + perfValues.edgecut;
     var communication = document.getElementById('communication-volume');
-    communication.innerHTML += perfValues.communicationVolume;
+    communication.innerHTML = 'Communication volume: ' + perfValues.communicationVolume;
     var io = document.getElementById('IO');
-    io.innerHTML += perfValues.io + ' sec';
+    io.innerHTML = 'I/O: ' + perfValues.io + ' sec';
     var partitioning = document.getElementById('partitioning');
-    partitioning.innerHTML += perfValues.partitioning + ' sec';
+    partitioning.innerHTML = 'Partitioning: ' + perfValues.partitioning + ' sec';
     var reporting = document.getElementById('reporting');
-    reporting.innerHTML += perfValues.reporting + ' sec';
+    reporting.innerHTML = 'Reporting: ' + perfValues.reporting + ' sec';
     var memory = document.getElementById('max-memory-used');
-    memory.innerHTML += perfValues.maxMemoryUsed + 'MB';
+    memory.innerHTML = 'Max memory used: ' + perfValues.maxMemoryUsed + 'MB';
   })(perfValues);
 
   changeOpacity(true);
