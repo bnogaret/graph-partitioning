@@ -66,9 +66,18 @@ function process(server, password, file, library, nparts, options) {
     'readyTimeout': 10000,
   };
   const basename = path.basename(file);
+  let outputFile;
+  let resultFile;
+  if(library === 'mpmetis'){
+    outputFile = server.defaultPath + '/' + basename + '.npart';
+    resultFile = file + '.npart.' + nparts;
+  }
+  else{
+    outputFile = server.defaultPath + '/' + basename + '.part';
+    resultFile = file + '.part.' + nparts;
+  }
   const inputFile = server.defaultPath + '/' + basename;
-  let outputFile = server.defaultPath + '/' + basename + '.part';
-  const resultFile = file + '.part.' + nparts;
+  
   let commands = null;
   if (library === 'parmetis') {
     commands = [
