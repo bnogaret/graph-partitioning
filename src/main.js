@@ -57,7 +57,7 @@ app.on('ready', function () {
   const db = new localDatabase();
 
   ipcMain.on('add-server', (event, server) => {
-    server.id = randomIntInc();
+    server.id = randomIntInc().toString();
     db.addServer(server);
   });
 
