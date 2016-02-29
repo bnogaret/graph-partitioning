@@ -86,27 +86,6 @@ function createApplicationMenu() {
             createWindow(600, 500, '/server/seeServer.html');
           },
         },
-        {
-          label: 'Ask for password',
-          click: () => {
-            createWindow(600, 500, '/server/askPassword.html');
-          },
-        },
-        {
-          label: 'Test servers',
-          click: () => {
-            let file = fileDialog.getFile();
-            if (typeof file !== 'undefined') {
-              console.debug(`Ask for the password`);
-
-              console.debug(`Upload the file`);
-
-              console.debug(`Execute commands`);
-
-              console.debug(`Download the file`);
-            }
-          },
-        },
       ],
     },
   ];
