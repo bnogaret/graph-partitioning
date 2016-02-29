@@ -104,6 +104,8 @@ chacoOption.addEventListener('click', () => {
   chacoForm.style.display = 'block';
 });
 
+
+
 // handle case when iptype/objtype should be hidden/visible in case of ptype value
 ptype.addEventListener('change', () => {
   console.log('ptype');
@@ -124,7 +126,8 @@ remoteServerSelect.addEventListener('change', () => {
   if (remoteServerSelect.value != '') {
     console.log('User has chosen a SERVER!');
     passwordElement.style.display = 'block';
-  } else {
+    }
+   else {
     passwordElement.style.display = 'none';
     passwordElement.value = '';
   }
@@ -183,6 +186,7 @@ buttonOk.addEventListener('click', () => {
       visResultsCheckBox: visResultsCheckBox.checked,
       // remote server
       remoteServerId: remoteServerSelect ? remoteServerSelect.value : '',
+      password: password.value,
     };
     ipcRenderer.send('exec-configuration', options);
   } else if (parMetisOption.checked === true) {
@@ -200,6 +204,7 @@ buttonOk.addEventListener('click', () => {
       visResultsCheckBox: visResultsCheckBox.checked,
       // remote server
       remoteServerId: remoteServerSelect ? remoteServerSelect.value : '',
+      password: password.value,
     };
     ipcRenderer.send('exec-configuration', options);
   } else if (chacoOption.checked) {
