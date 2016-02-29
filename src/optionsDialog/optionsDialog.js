@@ -123,7 +123,7 @@ ptype.addEventListener('change', () => {
 });
 
 remoteServerSelect.addEventListener('change', () => {
-  if (remoteServerSelect.value != '') {
+  if (remoteServerSelect.value !== '') {
     console.log('User has chosen a SERVER!');
     passwordElement.style.display = 'block';
     }
@@ -135,29 +135,29 @@ remoteServerSelect.addEventListener('change', () => {
 
 // Handle display / hide of chaco options
 chacoPartitioningMethod.addEventListener('change', () => {
-  switch (chacoPartitioningMethod.options[chacoPartitioningMethod.selectedIndex].value) {
-  case '1':
-    chacoDivVertices.style.display = 'block';
-    chacoDivEigensolver.style.display = 'none';
-    chacoDivLocalRefinement.style.display = 'none';
-    break;
-  case '2':
-    chacoDivVertices.style.display = 'block';
-    chacoDivEigensolver.style.display = 'block';
-    chacoDivLocalRefinement.style.display = 'block';
-    break;
-  case '4':
-  case '5':
-  case '6':
-    chacoDivVertices.style.display = 'block';
-    chacoDivEigensolver.style.display = 'none';
-    chacoDivLocalRefinement.style.display = 'block';
-    break;
-  default:
-    chacoDivVertices.style.display = 'none';
-    chacoDivEigensolver.style.display = 'none';
-    chacoDivLocalRefinement.style.display = 'none';
-    break;
+  switch(chacoPartitioningMethod.options[chacoPartitioningMethod.selectedIndex].value) {
+    case '1':
+      chacoDivVertices.style.display = 'block';
+      chacoDivEigensolver.style.display = 'none';
+      chacoDivLocalRefinement.style.display = 'none';
+      break;
+    case '2':
+      chacoDivVertices.style.display = 'block';
+      chacoDivEigensolver.style.display = 'block';
+      chacoDivLocalRefinement.style.display = 'block';
+      break;
+    case '4':
+    case '5':
+    case '6':
+      chacoDivVertices.style.display = 'none';
+      chacoDivEigensolver.style.display = 'none';
+      chacoDivLocalRefinement.style.display = 'block';
+      break;
+    default:
+      chacoDivVertices.style.display = 'none';
+      chacoDivEigensolver.style.display = 'none';
+      chacoDivLocalRefinement.style.display = 'none';
+      break;
   }
 });
 
@@ -166,7 +166,6 @@ buttonClose.addEventListener('click', () => {
 });
 
 buttonOk.addEventListener('click', () => {
-
   const choiceLibrary = document.querySelector('input[name="choice-library"]:checked');
   if (metisOption.checked === true) {
     let options = {
@@ -214,6 +213,7 @@ buttonOk.addEventListener('click', () => {
       // Number of partitions
       numberOfPartitions: numberOfPartitions.value,
       // Chaco values
+      partitioningMethod: chacoPartitioningMethod.value,
       vertices: chacoInputVertices.value,
       eigensolver: chacoSelectEigensolver.value,
       localRefinement: chacoSelectLocalRefinement.value,

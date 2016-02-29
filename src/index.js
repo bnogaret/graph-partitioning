@@ -10,7 +10,7 @@ const t = require('./applicationMenu.js');
 ipcRenderer.on('display-graph', (event, obj) => {
   notification('Load: ' + obj.p, 'notification');
   rendering.setNumberOfPartitions(obj.n);
-  rendering.onLoad(obj.p);  
+  rendering.onLoad(obj.p);
 });
 
 ipcRenderer.on('display-notification', (event, message, type) => {
@@ -18,7 +18,7 @@ ipcRenderer.on('display-notification', (event, message, type) => {
 });
 
 ipcRenderer.on('error', (event, obj) => {
-    notification(obj, 'alert');
+  notification(obj, 'alert');
 });
 var exampleGraph = document.querySelector('#example-graph');
 exampleGraph.addEventListener('click', () => {
