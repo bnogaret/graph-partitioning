@@ -10,6 +10,7 @@ const t = require('./applicationMenu.js');
 ipcRenderer.on('display-graph', (event, obj) => {
   notification('Load: ' + obj.p, 'notification');
   rendering.setNumberOfPartitions(obj.n);
+  rendering.isMesh(obj.isMesh);
   rendering.onLoad(obj.p);
 });
 
@@ -20,6 +21,15 @@ ipcRenderer.on('display-notification', (event, message, type) => {
 ipcRenderer.on('error', (event, obj) => {
   notification(obj, 'alert');
 });
+
+ipcRenderer.on('check-error', (event, obj) => {
+  console.log('\n CHECK ERROR \n' + obj);
+  if (/Missing parameters/.test(obj)) {
+    notification(obj, 'alert');
+  }
+    
+});
+
 var exampleGraph = document.querySelector('#example-graph');
 exampleGraph.addEventListener('click', () => {
   rendering.preview('graph');
@@ -51,7 +61,6 @@ var about = document.querySelector('#about');
 about.addEventListener('click', showOverlay);
 
 ipcRenderer.on('performance', (event, obj) => {
-  console.log('\n INDEXHTML PERFORMANCE: \n' + obj + '\n');
   performance.perf(obj);
 });
 
