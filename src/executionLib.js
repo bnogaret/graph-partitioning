@@ -52,13 +52,12 @@ function execGpMetis(file, nbPartitions, parameters, callback) {
 
   const option = getStringFromOptionsWithKeys(parameters);
   const command = `${program} ${option} ${file} ${nbPartitions}`;
-
   execApp(command, (result, error) => {
-    callback(result, error);
+  callback(result, error);
   });
 }
 
-function execMpMetis(file, nbPartitions, parameters, gtype, callback) {
+function execMpMetis(file, nbPartitions, parameters, callback) {
   let program = PROGRAM_DIRECTORY + 'mpmetis';
   if (process.platform === 'win32') {
     program += '.exe';
