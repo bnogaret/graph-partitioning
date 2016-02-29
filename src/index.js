@@ -27,7 +27,9 @@ ipcRenderer.on('check-error', (event, obj) => {
   if (/Missing parameters/.test(obj)) {
     notification(obj, 'alert');
   }
-    
+  if (/ERROR/.test(obj)) {
+    notification(obj, 'alert');
+  }    
 });
 
 var exampleGraph = document.querySelector('#example-graph');
