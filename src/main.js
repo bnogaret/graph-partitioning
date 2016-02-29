@@ -7,7 +7,6 @@ const ipcMain = require('electron').ipcMain;
 const executionLib = require('./executionLib');
 
 const localDatabase = require('./db/localDatabase.js').localDatabase;
-const test = require('./ssh/process.js').process;
 const sendToRemote = require('./ssh/process.js').process;
 
 var receivedPath = null;
@@ -57,7 +56,7 @@ app.on('ready', function () {
   const db = new localDatabase();
 
   ipcMain.on('add-server', (event, server) => {
-    server.id = randomIntInc();
+    server.id = randomIntInc().toString();
     db.addServer(server);
   });
 
@@ -120,6 +119,7 @@ app.on('ready', function () {
     let executionParameters = {
       partitioningMethod: object.partitioningMethod ? object.partitioningMethod : '5',
     };
+<<<<<<< HEAD
     switch (object.partitioningMethod) {
     case '1': // Multilevel - Kernighan-Lin
       executionParameters['vertices'] = object.vertices;
@@ -135,21 +135,39 @@ app.on('ready', function () {
     default:
       executionParameters['localRefinement'] = object.localRefinement;
       break;
+=======
+    switch(object.partitioningMethod) {
+      case '1': // Multilevel - Kernighan-Lin
+        executionParameters.vertices = object.vertices;
+        break;
+      case '2': // Spectral
+        executionParameters.eigensolver = object.eigensolver;
+        executionParameters.vertices = object.eigensolver === '1' ? object.vertices : '';
+        executionParameters.localRefinement = object.localRefinement;
+        break;
+      case '4': // Linear
+      case '5': // Random
+      case '6': // Scattered
+      default:
+        executionParameters.localRefinement = object.localRefinement;
+        break;
+>>>>>>> 73b09e94a4ff57fcd902b23bed9a91291b884ded
     }
-    executionParameters['numberOfPartitions'] = object.numberOfPartitions;
-    executionParameters['partitioningDimension'] = getPartitioningDimension(object.numberOfPartitions, object.partitioningDimension);
+    executionParameters.numberOfPartitions = object.numberOfPartitions;
+    executionParameters.partitioningDimension = getPartitioningDimension(object.numberOfPartitions, object.partitioningDimension);
     return executionParameters;
   }
 
   // TODO for mesh
   ipcMain.on('exec-configuration', (event, obj) => {
-    var pathNumberOfPartitions = {
+    var parametersDisplay = {
       p: receivedPath,
       n: obj.numberOfPartitions,
+      isMesh: isMesh,
     };
 
     if (obj.visResultsCheckBox === true) {
-      mainWindow.webContents.send('display-graph', pathNumberOfPartitions);
+      mainWindow.webContents.send('display-graph', parametersDisplay);
     }
 
     if (obj.choiceLibrary === '1') {

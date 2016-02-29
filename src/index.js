@@ -10,6 +10,7 @@ const t = require('./applicationMenu.js');
 ipcRenderer.on('display-graph', (event, obj) => {
   notification('Load: ' + obj.p, 'notification');
   rendering.setNumberOfPartitions(obj.n);
+  rendering.isMesh(obj.isMesh);
   rendering.onLoad(obj.p);
 });
 
