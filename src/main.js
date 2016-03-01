@@ -136,11 +136,15 @@ app.on('ready', function () {
     return executionParameters;
   }
 
+  function sendNotification(message, type) {
+    mainWindow.webContents.send('display-notification', message, type);
+  }
+
   function processResult(result, error, stderr) {
     if (error) {
-      mainWindow.webContents.send('error', error);
+      sendNotification(error, 'alert');
     } else if (stderr) {
-      mainWindow.webContents.send('error', new Error(stderr));
+      sendNotification(new Error(stderr), 'alert');
     } else if (result) {
       mainWindow.webContents.send('performance', result);
       // mainWindow.webContents.send('check-error', result); // it can compute with error such as missing parameters
@@ -194,27 +198,26 @@ app.on('ready', function () {
     }
   });
 
-  // TODO add eventpm
   eventEmitter.on('error', (err) => {
-    mainWindow.webContents.send('error', err.message);
-  }).on('upload-start', () => {
-
+    sendNotification(err, 'alert');
+  }).on('upload-start', (host, file, defaultPath) => {
+    sendNotification(`Connected to the server ${host}. Starting to upload the file ${file} in ${defaultPath}.`, 'notification');
   }).on('upload-step', (totalTransferred, total) => {
 
   }).on('upload-end', () => {
-
+    sendNotification('Upload with success.', 'notification');
   }).on('command-start', () => {
-
+    sendNotification('Starting the computation.', 'notification');
   }).on('command-result', (command, stdout) => {
 
   }).on ('command-end', () => {
-
-  }).on('download-start', () => {
-
+    sendNotification('End of the computation.', 'notification');
+  }).on('download-start', (fileName, fileDirectory) => {
+    sendNotification(`Starting to download the result file. It will save the file as ${fileName} in ${fileDirectory}.`, 'notification');
   }).on('download-step', (totalTransferred, total) => {
 
-  }).on('download-end', () => {
-
+  }).on('download-end', (host) => {
+    sendNotification(`File downloaded with success. Deconnection from the remote server ${host}.`, 'notification');
   });
 
   // Emitted when the window is closed.

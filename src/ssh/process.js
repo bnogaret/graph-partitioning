@@ -89,15 +89,15 @@ function getCommands(library, file, nbPartitions, options) {
 *
 * The parameter eventEmitter will emit:
 * - @event eventEmitter#error with one parameter (<Error> err)
-* - @event eventEmitter#upload-start with no parameter
+* - @event eventEmitter#upload-start with three parameters (<String> host, <String> basename, <String> defaultPath)
 * - @event eventEmitter#upload-step with two parameters (<int> totalTransferred, <int> total)
 * - @event eventEmitter#upload-end with no parameter
 * - @event eventEmitter#commands-start with no parameter
 * - @event eventEmitter#command-result with two parameters (<String> command,<String> stdout)
 * - @event eventEmitter#commands-end with no parameter
-* - @event eventEmitter#download-start with no parameter
+* - @event eventEmitter#download-start with two parameters (<String> fileName, <String> fileDirectory)
 * - @event eventEmitter#download-step with two parameters (<int> totalTransferred, <int> total)
-* - @event eventEmitter#download-end with no parameter
+* - @event eventEmitter#download-end with one parameter (<String> host)
 *
 * For the library mpmetis, it only downloads the .npart file.
 *
@@ -153,7 +153,7 @@ function process(server, password, file, library, nparts, options, eventEmitter)
     eventEmitter.emit('error', err);
   }).on('upload-start', () => {
     console.log('Start Upload');
-    eventEmitter.emit('upload-start');
+    eventEmitter.emit('upload-start', config.host, basename, server.defaultPath);
   }).on('upload-step', (totalTransferred, total) => {
     console.log(`Upload: transferred : ${totalTransferred} over ${total}`);
     eventEmitter.emit('upload-step', totalTransferred, total);
@@ -176,13 +176,13 @@ function process(server, password, file, library, nparts, options, eventEmitter)
     eventEmitter.emit('commands-end');
   }).on('download-start', () => {
     console.log('Start download');
-    eventEmitter.emit('download-start');
+    eventEmitter.emit('download-start', path.basename(resultFile), path.dirname(resultFile));
   }).on('download-step', (totalTransferred, total) => {
     console.log(`Download: transferred : ${totalTransferred} over ${total}`);
     eventEmitter.emit('download-step', totalTransferred, total);
   }).on('download-end', () => {
     console.log('UPLOAD - COMMAND - DOWNLOAD : SUCCESS!!!!');
-    eventEmitter.emit('download-end');
+    eventEmitter.emit('download-end', config.host);
   });
 
   upload(config, file, inputFile, internalEmitter);
