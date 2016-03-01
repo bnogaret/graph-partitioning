@@ -6,7 +6,7 @@ class SSHShell extends SSHConnection {
   processNextCommand() {
     if (this._commands.length > 0) {
       this._command = this._commands.shift();
-      console.log(`Command : ${this._command}`);
+      // console.log(`Command : ${this._command}`);
       this._stream.write(`${this._command}\n`);
       this.emit('command', this._command, this._response);
     } else {
@@ -19,7 +19,7 @@ class SSHShell extends SSHConnection {
     // Get rid of all the non-ascii characters
     const temp = data.replace(/[^\x00-\x7F]/g, '');
     if (this._standardPrompt.test(temp)) {
-      console.log(`STDOUT: ${this._response}`);
+      // console.log(`STDOUT: ${this._response}`);
       this.processNextCommand();
       this._response = '';
     } else {
@@ -44,7 +44,7 @@ class SSHShell extends SSHConnection {
             this.processData(data.toString());
           }
         }).stderr.on('data', (data) => {
-          console.log(`STDERR: + ${data}`);
+          console.log(`Stream :: STDERR: + ${data}`);
           this.emit('error', new Error(data));
         });
       }
@@ -59,7 +59,7 @@ class SSHShell extends SSHConnection {
   */
   executeCommands(commands) {
     if (this._isConnected) {
-      console.log(commands);
+      // console.log(commands);
       this._commands = commands;
       this.createShell();
     } else {

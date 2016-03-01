@@ -3,7 +3,8 @@
 const electron = require('electron');
 const app = electron.app; // Module to control application life.
 const BrowserWindow = electron.BrowserWindow; // Module to create native browser window.e()
-const ipcMain = require('electron').ipcMain;
+const ipcMain = require('electron').ipcMain; // To communicate avec les windows
+const EventEmitter = require('events').EventEmitter;
 
 const executionLocalLib = require('./executionLocalLib.js');
 const localDatabase = require('./db/localDatabase.js').localDatabase;
@@ -49,10 +50,6 @@ app.on('ready', function () {
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
-  if (typeof Notification === 'undefined') {
-    console.log('Notification not available');
-  }
-
   const db = new localDatabase();
 
   ipcMain.on('add-server', (event, server) => {
@@ -65,6 +62,8 @@ app.on('ready', function () {
     receivedPath = fp;
     isMesh = isMeshOption;
   });
+
+  let eventEmitter = new EventEmitter();
 
   /**
    * function which prepare data to be sent to exec file.We need to send appropriate data in accordance to different ptype parameter passed by user
@@ -137,7 +136,6 @@ app.on('ready', function () {
     return executionParameters;
   }
 
-  // TODO for mesh
   ipcMain.on('exec-configuration', (event, obj) => {
     var parametersDisplay = {
       p: receivedPath,
@@ -159,9 +157,9 @@ app.on('ready', function () {
       if (obj.remoteServerId) {
         const server = db.getServer(obj.remoteServerId);
         if (isMesh) {
-          sendToRemote(server, obj.password, receivedPath, 'mpmetis', obj.numberOfPartitions, params);
+          sendToRemote(server, obj.password, receivedPath, 'mpmetis', obj.numberOfPartitions, params, eventEmitter);
         } else {
-          sendToRemote(server, obj.password, receivedPath, 'gpmetis', obj.numberOfPartitions, params);
+          sendToRemote(server, obj.password, receivedPath, 'gpmetis', obj.numberOfPartitions, params, eventEmitter);
         }
       } else if (!isMesh) {
         executionLocalLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
@@ -187,7 +185,7 @@ app.on('ready', function () {
 
       if (obj.remoteServerId) {
         const server = db.getServer(obj.remoteServerId);
-        sendToRemote(server, receivedPath, obj.password, 'parmetis', obj.numberOfPartitions, params);
+        sendToRemote(server, receivedPath, obj.password, 'parmetis', obj.numberOfPartitions, params, eventEmitter);
       } else {
         executionLocalLib.execParMetis(receivedPath, obj.procsInputParMetis, params, (result, error) => {
           if (error) {
@@ -209,6 +207,29 @@ app.on('ready', function () {
         }
       });
     }
+  });
+
+  // TODO add event
+  eventEmitter.on('error', (err) => {
+    mainWindow.webContents.send('error', err.message);
+  }).on('upload-start', () => {
+
+  }).on('upload-step', (totalTransferred, total) => {
+
+  }).on('upload-end', () => {
+
+  }).on('command-start', () => {
+
+  }).on('command-result', (command, stdout) => {
+
+  }).on ('command-end', () => {
+
+  }).on('download-start', () => {
+
+  }).on('download-step', (totalTransferred, total) => {
+
+  }).on('download-end', () => {
+
   });
 
   // Emitted when the window is closed.

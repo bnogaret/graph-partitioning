@@ -22,7 +22,6 @@ class SSHFile extends SSHConnection {
           // console.log(stream);
           stream.fastGet(remotePath, localPath, {
             step: (totalTransferred, chunk, total) => {
-              console.log(`Dowload ${chunk}  | Total : ${totalTransferred} over ${total}`);
               this.emit('step', totalTransferred, chunk, total);
             },
           }, (error) => {
@@ -62,7 +61,6 @@ class SSHFile extends SSHConnection {
           // console.log(stream);
           stream.fastPut(localPath, remotePath, {
             step: (totalTransferred, chunk, total) => {
-              console.log(`Upload ${chunk}  | Total : ${totalTransferred} over ${total}`);
               this.emit('step', totalTransferred, chunk, total);
             },
           }, (error) => {

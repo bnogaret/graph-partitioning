@@ -1,4 +1,5 @@
 'use strict';
+
 const os = require('os');
 const exec = require('child_process').exec; // Prefer use spawn if big data
 const path = require('path');
