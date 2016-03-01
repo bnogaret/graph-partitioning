@@ -4,8 +4,8 @@ const electron = require('electron');
 const app = electron.app; // Module to control application life.
 const BrowserWindow = electron.BrowserWindow; // Module to create native browser window.e()
 const ipcMain = require('electron').ipcMain;
-const executionLib = require('./executionLib');
 
+const executionLocalLib = require('./executionLocalLib.js');
 const localDatabase = require('./db/localDatabase.js').localDatabase;
 const sendToRemote = require('./ssh/process.js').process;
 
@@ -164,7 +164,7 @@ app.on('ready', function () {
           sendToRemote(server, obj.password, receivedPath, 'gpmetis', obj.numberOfPartitions, params);
         }
       } else if (!isMesh) {
-        executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
+        executionLocalLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
           if (error) {
             mainWindow.webContents.send('error', error);
           } else {
@@ -173,7 +173,7 @@ app.on('ready', function () {
           }
         });
       } else {
-        executionLib.execMpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
+        executionLocalLib.execMpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
           if (error) {
             mainWindow.webContents.send('error', error);
           } else {
@@ -189,7 +189,7 @@ app.on('ready', function () {
         const server = db.getServer(obj.remoteServerId);
         sendToRemote(server, receivedPath, obj.password, 'parmetis', obj.numberOfPartitions, params);
       } else {
-        executionLib.execParMetis(receivedPath, obj.procsInputParMetis, params, (result, error) => {
+        executionLocalLib.execParMetis(receivedPath, obj.procsInputParMetis, params, (result, error) => {
           if (error) {
             mainWindow.webContents.send('error', error);
           } else {
@@ -201,7 +201,7 @@ app.on('ready', function () {
       console.log(obj);
       let params = processReceivedChacoData(obj);
       console.log(params);
-      executionLib.execChaco(receivedPath, params, (result, error) => {
+      executionLocalLib.execChaco(receivedPath, params, (result, error) => {
         if (error) {
           mainWindow.webContents.send('error', error);
         } else {
