@@ -13,7 +13,7 @@ function upload(config, localFile, remoteFile, eventEmitter) {
   }).on('success', () => {
     f.disconnect();
     eventEmitter.emit('upload-success');
-  }).on('error', (event, err) => {
+  }).on('error', (err) => {
     f.disconnect();
     eventEmitter.emit('error', err);
   }).connect();
@@ -23,13 +23,13 @@ function executeCommands(config, commands, eventEmitter) {
   const s = new SSHShell(config);
   s.on('ready', () => {
     s.executeCommands(commands);
-  }).on('command', (event, command, stdout) => {
+  }).on('command', (command, stdout) => {
     console.log(`Command: ${command}`);
     console.log(`STDOUT: ${stdout}`);
   }).on('success', () => {
     s.disconnect();
     eventEmitter.emit('command-success');
-  }).on('error', (event, err) => {
+  }).on('error', (err) => {
     s.disconnect();
     eventEmitter.emit('error', err);
   }).connect();
@@ -42,7 +42,7 @@ function download(config, localFile, remoteFile, eventEmitter) {
   }).on('success', () => {
     f.disconnect();
     eventEmitter.emit('download-success');
-  }).on('error', (event, err) => {
+  }).on('error', (err) => {
     f.disconnect();
     eventEmitter.emit('error', err);
   }).connect();
@@ -66,18 +66,17 @@ function process(server, password, file, library, nparts, options) {
     'readyTimeout': 10000,
   };
   const basename = path.basename(file);
-  let outputFile;
-  let resultFile;
-  if(library === 'mpmetis'){
+  let outputFile = null;
+  let resultFile = null;
+  if (library === 'mpmetis') {
     outputFile = server.defaultPath + '/' + basename + '.npart';
     resultFile = file + '.npart.' + nparts;
-  }
-  else{
+  } else {
     outputFile = server.defaultPath + '/' + basename + '.part';
     resultFile = file + '.part.' + nparts;
   }
   const inputFile = server.defaultPath + '/' + basename;
-  
+
   let commands = null;
   if (library === 'parmetis') {
     commands = [
@@ -111,17 +110,15 @@ function process(server, password, file, library, nparts, options) {
   }).on('upload-success', () => {
     setTimeout(() => {
       executeCommands(config, commands, eventEmitter);
-    }, 2000);
+    }, 1000);
   }).on ('command-success', () => {
     setTimeout(() => {
       download(config, resultFile, outputFile, eventEmitter);
-    }, 2000);
+    }, 1000);
   }).on('download-success', () => {
     console.log('UPLOAD - COMMAND - DOWNLOAD : SUCCESS!!!!');
   });
 
-  console.log(typeof file);
-  console.log(typeof inputFile);
   upload(config, file, inputFile, eventEmitter);
 }
 
