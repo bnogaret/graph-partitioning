@@ -14,7 +14,7 @@ function execApp(command, callback) {
     console.log(`stderr: ${stderr}`);
     console.log(error);
     console.log(`stdout: ${stdout.split(os.EOL)}`);
-    callback(stdout, error);
+    callback(stdout, error, stderr);
   });
 }
 
@@ -26,8 +26,8 @@ function execGpMetis(file, nbPartitions, parameters, callback) {
 
   const option = getStringFromOptionsWithKeys(parameters);
   const command = `${program} ${option} ${file} ${nbPartitions}`;
-  execApp(command, (result, error) => {
-    callback(result, error);
+  execApp(command, (result, error, stderr) => {
+    callback(result, error, stderr);
   });
 }
 
@@ -40,8 +40,8 @@ function execMpMetis(file, nbPartitions, parameters, callback) {
   const option = getStringFromOptionsWithKeys(parameters);
   const command = `${program} ${option} ${file} ${nbPartitions}`;
 
-  execApp(command, (result, error) => {
-    callback(result, error);
+  execApp(command, (result, error, stderr) => {
+    callback(result, error, stderr);
   });
 }
 
@@ -54,8 +54,8 @@ function execParMetis(file, nbProcessors, parameters, callback) {
   const option = getStringFromOptions(parameters);
   const command = `mpiexec -n ${nbProcessors} ${program} ${file} ${option}`;
 
-  execApp(command, (result, error) => {
-    callback(result, error);
+  execApp(command, (result, error, stderr) => {
+    callback(result, error, stderr);
   });
 }
 
@@ -67,8 +67,8 @@ function execChaco(file, parameters, callback) {
 
   console.log(command);
 
-  execApp(command, (result, error) => {
-    callback(result, error);
+  execApp(command, (result, error, stderr) => {
+    callback(result, error, stderr);
   });
 }
 

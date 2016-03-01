@@ -136,6 +136,17 @@ app.on('ready', function () {
     return executionParameters;
   }
 
+  function processResult(result, error, stderr) {
+    if (error) {
+      mainWindow.webContents.send('error', error);
+    } else if (stderr) {
+      mainWindow.webContents.send('error', new Error(stderr));
+    } else if (result) {
+      mainWindow.webContents.send('performance', result);
+      // mainWindow.webContents.send('check-error', result); // it can compute with error such as missing parameters
+    }
+  }
+
   ipcMain.on('exec-configuration', (event, obj) => {
     var parametersDisplay = {
       p: receivedPath,
@@ -162,23 +173,9 @@ app.on('ready', function () {
           sendToRemote(server, obj.password, receivedPath, 'gpmetis', obj.numberOfPartitions, params, eventEmitter);
         }
       } else if (!isMesh) {
-        executionLocalLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
-          if (error) {
-            mainWindow.webContents.send('error', error);
-          } else {
-            mainWindow.webContents.send('performance', result);
-            mainWindow.webContents.send('check-error', result); // it can compute with error such as missing parameters
-          }
-        });
+        executionLocalLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, processResult);
       } else {
-        executionLocalLib.execMpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
-          if (error) {
-            mainWindow.webContents.send('error', error);
-          } else {
-            mainWindow.webContents.send('performance', result);
-            mainWindow.webContents.send('check-error', result); // it can compute with error such as missing parameters
-          }
-        });
+        executionLocalLib.execMpMetis(receivedPath, obj.numberOfPartitions, params, processResult);
       }
     } else if (obj.parMetisRadioValue === '2') {
       let params = processReceivedParMetisData(obj);
@@ -187,29 +184,17 @@ app.on('ready', function () {
         const server = db.getServer(obj.remoteServerId);
         sendToRemote(server, receivedPath, obj.password, 'parmetis', obj.numberOfPartitions, params, eventEmitter);
       } else {
-        executionLocalLib.execParMetis(receivedPath, obj.procsInputParMetis, params, (result, error) => {
-          if (error) {
-            mainWindow.webContents.send('error', error);
-          } else {
-            mainWindow.webContents.send('performance', result);
-          }
-        });
+        executionLocalLib.execParMetis(receivedPath, obj.procsInputParMetis, params, processResult);
       }
     } else if (process.platform === 'linux' && obj.choiceLibrary === '3' && !isMesh) {
       console.log(obj);
       let params = processReceivedChacoData(obj);
       console.log(params);
-      executionLocalLib.execChaco(receivedPath, params, (result, error) => {
-        if (error) {
-          mainWindow.webContents.send('error', error);
-        } else {
-          mainWindow.webContents.send('performance', result);
-        }
-      });
+      executionLocalLib.execChaco(receivedPath, params, processResult);
     }
   });
 
-  // TODO add event
+  // TODO add eventpm
   eventEmitter.on('error', (err) => {
     mainWindow.webContents.send('error', err.message);
   }).on('upload-start', () => {
