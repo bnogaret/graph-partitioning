@@ -411,19 +411,31 @@ function isMesh(mesh) {
 }
 
 function addColor() {
-  // Colors up until (20 processors for more add more colors)
-  var colors = [
-    0x1f77b4ff, 0xaec7e8ff,
-    0xff7f0eff, 0xffbb78ff,
-    0x2ca02cff, 0x98df8aff,
-    0xd62728ff, 0xff9896ff,
-    0x9467bdff, 0xc5b0d5ff,
-    0x8c564bff, 0xc49c94ff,
-    0xe377c2ff, 0xf7b6d2ff,
-    0x7f7f7fff, 0xc7c7c7ff,
-    0xbcbd22ff, 0xdbdb8dff,
-    0x17becfff, 0x9edae5ff,
-  ];
+
+  // Convert RGB values to hex rrggbb
+  function fromRGBto32(rgbArr) {
+    return rgbArr.reduce(function (s, v) {
+      return s + ('0' + v.toString(16)).slice(-2);
+    }, '') + 'ff'
+  }
+  // Random number
+  function randomNumber() {
+    return Math.floor(Math.random() * 255);
+  }
+  var r = 0;
+  var g = 0;
+  var b = 0;
+  // Create random colors
+  var randomColors = [];
+  
+  // Convert number decimal number to hexadecimal
+  for (var i = 0; i < App.numberOfPartitions; i++) {
+    r = randomNumber();
+    g = randomNumber();
+    b = randomNumber();    
+    randomColors.push(fromRGBto32([r, g, b]));
+  }
+
   // Read output file from metis
   if (App.isMesh) {
     var output = App.fileInput + '.npart.' + App.numberOfPartitions;
@@ -436,9 +448,10 @@ function addColor() {
     var processors = outputs.split('\n');
 
     for (var i = 1; i < App.numberOfNodes + 1; i++) {
-      App.graphics.getNodeUI(i).color = colors[parseInt(processors[i - 1], 10)];
+      App.graphics.getNodeUI(i).color = '0x' + randomColors[parseInt(processors[i - 1], 10)];
     }
   }
+  
   addColors(output);
   App.renderer.rerender();
 }
