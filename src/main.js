@@ -3,9 +3,10 @@
 const electron = require('electron');
 const app = electron.app; // Module to control application life.
 const BrowserWindow = electron.BrowserWindow; // Module to create native browser window.e()
-const ipcMain = require('electron').ipcMain;
-const executionLib = require('./executionLib');
+const ipcMain = require('electron').ipcMain; // To communicate avec les windows
+const EventEmitter = require('events').EventEmitter;
 
+const executionLocalLib = require('./executionLocalLib.js');
 const localDatabase = require('./db/localDatabase.js').localDatabase;
 const sendToRemote = require('./ssh/process.js').process;
 
@@ -49,10 +50,6 @@ app.on('ready', function () {
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
-  if (typeof Notification === 'undefined') {
-    console.log('Notification not available');
-  }
-
   const db = new localDatabase();
 
   ipcMain.on('add-server', (event, server) => {
@@ -65,6 +62,8 @@ app.on('ready', function () {
     receivedPath = fp;
     isMesh = isMeshOption;
   });
+
+  let eventEmitter = new EventEmitter();
 
   /**
    * function which prepare data to be sent to exec file.We need to send appropriate data in accordance to different ptype parameter passed by user
@@ -137,7 +136,21 @@ app.on('ready', function () {
     return executionParameters;
   }
 
-  // TODO for mesh
+  function sendNotification(message, type) {
+    mainWindow.webContents.send('display-notification', message, type);
+  }
+
+  function processResult(result, error, stderr) {
+    if (error) {
+      sendNotification(error, 'alert');
+    } else if (stderr) {
+      sendNotification(new Error(stderr), 'alert');
+    } else if (result) {
+      mainWindow.webContents.send('performance', result);
+      // mainWindow.webContents.send('check-error', result); // it can compute with error such as missing parameters
+    }
+  }
+
   ipcMain.on('exec-configuration', (event, obj) => {
     var parametersDisplay = {
       p: receivedPath,
@@ -159,56 +172,52 @@ app.on('ready', function () {
       if (obj.remoteServerId) {
         const server = db.getServer(obj.remoteServerId);
         if (isMesh) {
-          sendToRemote(server, obj.password, receivedPath, 'mpmetis', obj.numberOfPartitions, params);
+          sendToRemote(server, obj.password, receivedPath, 'mpmetis', obj.numberOfPartitions, params, eventEmitter);
         } else {
-          sendToRemote(server, obj.password, receivedPath, 'gpmetis', obj.numberOfPartitions, params);
+          sendToRemote(server, obj.password, receivedPath, 'gpmetis', obj.numberOfPartitions, params, eventEmitter);
         }
       } else if (!isMesh) {
-        executionLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
-          if (error) {
-            mainWindow.webContents.send('error', error);
-          } else {
-            mainWindow.webContents.send('performance', result);
-            mainWindow.webContents.send('check-error', result); // it can compute with error such as missing parameters
-          }
-        });
+        executionLocalLib.execGpMetis(receivedPath, obj.numberOfPartitions, params, processResult);
       } else {
-        executionLib.execMpMetis(receivedPath, obj.numberOfPartitions, params, (result, error) => {
-          if (error) {
-            mainWindow.webContents.send('error', error);
-          } else {
-            mainWindow.webContents.send('performance', result);
-            mainWindow.webContents.send('check-error', result); // it can compute with error such as missing parameters
-          }
-        });
+        executionLocalLib.execMpMetis(receivedPath, obj.numberOfPartitions, params, processResult);
       }
     } else if (obj.parMetisRadioValue === '2') {
       let params = processReceivedParMetisData(obj);
 
       if (obj.remoteServerId) {
         const server = db.getServer(obj.remoteServerId);
-        sendToRemote(server, receivedPath, obj.password, 'parmetis', obj.numberOfPartitions, params);
+        sendToRemote(server, receivedPath, obj.password, 'parmetis', obj.numberOfPartitions, params, eventEmitter);
       } else {
-        executionLib.execParMetis(receivedPath, obj.procsInputParMetis, params, (result, error) => {
-          if (error) {
-            mainWindow.webContents.send('error', error);
-          } else {
-            mainWindow.webContents.send('performance', result);
-          }
-        });
+        executionLocalLib.execParMetis(receivedPath, obj.procsInputParMetis, params, processResult);
       }
     } else if (process.platform === 'linux' && obj.choiceLibrary === '3' && !isMesh) {
       console.log(obj);
       let params = processReceivedChacoData(obj);
       console.log(params);
-      executionLib.execChaco(receivedPath, params, (result, error) => {
-        if (error) {
-          mainWindow.webContents.send('error', error);
-        } else {
-          mainWindow.webContents.send('performance', result);
-        }
-      });
+      executionLocalLib.execChaco(receivedPath, params, processResult);
     }
+  });
+
+  eventEmitter.on('error', (err) => {
+    sendNotification(err, 'alert');
+  }).on('upload-start', (host, file, defaultPath) => {
+    sendNotification(`Connected to the server ${host}. Starting to upload the file ${file} in ${defaultPath}.`, 'notification');
+  }).on('upload-step', (totalTransferred, total) => {
+
+  }).on('upload-end', () => {
+    sendNotification('Upload with success.', 'notification');
+  }).on('command-start', () => {
+    sendNotification('Starting the computation.', 'notification');
+  }).on('command-result', (command, stdout) => {
+
+  }).on ('command-end', () => {
+    sendNotification('End of the computation.', 'notification');
+  }).on('download-start', (fileName, fileDirectory) => {
+    sendNotification(`Starting to download the result file. It will save the file as ${fileName} in ${fileDirectory}.`, 'notification');
+  }).on('download-step', (totalTransferred, total) => {
+
+  }).on('download-end', (host) => {
+    sendNotification(`File downloaded with success. Deconnection from the remote server ${host}.`, 'notification');
   });
 
   // Emitted when the window is closed.

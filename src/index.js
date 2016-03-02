@@ -18,19 +18,9 @@ ipcRenderer.on('display-notification', (event, message, type) => {
   notification(message, type);
 });
 
-ipcRenderer.on('error', (event, obj) => {
-  notification(obj, 'alert');
-});
-
-ipcRenderer.on('check-error', (event, obj) => {
-  console.log('\n CHECK ERROR \n' + obj);
-  if (/Missing parameters/.test(obj)) {
-    notification(obj, 'alert');
-  }
-  if (/ERROR/.test(obj)) {
-    notification(obj, 'alert');
-  }
-});
+// ipcRenderer.on('error', (event, obj) => {
+//   notification(obj, 'alert');
+// });
 
 var exampleGraph = document.querySelector('#example-graph');
 exampleGraph.addEventListener('click', () => {

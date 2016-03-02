@@ -20,17 +20,8 @@ class SSHFile extends SSHConnection {
         }
         if (stream) {
           // console.log(stream);
-          /*
-          stream.on('ready', () => {
-            console.log('Start download the file');
-            stream.fastGet(remotePath, localPath, {}, (error) => {
-              console.log(error);
-            });
-          });
-          */
           stream.fastGet(remotePath, localPath, {
             step: (totalTransferred, chunk, total) => {
-              console.log(`Dowload ${chunk}  | Total : ${totalTransferred} over ${total}`);
               this.emit('step', totalTransferred, chunk, total);
             },
           }, (error) => {
@@ -40,6 +31,8 @@ class SSHFile extends SSHConnection {
               this.emit('success');
             }
           });
+        } else {
+          this.emit('error', new Error('Empty stream: can\'t download the file.'));
         }
       });
     } else {
@@ -56,6 +49,7 @@ class SSHFile extends SSHConnection {
   * @param {string} remotePath
   * @see https://newspaint.wordpress.com/2013/03/26/how-to-upload-a-file-over-ssh-using-node-js/
   * @see http://jxcore.com/how-to-transfer-files-over-ssh-by-using-node/
+  * @see https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md
   */
   uploadFile(localPath, remotePath) {
     if (this._isConnected) {
@@ -65,17 +59,8 @@ class SSHFile extends SSHConnection {
         }
         if (stream) {
           // console.log(stream);
-          /*
-          stream.on('ready', () => {
-            console.log('Start upload the file');
-            stream.fastPut(localPath, remotePath, {}, (error) => {
-              console.log(error);
-            });
-          });
-          */
           stream.fastPut(localPath, remotePath, {
             step: (totalTransferred, chunk, total) => {
-              console.log(`Upload ${chunk}  | Total : ${totalTransferred} over ${total}`);
               this.emit('step', totalTransferred, chunk, total);
             },
           }, (error) => {
@@ -85,6 +70,8 @@ class SSHFile extends SSHConnection {
               this.emit('success');
             }
           });
+        } else {
+          this.emit('error', new Error('Empty stream: can\'t upload the file.'));
         }
       });
     } else {

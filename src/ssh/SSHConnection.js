@@ -10,6 +10,7 @@ const EventEmitter = require('events').EventEmitter;
 * - 'error' (<Error> err) : in case of error.
 * - 'end' () : when the connection end
 * @see SSHFile and @see SSHShell to see examples of implementation of working functions.
+* @see https://github.com/mscdex/ssh2
 */
 class SSHConnection extends EventEmitter {
   /**
@@ -33,7 +34,8 @@ class SSHConnection extends EventEmitter {
     }).on('error', (err) => {
       console.log('Client :: error');
       if (err) {
-        this.emit('error', err);
+        let message = `${err.name}: ${err.message} (level: ${err.level}).`;
+        this.emit('error', new Error(message));
       } else {
         this.emit('error', new Error('Connection error with the server.'));
       }
