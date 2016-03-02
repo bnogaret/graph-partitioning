@@ -71,13 +71,8 @@ a.button {
   color: inherit;
 }
 
-#layout-notification .value-spinner {
-  position: absolute;
-  top: 29%;
-  left: 2%;
-  font-family: fantasy;
-  font-size: 10px;
-  color: navy;
+#spinner {
+  width: 50px;
 }
 
 #layout-notification .mdl-snackbar {

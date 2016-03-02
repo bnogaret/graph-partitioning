@@ -35,22 +35,22 @@ function notification(message, type) {
   };
 
   switch (type) {
-    case 'alert':
-      snackbarNotification.className += ' alert';
-      data.timeout = 50000;
-      icon.className += ' fa-times-circle';
-      break;
-    case 'warning':
-      snackbarNotification.className += ' warning';
-      data.timeout = 25000;
-      icon.className += ' fa-exclamation-triangle';
-      break;
-    case 'notification':
-    default:
-      snackbarNotification.className += ' notification';
-      data.timeout = 10000;
-      icon.className += ' fa-info-circle';
-      break;
+  case 'alert':
+    snackbarNotification.className += ' alert';
+    data.timeout = 50000;
+    icon.className += ' fa-times-circle';
+    break;
+  case 'warning':
+    snackbarNotification.className += ' warning';
+    data.timeout = 25000;
+    icon.className += ' fa-exclamation-triangle';
+    break;
+  case 'notification':
+  default:
+    snackbarNotification.className += ' notification';
+    data.timeout = 10000;
+    icon.className += ' fa-info-circle';
+    break;
   }
 
   snackbarNotification.MaterialSnackbar.showSnackbar(data);
@@ -64,13 +64,11 @@ function notification(message, type) {
 
 function progressSpinner(message) {
   /**
-    # TO DO place the value for the spinner
-      <div class="snackbar">
+   <div class="snackbar">
       <table>
         <tr>
           <td>
-            <span class="mdl-spinner mdl-js-spinner is-active"></span>
-            <tspan id="spValue">100%</tspan>
+            <div id="spinner"></div>            
           </td>
           <td>
             <div class="snackbar_text">File is uploading</div>
@@ -87,13 +85,10 @@ function progressSpinner(message) {
   const tr = document.createElement('tr');
 
   const td1 = document.createElement('td');
-  const spinner = document.createElement('span');
-  spinner.className = 'mdl-spinner mdl-js-spinner is-active';
-  const valueSpinner = document.createElement('tspan');
-  valueSpinner.id = 'spValue';
+  const spinner = document.createElement('div');
+  spinner.id = 'spinner';
   td1.appendChild(spinner);
-  td1.appendChild(valueSpinner);
-  
+
   const td2 = document.createElement('td');
   const snackbarText = document.createElement('div');
   snackbarText.className = 'snackbar_text';
@@ -113,7 +108,23 @@ function progressSpinner(message) {
   componentHandler.upgradeElement(spinner);
   layoutNotification.appendChild(snackbarNotification);
   layoutNotification.appendChild(separator);
+  // spinner
+  var circle = new ProgressBar.Circle('#spinner', {
+    color: '#FCB03C',
+    strokeWidth: 3,
+    trailWidth: 1,
+    duration: 1500,
+    text: {
+      value: '0'
+    },
+    step: function (state, bar) {
+      bar.setText((bar.value() * 100).toFixed(0));
+    }
+  });
 
+  circle.animate(1, function () {
+    circle.animate(0);
+  });
 }
 
 module.exports.notification = notification;

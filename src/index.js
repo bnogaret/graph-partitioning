@@ -24,23 +24,24 @@ ipcRenderer.on('display-notification', (event, message, type) => {
 
 var exampleGraph = document.querySelector('#example-graph');
 exampleGraph.addEventListener('click', () => {
-  rendering.preview('graph');
+  performance.hide();
+  rendering.preview('graph');  
 });
 
 var exampleMesh = document.querySelector('#example-mesh');
 exampleMesh.addEventListener('click', () => {
-  rendering.preview('mesh');
+  performance.hide();
+  rendering.preview('mesh');  
 });
 
 var overlay = document.querySelector('#overlay');
 overlay.addEventListener('click', () => {
-  overlay.style.display = 'none';
+  overlay.style.display = 'none';  
 });
 
 setTimeout(() => {
   overlay.style.display = 'none';
 }, 20000);
-
 
 function showOverlay() {
   overlay.style.display = 'block';

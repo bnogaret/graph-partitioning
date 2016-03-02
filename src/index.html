@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <title>Partify</title>
   <script type="text/javascript" src="../node_modules/material-design-lite/material.min.js"></script>
+  <script type="text/javascript" src="../node_modules/progressbar.js/dist/progressbar.min.js"></script>
   <link rel="stylesheet" href="../node_modules/material-design-lite/material.min.css">
   <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="../static/index.css">
@@ -12,24 +13,7 @@
 
 <body>
   <div id="layout-notification">
-  <!--  
-    <div class="snackbar">
-      <table>
-        <tr>
-          <td>
-            <span class="mdl-spinner mdl-js-spinner is-active"></span>
-            <tspan id="spValue" class="value-spinner">100%</tspan>
-          </td>
-          <td>
-            <div class="snackbar_text">File is uploading</div>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div class="separator"></div>
-  -->
   </div>
-  
   <div id="head">
     <header class="mdl-layout__header is-casting-shadow">
       <div id="brand" class="mdl-layout__header-row">
@@ -55,26 +39,7 @@
       </div>
     </header>
   </div>
-  <div id="overlay">
-    <h2>Welcome to Partify !</h2>
-    <p>
-      Partify is a desktop application, using web technologies based on <strong>atom shell (electron)</strong> technologies and <strong>vivagraph</strong> library using webGL. Partify allows everyone to partition, visualize them graph and mesh using <strong>Metis</strong> and <strong>ParMetis</strong> library. Partitionning your graph enhance the computation by distributed your it to different processors. With partify you can do it on your computer or remotly through a server.Currently available for <strong>Windows</strong>? Partify is also available on Linux and include more libraries?.
-    </p>
-    <p>
-      It was made, under Cranfield University's monitoring during group project, by Marcin Bojarski, Baptiste Nogaret, Anthony Razafindramanana and Maciej Smolarczyk.
-    </p>
-    <p>
 
-    </p>
-    <h3>Basic Partify Usage</h3>
-    <p>
-      Users are allowed to set a new connection by clicking on server menu, by adding a new graph or mesh the user access to the different Metis and ParMetis options. Once the computation done intrisic's performance of the library are shown to the users.
-    </p>
-    <p>
-      Two examples of Metis/ParMetis input can be access through the main windows of Partify. The graph is composed of 766 nodes and 1314 edges whereas the mesh is made of a 3D region, using tetrahedral elements.
-    </p>
-    <h4>Click on the overlay to quit it</h4>
-  </div>
   <div id="content">
     <table id="displayTable">
       <tr>
@@ -100,7 +65,7 @@
       </div>
     </dialog>
   </div>
-  <div id="footer" style="opacity: 0">
+  <div id="footer" style="display: none">
     <footer class="mdl-mega-footer">
       <div class="mdl-mega-footer--middle-section">
         <div class="mdl-mega-footer--drop-down-section">
@@ -140,6 +105,26 @@
           </ul>
         </div>
     </footer>
+    </div>
+    <div id="overlay">
+      <h2>Welcome to Partify !</h2>
+      <p>
+        Partify is a desktop application, using web technologies based on <strong>atom shell (electron)</strong> technologies and <strong>vivagraph</strong> library using webGL. Partify allows everyone to partition, visualize them graph and mesh using <strong>Metis</strong> and <strong>ParMetis</strong> library. Partitionning your graph enhance the computation by distributed your it to different processors. With partify you can do it on your computer or remotly through a server.Currently available for <strong>Windows</strong>? Partify is also available on Linux and include more libraries?.
+      </p>
+      <p>
+        It was made, under Cranfield University's monitoring during group project, by Marcin Bojarski, Baptiste Nogaret, Anthony Razafindramanana and Maciej Smolarczyk.
+      </p>
+      <p>
+
+      </p>
+      <h3>Basic Partify Usage</h3>
+      <p>
+        Users are allowed to set a new connection by clicking on server menu, by adding a new graph or mesh the user access to the different Metis and ParMetis options. Once the computation done intrisic's performance of the library are shown to the users.
+      </p>
+      <p>
+        Two examples of Metis/ParMetis input can be access through the main windows of Partify. The graph is composed of 766 nodes and 1314 edges whereas the mesh is made of a 3D region, using tetrahedral elements.
+      </p>
+      <h4>Click on the overlay to quit it</h4>
     </div>
 </body>
 <script type="text/javascript" src="./index.js"></script>

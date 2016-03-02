@@ -1,6 +1,5 @@
 'use strict';
-
-var footer = document.getElementById('footer');
+const footer = document.getElementById('footer');
 
 // Read performance value from graph partitionning library
 function readValue(input, keyword) {
@@ -11,19 +10,6 @@ function readValue(input, keyword) {
   return RegExp.$1 + RegExp.$2;
 }
 
-// Show the footer
-function changeOpacity(show) {
-  switch (show) {
-  case true:
-    footer.style.opacity = '1';
-    break;
-  case false:
-    footer.style.opacity = '0';
-    break;
-  default:
-    break;
-  }
-}
 
 // Read the performance from the library
 var perfValues = {};
@@ -39,7 +25,6 @@ function perf(input) {
   perfValues.reporting = readValue(input, 'Reporting');
   perfValues.maxMemoryUsed = readValue(input, 'Max memory used');
 
-
   var edgecut = document.getElementById('edgecut');
   edgecut.innerHTML = 'Edgecut: ' + perfValues.edgecut;
   var communication = document.getElementById('communication-volume');
@@ -53,10 +38,14 @@ function perf(input) {
   var memory = document.getElementById('max-memory-used');
   memory.innerHTML = 'Max memory used: ' + perfValues.maxMemoryUsed + 'MB';
 
-
-  changeOpacity(true);
+  footer.style.display = 'block';
 }
 
+function hide() {
+  footer.style.display = 'none';
+}
 
+footer.addEventListener('click', hide);
 
 module.exports.perf = perf;
+module.exports.hide = hide;
