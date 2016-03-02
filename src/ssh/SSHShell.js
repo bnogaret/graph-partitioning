@@ -8,7 +8,6 @@ class SSHShell extends SSHConnection {
       this._command = this._commands.shift();
       // console.log(`Command : ${this._command}`);
       this._stream.write(`${this._command}\n`);
-      this.emit('command', this._command, this._response);
     } else {
       this._stream.close();
       this.emit('success');
@@ -20,7 +19,8 @@ class SSHShell extends SSHConnection {
     const temp = data.replace(/[^\x00-\x7F]/g, '');
     if (this._standardPrompt.test(temp)) {
       // console.log(`STDOUT: ${this._response}`);
-      this.processNextCommand();
+      this.emit('command', this._command, this._response);
+      // this.processNextCommand();
       this._response = '';
     } else {
       this._response += temp;
