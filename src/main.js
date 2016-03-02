@@ -116,20 +116,20 @@ app.on('ready', function () {
       partitioningMethod: object.partitioningMethod ? object.partitioningMethod : '5',
     };
     switch (object.partitioningMethod) {
-    case '1': // Multilevel - Kernighan-Lin
-      executionParameters.vertices = object.vertices;
-      break;
-    case '2': // Spectral
-      executionParameters.eigensolver = object.eigensolver;
-      executionParameters.vertices = object.eigensolver === '1' ? object.vertices : '';
-      executionParameters.localRefinement = object.localRefinement;
-      break;
-    case '4': // Linear
-    case '5': // Random
-    case '6': // Scattered
-    default:
-      executionParameters.localRefinement = object.localRefinement;
-      break;
+      case '1': // Multilevel - Kernighan-Lin
+        executionParameters.vertices = object.vertices;
+        break;
+      case '2': // Spectral
+        executionParameters.eigensolver = object.eigensolver;
+        executionParameters.vertices = object.eigensolver === '1' ? object.vertices : '';
+        executionParameters.localRefinement = object.localRefinement;
+        break;
+      case '4': // Linear
+      case '5': // Random
+      case '6': // Scattered
+      default:
+        executionParameters.localRefinement = object.localRefinement;
+        break;
     }
     executionParameters.numberOfPartitions = object.numberOfPartitions;
     executionParameters.partitioningDimension = getPartitioningDimension(object.numberOfPartitions, object.partitioningDimension);
@@ -199,7 +199,7 @@ app.on('ready', function () {
   });
 
   eventEmitter.on('error', (err) => {
-    sendNotification(err, 'alert');
+    sendNotification(err.message, 'alert');
   }).on('upload-start', (host, file, defaultPath) => {
     sendNotification(`Connected to the server ${host}. Starting to upload the file ${file} in ${defaultPath}.`, 'notification');
   }).on('upload-step', (totalTransferred, total) => {
@@ -209,7 +209,8 @@ app.on('ready', function () {
   }).on('command-start', () => {
     sendNotification('Starting the computation.', 'notification');
   }).on('command-result', (command, stdout) => {
-
+    console.log(`Command: ${command}`);
+    console.log(`Stdout: ${stdout}`);
   }).on ('command-end', () => {
     sendNotification('End of the computation.', 'notification');
   }).on('download-start', (fileName, fileDirectory) => {

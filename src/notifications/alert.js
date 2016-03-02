@@ -35,22 +35,22 @@ function notification(message, type) {
   };
 
   switch (type) {
-  case 'alert':
-    snackbarNotification.className += ' alert';
-    data.timeout = 50000;
-    icon.className += ' fa-times-circle';
-    break;
-  case 'warning':
-    snackbarNotification.className += ' warning';
-    data.timeout = 25000;
-    icon.className += ' fa-exclamation-triangle';
-    break;
-  case 'notification':
-  default:
-    snackbarNotification.className += ' notification';
-    data.timeout = 10000;
-    icon.className += ' fa-info-circle';
-    break;
+    case 'alert':
+      snackbarNotification.className += ' alert';
+      data.timeout = 50000;
+      icon.className += ' fa-times-circle';
+      break;
+    case 'warning':
+      snackbarNotification.className += ' warning';
+      data.timeout = 25000;
+      icon.className += ' fa-exclamation-triangle';
+      break;
+    case 'notification':
+    default:
+      snackbarNotification.className += ' notification';
+      data.timeout = 10000;
+      icon.className += ' fa-info-circle';
+      break;
   }
 
   snackbarNotification.MaterialSnackbar.showSnackbar(data);

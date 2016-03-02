@@ -8,6 +8,12 @@ const SSHShell = require('./SSHShell.js').SSHShell;
 const getStringFromOptions = require('../executionLib.js').getStringFromOptions;
 const getStringFromOptionsWithKeys = require('../executionLib.js').getStringFromOptionsWithKeys;
 
+function hasError(text) {
+  const errorRegex = new RegExp('[Ee]rror');
+  const fileErrorRegex = new RegExp('input file does not specify the number of vertices and edges');
+  return errorRegex.test(text) || fileErrorRegex.test(text);
+}
+
 function upload(config, localFile, remoteFile, internalEmitter) {
   const f = new SSHFile(config);
   f.on('ready', () => {
@@ -30,7 +36,16 @@ function executeCommands(config, commands, internalEmitter) {
     s.executeCommands(commands);
     internalEmitter.emit('commands-start');
   }).on('command', (command, stdout) => {
-    internalEmitter.emit('command-result', command, stdout);
+    if (hasError(stdout)) {
+      const message = `Error when executing ${command}: ${stdout}`;
+      internalEmitter.emit('error', new Error(message));
+      s.disconnect();
+    } else {
+      if (command) {
+        internalEmitter.emit('command-result', command, stdout);
+      }
+      s.processNextCommand();
+    }
   }).on('success', () => {
     s.disconnect();
     internalEmitter.emit('commands-end');
@@ -71,13 +86,13 @@ function getCommands(library, file, nbPartitions, options) {
     parameters = getStringFromOptionsWithKeys(options);
     commands = [
       'module load metis',
-      `mpmetis ${parameters} ${file} ${nbPartitions}`,
+      `mpmetis ${parameters} ${parameters} ${file} ${nbPartitions}`,
     ];
   } else {
     parameters = getStringFromOptionsWithKeys(options);
     commands = [
       'module load metis',
-      `gpmetis ${parameters} ${file} ${nbPartitions}`,
+      `gpmetis ${parameters} ${parameters} ${file} ${nbPartitions}`,
     ];
   }
   return commands;
@@ -160,7 +175,7 @@ function process(server, password, file, library, nparts, options, eventEmitter)
   }).on('upload-end', () => {
     setTimeout(() => {
       executeCommands(config, commands, internalEmitter);
-    }, 1000);
+    }, 2000);
     eventEmitter.emit('upload-end');
   }).on('commands-start', () => {
     console.log('Command Upload');
@@ -168,11 +183,10 @@ function process(server, password, file, library, nparts, options, eventEmitter)
   }).on('command-result', (command, stdout) => {
     console.log(`Command: ${command}`);
     console.log(`STDOUT: ${stdout}`);
-    eventEmitter.emit('command-result', command, stdout);
   }).on ('commands-end', () => {
     setTimeout(() => {
       download(config, resultFile, outputFile, internalEmitter);
-    }, 1000);
+    }, 2000);
     eventEmitter.emit('commands-end');
   }).on('download-start', () => {
     console.log('Start download');
