@@ -199,7 +199,7 @@ app.on('ready', function () {
   });
 
   eventEmitter.on('error', (err) => {
-    sendNotification(err, 'alert');
+    sendNotification(err.message, 'alert');
   }).on('upload-start', (host, file, defaultPath) => {
     sendNotification(`Connected to the server ${host}. Starting to upload the file ${file} in ${defaultPath}.`, 'notification');
   }).on('upload-step', (totalTransferred, total) => {
@@ -209,7 +209,8 @@ app.on('ready', function () {
   }).on('command-start', () => {
     sendNotification('Starting the computation.', 'notification');
   }).on('command-result', (command, stdout) => {
-
+    console.log(`Command: ${command}`);
+    console.log(`Stdout: ${stdout}`);
   }).on ('command-end', () => {
     sendNotification('End of the computation.', 'notification');
   }).on('download-start', (fileName, fileDirectory) => {
