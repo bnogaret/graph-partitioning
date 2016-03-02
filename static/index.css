@@ -52,9 +52,6 @@ a.button {
   height: 100%;
 }
 
-
-/* Home Made snack bar when using server */
-
 #layout-notification .snackbar {
   position: relative;
   width: 400px;
@@ -74,8 +71,14 @@ a.button {
   color: inherit;
 }
 
-
-/*****************************************/
+#layout-notification .value-spinner {
+  position: absolute;
+  top: 29%;
+  left: 2%;
+  font-family: fantasy;
+  font-size: 10px;
+  color: navy;
+}
 
 #layout-notification .mdl-snackbar {
   position: relative;
