@@ -13,15 +13,27 @@
 <body>
   <div id="layout-notification">
   </div>
-  
+  <!--
+  <div id="sp" style="display: none">
+    <table>
+      <tr>
+        <div class="mdl-spinner mdl-js-spinner is-active">
+        </div>
+      </tr>
+      <tr>
+        <tspan id="spinner"></tspan>
+      </tr>
+    </table>
+  </div>
+-->
   <div id="head">
     <header class="mdl-layout__header is-casting-shadow">
       <div id="brand" class="mdl-layout__header-row">
         <button id="run-graph" class="mdl-button mdl-js-button mdl-button--icon">
-            <i class="fa fa-play-circle-o"></i>
+          <i class="fa fa-play-circle-o"></i>
         </button>
         <button id="pause-graph" class="mdl-button mdl-js-button mdl-button--icon">
-            <i class="fa fa-pause-circle-o"></i>
+          <i class="fa fa-pause-circle-o"></i>
         </button>
         <div class="mdl-layout-spacer"></div>
         <span class="mdl-layout-title">PARTIFY</span>
@@ -39,7 +51,7 @@
       </div>
     </header>
   </div>
-<div id="overlay">
+  <div id="overlay">
     <h2>Welcome to Partify !</h2>
     <p>
       Partify is a desktop application, using web technologies based on <strong>atom shell (electron)</strong> technologies and <strong>vivagraph</strong> library using webGL. Partify allows everyone to partition, visualize them graph and mesh using <strong>Metis</strong> and <strong>ParMetis</strong> library. Partitionning your graph enhance the computation by distributed your it to different processors. With partify you can do it on your computer or remotly through a server.Currently available for <strong>Windows</strong>? Partify is also available on Linux and include more libraries?.
@@ -91,30 +103,41 @@
           <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked="">
           <h2 class="mdl-mega-footer--heading">Recursive Partitionning</h2>
           <ul class="mdl-mega-footer--link-list">
-            <li><a id="edgecut"></a></li>
-            <li><a id="communication-volume"></a></li>
+            <li>
+              <a id="edgecut"></a>
+            </li>
+            <li>
+              <a id="communication-volume"></a>
+            </li>
           </ul>
         </div>
         <div class="mdl-mega-footer--drop-down-section">
           <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked="">
           <h2 class="mdl-mega-footer--heading">Timing Information</h2>
           <ul class="mdl-mega-footer--link-list">
-            <li><a id="IO"></a></li>
-            <li><a id="partitioning"></a></li>
-            <li><a id="reporting"></a></li>
+            <li>
+              <a id="IO"></a>
+            </li>
+            <li>
+              <a id="partitioning"></a>
+            </li>
+            <li>
+              <a id="reporting"></a>
+            </li>
           </ul>
         </div>
         <div class="mdl-mega-footer--drop-down-section">
           <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked="">
           <h2 class="mdl-mega-footer--heading">Memory Information</h2>
           <ul class="mdl-mega-footer--link-list">
-            <li><a id="max-memory-used"></a></li>
+            <li>
+              <a id="max-memory-used"></a>
+            </li>
           </ul>
         </div>
     </footer>
     </div>
 </body>
-
 <script type="text/javascript" src="./index.js"></script>
 <script type="text/javascript" src="./performance/performance.js"></script>
 
