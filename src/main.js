@@ -116,20 +116,20 @@ app.on('ready', function () {
       partitioningMethod: object.partitioningMethod ? object.partitioningMethod : '5',
     };
     switch (object.partitioningMethod) {
-    case '1': // Multilevel - Kernighan-Lin
-      executionParameters.vertices = object.vertices;
-      break;
-    case '2': // Spectral
-      executionParameters.eigensolver = object.eigensolver;
-      executionParameters.vertices = object.eigensolver === '1' ? object.vertices : '';
-      executionParameters.localRefinement = object.localRefinement;
-      break;
-    case '4': // Linear
-    case '5': // Random
-    case '6': // Scattered
-    default:
-      executionParameters.localRefinement = object.localRefinement;
-      break;
+      case '1': // Multilevel - Kernighan-Lin
+        executionParameters.vertices = object.vertices;
+        break;
+      case '2': // Spectral
+        executionParameters.eigensolver = object.eigensolver;
+        executionParameters.vertices = object.eigensolver === '1' ? object.vertices : '';
+        executionParameters.localRefinement = object.localRefinement;
+        break;
+      case '4': // Linear
+      case '5': // Random
+      case '6': // Scattered
+      default:
+        executionParameters.localRefinement = object.localRefinement;
+        break;
     }
     executionParameters.numberOfPartitions = object.numberOfPartitions;
     executionParameters.partitioningDimension = getPartitioningDimension(object.numberOfPartitions, object.partitioningDimension);
