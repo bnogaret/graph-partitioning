@@ -29,7 +29,7 @@ ipcRenderer.on('check-error', (event, obj) => {
   }
   if (/ERROR/.test(obj)) {
     notification(obj, 'alert');
-  }    
+  }
 });
 
 var exampleGraph = document.querySelector('#example-graph');

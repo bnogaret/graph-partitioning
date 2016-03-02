@@ -427,12 +427,12 @@ function addColor() {
   var b = 0;
   // Create random colors
   var randomColors = [];
-  
+
   // Convert number decimal number to hexadecimal
   for (var i = 0; i < App.numberOfPartitions; i++) {
     r = randomNumber();
     g = randomNumber();
-    b = randomNumber();    
+    b = randomNumber();
     randomColors.push(fromRGBto32([r, g, b]));
   }
 
@@ -451,7 +451,7 @@ function addColor() {
       App.graphics.getNodeUI(i).color = '0x' + randomColors[parseInt(processors[i - 1], 10)];
     }
   }
-  
+
   addColors(output);
   App.renderer.rerender();
 }
