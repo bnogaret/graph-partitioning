@@ -116,20 +116,20 @@ app.on('ready', function () {
       partitioningMethod: object.partitioningMethod ? object.partitioningMethod : '5',
     };
     switch (object.partitioningMethod) {
-      case '1': // Multilevel - Kernighan-Lin
-        executionParameters.vertices = object.vertices;
-        break;
-      case '2': // Spectral
-        executionParameters.eigensolver = object.eigensolver;
-        executionParameters.vertices = object.eigensolver === '1' ? object.vertices : '';
-        executionParameters.localRefinement = object.localRefinement;
-        break;
-      case '4': // Linear
-      case '5': // Random
-      case '6': // Scattered
-      default:
-        executionParameters.localRefinement = object.localRefinement;
-        break;
+    case '1': // Multilevel - Kernighan-Lin
+      executionParameters.vertices = object.vertices;
+      break;
+    case '2': // Spectral
+      executionParameters.eigensolver = object.eigensolver;
+      executionParameters.vertices = object.eigensolver === '1' ? object.vertices : '';
+      executionParameters.localRefinement = object.localRefinement;
+      break;
+    case '4': // Linear
+    case '5': // Random
+    case '6': // Scattered
+    default:
+      executionParameters.localRefinement = object.localRefinement;
+      break;
     }
     executionParameters.numberOfPartitions = object.numberOfPartitions;
     executionParameters.partitioningDimension = getPartitioningDimension(object.numberOfPartitions, object.partitioningDimension);
@@ -201,24 +201,59 @@ app.on('ready', function () {
   eventEmitter.on('error', (err) => {
     sendNotification(err.message, 'alert');
   }).on('upload-start', (host, file, defaultPath) => {
-    sendNotification(`Connected to the server ${host}. Starting to upload the file ${file} in ${defaultPath}.`, 'notification');
+    //sendNotification(`Connected to the server ${host}. Starting to upload the file ${file} in ${defaultPath}.`, 'notification');
+    var notif = {
+      step: 'upload_start',
+      data: 0,
+      message: `Connected to the server ${host}. Starting to upload the file ${file} in ${defaultPath}.`,
+    };
+    mainWindow.webContents.send('upload', notif);
   }).on('upload-step', (totalTransferred, total) => {
+    var notif = {
+      step: 'upload_step',
+      data: totalTransferred / total,
+      message: 'File is uploading.',
+    };
+    mainWindow.webContents.send('upload', notif);
 
   }).on('upload-end', () => {
-    sendNotification('Upload with success.', 'notification');
+    // sendNotification('Upload with success.', 'notification');
+    var notif = {
+      step: 'upload_end',
+      data: 0,
+      message: 'Upload with success.',
+    };
+    mainWindow.webContents.send('upload', notif);
   }).on('command-start', () => {
     sendNotification('Starting the computation.', 'notification');
   }).on('command-result', (command, stdout) => {
     console.log(`Command: ${command}`);
     console.log(`Stdout: ${stdout}`);
-  }).on ('command-end', () => {
+  }).on('command-end', () => {
     sendNotification('End of the computation.', 'notification');
   }).on('download-start', (fileName, fileDirectory) => {
-    sendNotification(`Starting to download the result file. It will save the file as ${fileName} in ${fileDirectory}.`, 'notification');
+    // sendNotification(`Starting to download the result file. It will save the file as ${fileName} in ${fileDirectory}.`, 'notification');
+    var notif = {
+      step: 'download_start',
+      data: 0,
+      message: `Starting to download the result file. It will save the file as ${fileName} in ${fileDirectory}.`,
+    };
+    mainWindow.webContents.send('upload', notif);
   }).on('download-step', (totalTransferred, total) => {
-
+    var notif = {
+      step: 'download_step',
+      data: totalTransferred / total,
+      message: `File is downloading`,
+    };
+    mainWindow.webContents.send('upload', notif);
   }).on('download-end', (host) => {
-    sendNotification(`File downloaded with success. Deconnection from the remote server ${host}.`, 'notification');
+    // sendNotification(`File downloaded with success. Deconnection from the remote server ${host}.`, 'notification');
+    var notif = {
+      step: 'download_end',
+      data: 0,
+      message: `File downloaded with success. Deconnection from the remote server ${host}.`,
+    };
+    mainWindow.webContents.send('upload', notif);
   });
 
   // Emitted when the window is closed.

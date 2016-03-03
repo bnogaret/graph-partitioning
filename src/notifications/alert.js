@@ -60,60 +60,41 @@ function notification(message, type) {
     layoutNotification.removeChild(separator);
   }, data.timeout);
 }
+//
+// Uploading file
+//
 
+var up = {
+  layoutNotification: document.querySelector('#layout-notification'),
+  table: document.createElement('table'),
+  tr: document.createElement('tr'),
+  td1: document.createElement('td'),
+  spinner: document.createElement('div'),
+  td2: document.createElement('td'),
+  snackbarText: document.createElement('div'),
+  snackbarNotification: document.createElement('div'),
+  separator: document.createElement('div'),
+  circle: null,
+};
 
-function progressSpinner(message) {
-  /**
-   <div class="snackbar">
-      <table>
-        <tr>
-          <td>
-            <div id="spinner"></div>            
-          </td>
-          <td>
-            <div class="snackbar_text">File is uploading</div>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div class="separator"></div>
-  */
-  const layoutNotification = document.querySelector('#layout-notification');
+up.spinner.id = 'spinner';
+up.snackbarText.className = 'snackbar_text';
+up.snackbarNotification.className = 'snackbar';
+up.separator.className = 'separator';
 
-  const table = document.createElement('table');
-
-  const tr = document.createElement('tr');
-
-  const td1 = document.createElement('td');
-  const spinner = document.createElement('div');
-  spinner.id = 'spinner';
-  td1.appendChild(spinner);
-
-  const td2 = document.createElement('td');
-  const snackbarText = document.createElement('div');
-  snackbarText.className = 'snackbar_text';
-  snackbarText.innerHTML = message;
-  td2.appendChild(snackbarText);
-
-  const snackbarNotification = document.createElement('div');
-  snackbarNotification.className = 'snackbar';
-
-  const separator = document.createElement('div');
-  separator.className = 'separator';
-
-  tr.appendChild(td1);
-  tr.appendChild(td2);
-  table.appendChild(tr);
-  snackbarNotification.appendChild(table);
-  componentHandler.upgradeElement(spinner);
-  layoutNotification.appendChild(snackbarNotification);
-  layoutNotification.appendChild(separator);
-  // spinner
-  var circle = new ProgressBar.Circle('#spinner', {
-    color: '#FCB03C',
+function init(message) {
+  up.td1.appendChild(up.spinner);
+  up.td2.appendChild(up.snackbarText);
+  up.tr.appendChild(up.td1);
+  up.tr.appendChild(up.td2);
+  up.table.appendChild(up.tr);
+  up.snackbarNotification.appendChild(up.table);
+  up.layoutNotification.appendChild(up.snackbarNotification);
+  up.layoutNotification.appendChild(up.separator);
+  up.circle = new ProgressBar.Circle('#spinner', {
+    color: '#4CC417',
     strokeWidth: 3,
     trailWidth: 1,
-    duration: 1500,
     text: {
       value: '0'
     },
@@ -121,11 +102,47 @@ function progressSpinner(message) {
       bar.setText((bar.value() * 100).toFixed(0));
     }
   });
+  up.circle.animate(0);
+  up.snackbarText.innerHTML = message;
+  up.spinner.style.opacity = '0';
+}
 
-  circle.animate(1, function () {
-    circle.animate(0);
-  });
+function progressSpinner(step, data, message) {
+  switch (step) {
+  case 'upload_step':
+    up.spinner.style.opacity = '1';
+    up.snackbarText.innerHTML = message;
+    up.circle.animate(data);
+    break;
+  case 'upload_end':
+    up.snackbarText.innerHTML = message;
+    break;
+  case 'download_start':
+    up.spinner.style.opacity = '0';
+    up.snackbarText.innerHTML = message;
+    up.circle.animate(data);
+    break;
+  case 'download_step':
+    up.spinner.style.opacity = '1';
+    setTimeout(() => {
+      up.snackbarText.innerHTML = message;
+      up.circle.animate(data);
+    }, 1500);
+    break;
+  case 'download_end':
+    setTimeout(() => {
+      up.snackbarText.innerHTML = message;
+    }, 1500);
+    setTimeout(() => {
+      up.layoutNotification.removeChild(up.snackbarNotification);
+      up.layoutNotification.removeChild(up.separator);
+    }, 6000);
+    break;
+  default:
+    break;
+  }
 }
 
 module.exports.notification = notification;
 module.exports.progressSpinner = progressSpinner;
+module.exports.init = init;
