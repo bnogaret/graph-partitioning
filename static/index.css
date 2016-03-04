@@ -30,7 +30,10 @@ a.button {
   z-index: -1;
 }
 
-
+#buttons-in-table{
+  position: absolute;
+  top: 65px;
+}
 /* Description of the project */
 
 #overlay {
