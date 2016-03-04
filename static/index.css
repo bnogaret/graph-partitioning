@@ -1,3 +1,26 @@
+@font-face {
+  font-family: 'Sketch_3D';
+  src: url('Sketch_3D.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Brannboll';
+  src: url('BrannbollFS_PERSONAL.ttf') format('truetype');
+}
+
+#logo {
+  height: 4em;
+  width: auto;
+}
+.mdl-layout-title {
+  font-family: Sketch_3D;
+  font-size: 5em;
+}
+
+#overlay .Brannboll {
+  font-family: Brannboll;
+}
+
 .button {
   display: block;
   height: 200px;
@@ -21,6 +44,7 @@ a.button {
 #content {
   z-index: -1;
 }
+
 #buttons-in-table {
   position: absolute;
   top: 65px;

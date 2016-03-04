@@ -497,9 +497,12 @@ function loadNewGraphWithLinks() {
   App.renderer.dispose();
   App.renderer = null;
   // Resize vertices
-  App.graphics.node(function (node) {
-    return Viva.Graph.View.webglSquare(100, 0x1f77b4ff);
-  });
+  if (!App.isMesh) {
+    App.graphics.node(function (node) {
+      return Viva.Graph.View.webglSquare(100, 0x1f77b4ff);
+    });
+  }
+
   App.renderer = Viva.Graph.View.renderer(App.graph, {
     graphics: App.graphics,
     layout: App.layout,
@@ -544,7 +547,7 @@ function preview(type) {
     var file = fs.readFileSync(process.cwd() + '/static/graph.txt', 'utf-8');
     break;
   case 'mesh':
-    var file = fs.readFileSync(process.cwd() + '/static/tet.mesh', 'utf-8');
+    var file = fs.readFileSync(process.cwd() + '/static/jagmesh6.mtx', 'utf-8');
   default:
     break;
   }
