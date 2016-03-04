@@ -19,10 +19,6 @@ ipcRenderer.on('display-notification', (event, message, type) => {
   notification(message, type);
 });
 
-// ipcRenderer.on('error', (event, obj) => {
-//   notification(obj, 'alert');
-// });
-
 var exampleGraph = document.querySelector('#example-graph');
 exampleGraph.addEventListener('click', () => {
   performance.hide();

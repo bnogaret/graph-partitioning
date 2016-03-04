@@ -18,22 +18,14 @@ a.button {
   height: 25%;
 }
 
-#footer {
-  width: 100%;
-  height: 20%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-
 #content {
   z-index: -1;
 }
-
-#buttons-in-table{
+#buttons-in-table {
   position: absolute;
   top: 65px;
 }
+
 /* Description of the project */
 
 #overlay {
@@ -48,13 +40,11 @@ a.button {
   color: antiquewhite;
   background-color: rgba(0, 0, 0, 0.6);
 }
-
 #layout-notification {
   position: absolute;
   width: 100%;
   height: 100%;
 }
-
 #layout-notification .snackbar {
   position: relative;
   width: 400px;
@@ -66,18 +56,15 @@ a.button {
   color: #1976d2;
   background-color: #bbdefb;
 }
-
 #layout-notification .snackbar_text {
   padding: 14px;
   overflow-wrap: break-word;
   width: inherit;
   color: inherit;
 }
-
 #spinner {
   width: 50px;
 }
-
 #layout-notification .mdl-snackbar {
   position: relative;
   width: 400px;
@@ -86,7 +73,6 @@ a.button {
   margin: 0 0 0 auto;
   right: 25px;
 }
-
 #layout-notification .mdl-snackbar.mdl-snackbar--active {
   position: relative;
   width: 400px;
@@ -95,38 +81,75 @@ a.button {
   margin: 0 0 0 auto;
   right: 5%;
 }
-
 #layout-notification .mdl-snackbar.alert {
   color: #d32f2f;
   background-color: #ffcdd2;
 }
-
 #layout-notification .mdl-snackbar.notification {
   color: #1976d2;
   background-color: #bbdefb;
 }
-
 #layout-notification .mdl-snackbar.warning {
   color: #ffa000;
   background-color: #fff9c4;
 }
-
 #layout-notification .mdl-snackbar .mdl-snackbar__action {
   padding: 0;
 }
-
 #layout-notification .mdl-snackbar .mdl-snackbar__text {
   padding: 14px;
   overflow-wrap: break-word;
   width: inherit;
   color: inherit;
 }
-
 #layout-notification .mdl-snackbar i {
   align-self: center;
   padding: 0 0 0 15px;
 }
-
 #layout-notification .separator {
   padding: 5px 0 5px 0;
+}
+
+/* footer */
+
+#footer {
+  width: 100%;
+  height: 90px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.stats-2cols .mdl-cell {
+  border-right: 1px #E4E4E4 solid;
+}
+
+.stats-2cols .mdl-cell:last-child {
+  border-right: none;
+}
+
+.small {
+  font-size: 115%;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.stats-2cols {
+  width: 100%;
+  padding: 11px 0 15px;
+  margin-bottom: 10px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+#footer h3 {
+  font-size: 26px;
+}
+
+.mdl-mega-footer {
+  height: 100%;
 }
