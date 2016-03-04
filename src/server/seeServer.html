@@ -1,42 +1,65 @@
+<!DOCTYPE html>
 <html>
 
 <head>
   <meta charset="UTF-8">
   <title>List of servers</title>
-  <script type="text/javascript" src="../../node_modules/material-design-lite/material.min.js"></script>
   <link rel="stylesheet" href="../../node_modules/material-design-lite/material.min.css">
-  <link rel="stylesheet" href="../../static/server.css">
+  <link rel="stylesheet" href="../../static/pop-up-window.css">
 </head>
 
 <body>
-  <div class="mdl-layout mdl-js-layout mdl-color--blue-100">
-    <main class="mdl-layout__content">
-      <div class="mdl-card mdl-shadow--6dp">
-        <div class="mdl-card__title mdl-color--primary mdl-color-text--white">
-          <h2 class="mdl-card__title-text">Add a server</h2>
-        </div>
-        <div class="mdl-card__supporting-text">
-          <table class="mdl-data-table mdl-js-data-table">
-            <thead>
-              <tr>
-                <th class="mdl-data-table__cell--non-numeric">Host</th>
-                <th class="mdl-data-table__cell--non-numeric">Username</th>
-                <th class="mdl-data-table__cell--non-numeric">Port</th>
-                <th class="mdl-data-table__cell--non-numeric">Default path</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-        <div class="mdl-card__actions mdl-card--border">
-          <button class="mdl-button mdl-button--raised mdl-js-button mdl-js-ripple-effect" id="button-close">Close</button>
+  <main style="" class="mdl-layout__content mdl-color--grey-100 page">
+    <section class="text-fields">
+      <div class="mdl-color--amber ml-header relative clear">
+        <div class="p-20">
+          <h3 class="mdl-color-text--white m-t-20 m-b-5">See servers</h3>
+          <h4 class="mdl-color-text--amber-100 m-b-20 no-m-t w100">Display the list of servers that you have registered</h4>
         </div>
       </div>
-    </main>
-  </div>
+
+      <div class="mdl-grid mdl-grid--no-spacing">
+        <!-- <div class="mdl-cell mdl-cell--4-col mdl-color--grey-100">
+          <div class="p-40 p-r-20 p-20--small">
+            <div class="mdl-color-text--blue-grey-400">
+              <h3>Help</h3>
+              <p>An overview of basic form styles and elements.</p>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="mdl-cell mdl-cell--12-col no-p-l">
+          <div class="p-20 ml-card-holder ml-card-holder-first">
+            <div class="mdl-card mdl-shadow--1dp">
+              <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Normal labels</h2>
+              </div>
+              <div class="p-30">
+                <table class="mdl-data-table mdl-js-data-table">
+                  <thead>
+                    <tr>
+                      <th class="mdl-data-table__cell--non-numeric">Host</th>
+                      <th class="mdl-data-table__cell--non-numeric">Username</th>
+                      <th class="mdl-data-table__cell--non-numeric">Port</th>
+                      <th class="mdl-data-table__cell--non-numeric">Default path</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+                <div class="mdl-card__actions">
+                  <button class="mdl-button mdl-button--raised mdl-js-button mdl-js-ripple-effect" id="button-close">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 </body>
 
+<script type="text/javascript" src="../../node_modules/material-design-lite/material.min.js"></script>
 <script type="text/javascript" src="./seeServer.js"></script>
 
 </html>
