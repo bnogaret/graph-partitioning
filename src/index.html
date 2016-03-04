@@ -20,9 +20,15 @@
         <button id="run-graph" class="mdl-button mdl-js-button mdl-button--icon">
           <i class="fa fa-play-circle-o"></i>
         </button>
+        <div class="mdl-tooltip" for="run-graph">
+          <font size="2">Run animation</font>
+        </div>
         <button id="pause-graph" class="mdl-button mdl-js-button mdl-button--icon">
           <i class="fa fa-pause-circle-o"></i>
         </button>
+        <div class="mdl-tooltip" for="pause-graph">
+          <font size="2">Pause animation</font>
+        </div>
         <div class="mdl-layout-spacer"></div>
         <span class="mdl-layout-title">PARTIFY</span>
         <div class="mdl-layout-spacer"></div>
@@ -42,18 +48,18 @@
 
   <div id="content">
     <div id="buttons-in-table">
-    <table id="displayTable">
-      <tr>
-        <td>
-          <button id="displayLinksBtn" style="display: none" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect">Display Links</button>
-        </td>
-        <td>
-        
-          <button id="displayColors" style="display: none" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect">Display Colors</button>
-        </td>
-      </tr>
-    </table>
-      </div>  
+      <table id="displayTable">
+        <tr>
+          <td>
+            <button id="displayLinksBtn" style="display: none" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect">Display Links</button>
+          </td>
+          <td>
+
+            <button id="displayColors" style="display: none" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect">Display Colors</button>
+          </td>
+        </tr>
+      </table>
+    </div>
     <span id="preview"></span>
     <dialog class="mdl-dialog">
       <h4 class="mdl-dialog__title">Show the edges</h4>
