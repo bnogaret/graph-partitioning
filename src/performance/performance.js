@@ -35,7 +35,7 @@ function perf(input) {
   var reporting = document.getElementById('footer-reporting');
   reporting.innerHTML = perfValues.reporting + ' sec';
   var memory = document.getElementById('footer-memory');
-  memory.innerHTML = perfValues.maxMemoryUsed + 'MB';
+  memory.innerHTML = perfValues.maxMemoryUsed + ' MB';
 
   footer.style.display = 'block';
 }
