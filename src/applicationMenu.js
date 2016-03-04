@@ -32,7 +32,7 @@ function createApplicationMenu() {
           click: () => {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
-              createWindow(380, 700, '/optionsDialog/optionsDialog.html');
+              createWindow(1000, 700, '/optionsDialog/optionsDialog.html');
               ipcRenderer.send('exe-initialization', file[0], false);
             }
           },
@@ -42,7 +42,7 @@ function createApplicationMenu() {
           click: () => {
             let file = fileDialog.getFile();
             if (typeof file !== 'undefined') {
-              createWindow(380, 700, '/optionsDialog/optionsDialog.html');
+              createWindow(1000, 700, '/optionsDialog/optionsDialog.html');
               ipcRenderer.send('exe-initialization', file[0], true);
             }
           },
@@ -77,13 +77,13 @@ function createApplicationMenu() {
         {
           label: 'New server',
           click: () => {
-            createWindow(500, 500, '/server/addServer.html');
+            createWindow(1000, 600, '/server/addServer.html');
           },
         },
         {
           label: 'See servers',
           click: () => {
-            createWindow(600, 500, '/server/seeServer.html');
+            createWindow(750, 400, '/server/seeServer.html');
           },
         },
       ],

@@ -10,7 +10,6 @@ function readValue(input, keyword) {
   return RegExp.$1 + RegExp.$2;
 }
 
-
 // Read the performance from the library
 var perfValues = {};
 
@@ -25,18 +24,18 @@ function perf(input) {
   perfValues.reporting = readValue(input, 'Reporting');
   perfValues.maxMemoryUsed = readValue(input, 'Max memory used');
 
-  var edgecut = document.getElementById('edgecut');
-  edgecut.innerHTML = 'Edgecut: ' + perfValues.edgecut;
-  var communication = document.getElementById('communication-volume');
-  communication.innerHTML = 'Communication volume: ' + perfValues.communicationVolume;
-  var io = document.getElementById('IO');
-  io.innerHTML = 'I/O: ' + perfValues.io + ' sec';
-  var partitioning = document.getElementById('partitioning');
-  partitioning.innerHTML = 'Partitioning: ' + perfValues.partitioning + ' sec';
-  var reporting = document.getElementById('reporting');
-  reporting.innerHTML = 'Reporting: ' + perfValues.reporting + ' sec';
-  var memory = document.getElementById('max-memory-used');
-  memory.innerHTML = 'Max memory used: ' + perfValues.maxMemoryUsed + 'MB';
+  var edgecut = document.getElementById('footer-edgecut');
+  edgecut.innerHTML = perfValues.edgecut;
+  var communication = document.getElementById('footer-communication');
+  communication.innerHTML = perfValues.communicationVolume;
+  var io = document.getElementById('footer-io');
+  io.innerHTML = perfValues.io + ' sec';
+  var partitioning = document.getElementById('footer-partitioning');
+  partitioning.innerHTML = perfValues.partitioning + ' sec';
+  var reporting = document.getElementById('footer-reporting');
+  reporting.innerHTML = perfValues.reporting + ' sec';
+  var memory = document.getElementById('footer-memory');
+  memory.innerHTML = perfValues.maxMemoryUsed + ' MB';
 
   footer.style.display = 'block';
 }
@@ -45,7 +44,7 @@ function hide() {
   footer.style.display = 'none';
 }
 
-footer.addEventListener('click', hide);
+// footer.addEventListener('click', hide);
 
 module.exports.perf = perf;
 module.exports.hide = hide;

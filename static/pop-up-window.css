@@ -1,0 +1,118 @@
+.page {
+	bottom:0;
+	position:absolute;
+	top:0;
+	width:100%;
+}
+
+.mdl-layout__content {
+	-ms-flex:0 1 auto;
+	display:inline-block;
+	overflow-y:auto;
+	overflow-x:hidden;
+	flex-grow:1;
+	z-index:1;
+	width: 100%,
+}
+
+.mdl-textfield {
+  display: block;
+  width: 100%;
+}
+
+.mdl-selectfield {
+  display: block;
+  width: 100%;
+}
+
+.relative {
+  position: relative !important;
+}
+.ml-header {
+  min-height: 180px;
+}
+
+.clear {
+  clear: both;
+}
+
+.m-t-20 {
+	margin-top:20px
+}
+
+.m-b-5 {
+	margin-bottom: 5px
+}
+
+.m-b-20 {
+	margin-bottom: 20px
+}
+
+.mdl-grid.mdl-grid--no-spacing {
+	padding:0
+}
+
+.p-20 {
+	padding:20px
+}
+
+.p-30 {
+  padding: 30px;
+}
+
+.p-40 {
+	padding:40px
+}
+
+.ml-card-holder.ml-card-holder-first {
+  margin-top: -80px;
+}
+
+.no-m-t {
+  margin-top: 0;
+}
+.m-b-20 {
+  margin-bottom: 20px;
+}
+.mdl-color-text--amber-100 {
+  color: #ffecb3;
+}
+
+h3 {
+  font-size: 23px;
+}
+
+h4 {
+  font-size: 17px;
+}
+
+.mdl-card {
+  width: auto;
+  border-radius: 3px;
+  overflow: visible;
+  z-index: auto;
+}
+
+.mdl-card__title {
+  padding: 16px 20px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.mdl-card, .mdl-card__actions, .mdl-card__media, .mdl-card__title, .mdl-checkbox {
+  box-sizing: border-box;
+}
+
+.mdl-textfield {
+  width: auto;
+  display: block;
+}
+.mdl-textfield {
+  position: relative;
+  font-size: 16px;
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 0;
+  padding: 20px 0;
+}
