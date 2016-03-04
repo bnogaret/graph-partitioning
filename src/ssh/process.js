@@ -181,8 +181,9 @@ function process(server, password, file, library, nparts, options, eventEmitter)
     console.log('Command Upload');
     eventEmitter.emit('commands-start');
   }).on('command-result', (command, stdout) => {
-    console.log(`Command: ${command}`);
-    console.log(`STDOUT: ${stdout}`);
+    // console.log(`Command: ${command}`);
+    // console.log(`STDOUT: ${stdout}`);
+    eventEmitter.emit('command-result', stdout);
   }).on ('commands-end', () => {
     setTimeout(() => {
       download(config, resultFile, outputFile, internalEmitter);

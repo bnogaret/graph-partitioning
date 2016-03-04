@@ -226,9 +226,16 @@ app.on('ready', function () {
     mainWindow.webContents.send('upload', notif);
   }).on('command-start', () => {
     sendNotification('Starting the computation.', 'notification');
-  }).on('command-result', (command, stdout) => {
-    console.log(`Command: ${command}`);
+  }).on('command-result', (stdout) => {
     console.log(`Stdout: ${stdout}`);
+    // console.log('\n TEST STDOUT: \n' + stdout.startsWith('mpmetis'));
+    if(stdout.startsWith('mpmetis')) {
+      mainWindow.webContents.send('performance', stdout);
+    } else if (stdout.startsWith('gpmetis')) {
+      mainWindow.webContents.send('performance', stdout);
+    } else if (stdout.startsWith('mpirun')) {
+      mainWindow.webContents.send('performance', stdout);
+    }
   }).on('command-end', () => {
     sendNotification('End of the computation.', 'notification');
   }).on('download-start', (fileName, fileDirectory) => {
