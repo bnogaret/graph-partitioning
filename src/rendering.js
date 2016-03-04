@@ -497,9 +497,12 @@ function loadNewGraphWithLinks() {
   App.renderer.dispose();
   App.renderer = null;
   // Resize vertices
-  App.graphics.node(function (node) {
-    return Viva.Graph.View.webglSquare(100, 0x1f77b4ff);
-  });
+  if (!App.isMesh) {
+    App.graphics.node(function (node) {
+      return Viva.Graph.View.webglSquare(100, 0x1f77b4ff);
+    });
+  }
+
   App.renderer = Viva.Graph.View.renderer(App.graph, {
     graphics: App.graphics,
     layout: App.layout,
