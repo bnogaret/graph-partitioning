@@ -8,6 +8,10 @@
   src: url('BrannbollFS_PERSONAL.ttf') format('truetype');
 }
 
+header {
+  height: 64px;
+}
+
 #logo {
   height: 4em;
   width: auto;
@@ -55,7 +59,7 @@ a.button {
 #overlay {
   display: block;
   position: absolute;
-  top: 9.5%;
+  top: 64px;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -69,17 +73,17 @@ a.button {
   width: 100%;
   height: 100%;
 }
-#layout-notification .snackbar {
+/*#layout-notification .snackbar {
   position: relative;
   width: 400px;
-  top: 15%;
+  top: 40px;
   left: auto;
   margin: 0 0 0 auto;
   right: 25px;
   border-radius: 5px;
   color: #1976d2;
   background-color: #bbdefb;
-}
+}*/
 #layout-notification .snackbar_text {
   padding: 14px;
   overflow-wrap: break-word;
@@ -100,10 +104,10 @@ a.button {
 #layout-notification .mdl-snackbar.mdl-snackbar--active {
   position: relative;
   width: 400px;
-  top: 5%;
+  top: 40px;
   left: auto;
   margin: 0 0 0 auto;
-  right: 5%;
+  right: -10%;
 }
 #layout-notification .mdl-snackbar.alert {
   color: #d32f2f;
@@ -176,4 +180,18 @@ a.button {
 
 .mdl-mega-footer {
   height: 100%;
+}
+
+.main-color--background {
+  background-color: #2B4ECD;
+}
+
+body {
+  overflow-y: hidden;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+  height: calc(100% - 64px) !important;
 }
