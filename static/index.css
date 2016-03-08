@@ -18,8 +18,15 @@ header {
 
 #logo {
   height: 4em;
-  width: auto;
-  margin-left: 17%;
+  /* width: auto; */
+  /* left: auto; */
+  /* position: absolute; */
+  padding: 5px;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
 }
 
 .mdl-layout-title {
