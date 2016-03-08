@@ -81,6 +81,31 @@
   margin-bottom: 20px;
 }
 
+.m-r-10 {
+  margin-right: 10px;
+}
+
+.f11 {
+  font-size: 11px;
+}
+
+.list-bordered {
+	list-style: none;
+	margin: 0;
+	padding-right: 25px;
+  padding-left: 25px;
+}
+
+.list-bordered li {
+	border-bottom: 1px rgba(0,0,0,.1) solid;
+}
+
+.list-bordered li a {
+  display: block;
+  padding: 5px;
+  text-decoration: none;
+}
+
 h3 {
   font-size: 23px;
 }
