@@ -35,7 +35,7 @@ function onLoad(file) {
   App.renderer = Viva.Graph.View.renderer(App.graph, {
     layout: App.layout,
     graphics: App.graphics,
-    container: document.getElementById('graph-container'),
+    container: document.getElementById('preview'),
   });
 
   // Step 1. Get the library to read and draw
