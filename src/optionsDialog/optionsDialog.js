@@ -1,5 +1,6 @@
 'use strict';
 
+const shell = require('electron').shell;
 const ipcRenderer = require('electron').ipcRenderer;
 
 const localDatabase = require('../db/localDatabase.js').localDatabase;
@@ -79,9 +80,17 @@ const chacoSelectLocalRefinement = document.getElementById('chaco-select-local_r
 const chacoPartitioningDimension = document.getElementById('chaco-select-partitioning_dimension');
 
 if (isLinux()) {
+  // Display
   const div = chacoOption.parentNode;
   div.style.display = 'inline-block';
 }
+
+Array.from(document.querySelectorAll('.open-external-url')).forEach((element) => {
+  element.addEventListener('click', (event) => {
+    shell.openExternal(element.href);
+    event.preventDefault();
+  });
+});
 
 metisOption.addEventListener('click', () => {
   console.log('metisOption');
