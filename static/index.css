@@ -1,11 +1,6 @@
 @font-face {
-  font-family: 'Sketch_3D';
-  src: url('Sketch_3D.otf') format('opentype');
-}
-
-@font-face {
   font-family: 'Brannboll';
-  src: url('BrannbollFS_PERSONAL.ttf') format('truetype');
+  src: url('BankGothicLight.ttf') format('truetype');
 }
 
 header {
@@ -27,11 +22,6 @@ header {
   margin-right: auto;
   left: 0;
   right: 0;
-}
-
-.mdl-layout-title {
-  font-family: Sketch_3D;
-  font-size: 5em;
 }
 
 #overlay .Brannboll {
