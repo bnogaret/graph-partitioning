@@ -63,26 +63,26 @@ ipcRenderer.on('performance', (event, obj) => {
 
 ipcRenderer.on('upload', (event, obj) => {
   switch (obj.step) {
-  case 'upload_start':
-    upload.init(obj.message);
-    break;
-  case 'upload_step':
-    upload.progressSpinner(obj.step, obj.data, obj.message);
-    break;
-  case 'upload_end':
-    upload.progressSpinner(obj.step, obj.data, obj.message);
-    break;
-  case 'download_start':
-    upload.progressSpinner(obj.step, obj.data, obj.message);
-    break;
-  case 'download_step':
-    upload.progressSpinner(obj.step, obj.data, obj.message);
-    break;
-  case 'download_end':
-    upload.progressSpinner(obj.step, obj.data, obj.message);
-    break;
-  default:
-    break;
+    case 'upload_start':
+      upload.init(obj.message);
+      break;
+    case 'upload_step':
+      upload.progressSpinner(obj.step, obj.data, obj.message);
+      break;
+    case 'upload_end':
+      upload.progressSpinner(obj.step, obj.data, obj.message);
+      break;
+    case 'download_start':
+      upload.progressSpinner(obj.step, obj.data, obj.message);
+      break;
+    case 'download_step':
+      upload.progressSpinner(obj.step, obj.data, obj.message);
+      break;
+    case 'download_end':
+      upload.progressSpinner(obj.step, obj.data, obj.message);
+      break;
+    default:
+      break;
   }
 });
 

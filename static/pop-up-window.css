@@ -5,6 +5,10 @@
 	width:100%;
 }
 
+.main-color--background {
+  background-color: #2B4ECD;
+}
+
 .mdl-layout__content {
 	-ms-flex:0 1 auto;
 	display:inline-block;
@@ -73,9 +77,6 @@
 }
 .m-b-20 {
   margin-bottom: 20px;
-}
-.mdl-color-text--amber-100 {
-  color: #ffecb3;
 }
 
 h3 {

@@ -519,7 +519,7 @@ var renderLinksBtn = document.getElementById('displayLinksBtn');
 var dialog = document.querySelector('dialog');
 
 renderLinksBtn.addEventListener('click', function () {
-  dialog.showModal();  
+  dialog.showModal();
 });
 
 dialog.querySelector('.agree').addEventListener('click', function () {
@@ -551,6 +551,7 @@ function preview(type) {
     var file = fs.readFileSync(process.cwd() + '/static/tet.mesh', 'utf-8');
   default:
     break;
+
   }
 
   App.graph = Viva.Graph.graph();
@@ -662,8 +663,6 @@ function intro() {
   App.renderer.run();
 
   beginAddNodesLoop(graph);
-
-
 }
 // Add some effect to the graph
 function beginAddNodesLoop(graph) {
