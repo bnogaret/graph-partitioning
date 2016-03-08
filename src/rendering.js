@@ -10,6 +10,14 @@ var color = false;
 var runGraphBtn = document.getElementById('run-graph');
 var pauseGraphBtn = document.getElementById('pause-graph');
 
+const downloadCanvas = document.getElementById('downloadCanvas');
+
+downloadCanvas.addEventListener('click', () => {
+  const url = document.querySelector('canvas').toDataURL();
+  downloadCanvas.download = "test.png";
+  downloadCanvas.href = url;
+});
+
 runGraphBtn.addEventListener('click', () => {
   App.renderer.resume();
 });
@@ -31,7 +39,16 @@ function onLoad(file) {
   // App.graphGenerator = Viva.Graph.generator();
   App.graph = Viva.Graph.graph(); // App.graphGenerator.grid(50, 10);
   App.layout = Viva.Graph.Layout.forceDirected(App.graph);
-  App.graphics = Viva.Graph.View.webglGraphics();
+  App.graphics = Viva.Graph.View.webglGraphics({
+    clearColor: true, // we want to avoid rendering artifacts
+    clearColorValue: { // use white color to erase background
+      r: 255,
+      g: 255,
+      b: 255,
+      a: 1,
+    },
+    preserveDrawingBuffer: true,
+  });
   App.renderer = Viva.Graph.View.renderer(App.graph, {
     layout: App.layout,
     graphics: App.graphics,
@@ -556,7 +573,16 @@ function preview(type) {
 
   App.graph = Viva.Graph.graph();
   App.layout = Viva.Graph.Layout.forceDirected(App.graph);
-  App.graphics = Viva.Graph.View.webglGraphics();
+  App.graphics = Viva.Graph.View.webglGraphics({
+    clearColor: true, // we want to avoid rendering artifacts
+    clearColorValue: { // use white color to erase background
+      r: 255,
+      g: 255,
+      b: 255,
+      a: 1,
+    },
+    preserveDrawingBuffer: true,
+  });
   App.renderer = Viva.Graph.View.renderer(App.graph, {
     layout: App.layout,
     graphics: App.graphics,
@@ -632,7 +658,16 @@ function intro() {
 
   App.graph = Viva.Graph.graph();
   App.layout = Viva.Graph.Layout.forceDirected(App.graph);
-  App.graphics = Viva.Graph.View.webglGraphics();
+  App.graphics = Viva.Graph.View.webglGraphics({
+    clearColor: true, // we want to avoid rendering artifacts
+    clearColorValue: { // use white color to erase background
+      r: 255,
+      g: 255,
+      b: 255,
+      a: 1,
+    },
+    preserveDrawingBuffer: true,
+  });
   App.renderer = Viva.Graph.View.renderer(App.graph, {
     layout: App.layout,
     graphics: App.graphics,
