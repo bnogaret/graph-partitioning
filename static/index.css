@@ -12,6 +12,10 @@ header {
   height: 64px;
 }
 
+.visible-for-linux {
+  display: none;
+}
+
 #logo {
   height: 4em;
   width: auto;

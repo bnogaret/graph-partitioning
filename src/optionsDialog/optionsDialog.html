@@ -25,18 +25,29 @@
             <div class="mdl-color-text--blue-grey-400">
               <h3>Help</h3>
               <ul>
-
-                <p aligh="lef">Click links below to get more details about parameter specification:</p>
+                <p aligh="lef">Click links below to open the manual and get more details about parameters:</p>
                 <p align="center">
-                <li>
-                  <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwikv-n66rDLAhXH1RoKHZv5A-wQFggdMAA&url=http%3A%2F%2Fglaros.dtc.umn.edu%2Fgkhome%2Ffetch%2Fsw%2Fmetis%2Fmanual.pdf&usg=AFQjCNFjY8q11chhMEPOqOgy35t4cuka1g&sig2=arO59zU-GtjRgxxcOH9meQ" target="_blank"><b>METIS</b></a>
-                </li>
-                <li>
-                  <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwi3kqma7rDLAhVImBoKHcEdAf8QFggdMAA&url=http%3A%2F%2Fglaros.dtc.umn.edu%2Fgkhome%2Ffetch%2Fsw%2Fparmetis%2Fmanual.pdf&usg=AFQjCNEbgc2KXaVEiRP3zqlG6Fu46T-v0Q&sig2=mg4EzqrP9Mjaob1I_1ySNA"target="_blank"><b>parMETIS</b></a>
-                </li>
+                  <li>
+                    <a href="../../static/manual_metis.pdf" target="_blank" class="open-external-url"><b>METIS</b></a>
+                  </li>
+                  <li>
+                    <a href="../../static/manual_parmetis.pdf" target="_blank" class="open-external-url"><b>parMETIS</b></a>
+                  </li>
+                  <li class="visible-for-linux">
+                    <a href="../../static/manual_chaco.pdf" target="_blank" class="open-external-url"><b>Chaco</b></a>
+                  </li>
                 </p>
-                <p>
-                  Visit metis <a href="http://glaros.dtc.umn.edu/gkhome/views/metis" class="open-external-url">website</a>
+                <p aligh="lef">To visit their websites:</p>
+                <p align="center">
+                  <li>
+                    <a href="http://glaros.dtc.umn.edu/gkhome/metis/metis/overview" target="_blank" class="open-external-url"><b>METIS</b></a>
+                  </li>
+                  <li>
+                    <a href="http://glaros.dtc.umn.edu/gkhome/metis/parmetis/overview" target="_blank" class="open-external-url"><b>parMETIS</b></a>
+                  </li>
+                  <li class="visible-for-linux">
+                    <a href="http://www3.cs.stonybrook.edu/~algorith/implement/chaco/implement.shtml" target="_blank" class="open-external-url"><b>Chaco</b></a>
+                  </li>
                 </p>
               </ul>
             </div>
@@ -60,7 +71,7 @@
                       <input type="radio" id="parMetisOption" class="mdl-radio__button" name="choice-library" value="2">
                       <span class="mdl-radio__label">parMETIS</span>
                     </label>
-                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="chacoOption" style="display: none">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect visible-for-linux" for="chacoOption">
                       <input type="radio" id="chacoOption" class="mdl-radio__button" name="choice-library" value="3">
                       <span class="mdl-radio__label">Chaco</span>
                     </label>

@@ -80,9 +80,12 @@ const chacoSelectLocalRefinement = document.getElementById('chaco-select-local_r
 const chacoPartitioningDimension = document.getElementById('chaco-select-partitioning_dimension');
 
 if (isLinux()) {
-  // Display
-  const div = chacoOption.parentNode;
-  div.style.display = 'inline-block';
+  // Display linux-only content (currently chaco-related elements)
+  // const div = chacoOption.parentNode;
+  // div.style.display = 'inline-block';
+  Array.from(document.querySelectorAll('.open-external-url')).forEach((element) => {
+    element.style.display = 'inline-block';
+  });
 }
 
 Array.from(document.querySelectorAll('.open-external-url')).forEach((element) => {
