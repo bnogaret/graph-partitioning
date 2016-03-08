@@ -173,3 +173,7 @@ a:active {
   background-color: transparent;
   text-decoration: underline
 }
+
+.visible-for-linux {
+  display: none;
+}
