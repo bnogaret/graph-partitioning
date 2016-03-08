@@ -29,7 +29,7 @@
         <div class="mdl-tooltip" for="pause-graph">
           <font size="2">Pause animation</font>
         </div>
-        <div class="mdl-layout-spacer"></div>
+        <!--<div class="mdl-layout-spacer"></div>-->
         <img id="logo" src="../static/patify_logo_256.png" title="Partify logo" />
         <span class="mdl-layout-title">PARTIFY</span>
         <div class="mdl-layout-spacer"></div>
@@ -46,7 +46,11 @@
       </div>
     </header>
   </div>
-
+  
+  <div id="vertices-edges" style="display: none">
+    <p id="v_e"></p>
+  </div>
+  
   <div id="content">
     <div id="buttons-in-table">
       <table id="displayTable">
@@ -55,7 +59,6 @@
             <button id="displayLinksBtn" style="display: none" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect">Display Links</button>
           </td>
           <td>
-
             <button id="displayColors" style="display: none" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect">Display Colors</button>
           </td>
         </tr>
@@ -104,27 +107,27 @@
         </div>
       </div>
     </footer>
-    </div>
-    <div id="overlay">
-      <h2 class="Brannboll">Welcome to Partify !</h2>
-      <p>
-        Partify is a desktop application, using web technologies based on <strong>atom shell (electron)</strong> technologies and <strong>vivagraph</strong> library using webGL. Partify allows everyone to partition, visualize them graph and mesh using <strong>Metis</strong> and <strong>ParMetis</strong> library. Partitionning your graph enhance the computation by distributed your it to different processors. With partify you can do it on your computer or remotly through a server.Currently available for <strong>Windows</strong>? Partify is also available on Linux and include more libraries?.
-      </p>
-      <p>
-        It was made, under Cranfield University's monitoring during group project, by Marcin Bojarski, Baptiste Nogaret, Anthony Razafindramanana and Maciej Smolarczyk.
-      </p>
-      <p>
+  </div>
+  <div id="overlay">
+    <h2 class="Brannboll">Welcome to Partify !</h2>
+    <p>
+      Partify is a desktop application, using web technologies based on <strong>atom shell (electron)</strong> technologies and <strong>vivagraph</strong> library using webGL. Partify allows everyone to partition, visualize them graph and mesh using <strong>Metis</strong> and <strong>ParMetis</strong> library. Partitionning your graph enhance the computation by distributed your it to different processors. With partify you can do it on your computer or remotly through a server.Currently available for <strong>Windows</strong>? Partify is also available on Linux and include more libraries?.
+    </p>
+    <p>
+      It was made, under Cranfield University's monitoring during group project, by Marcin Bojarski, Baptiste Nogaret, Anthony Razafindramanana and Maciej Smolarczyk.
+    </p>
+    <p>
 
-      </p>
-      <h2 class="Brannboll">Basic Partify Usage</h2>
-      <p>
-        Users are allowed to set a new connection by clicking on server menu, by adding a new graph or mesh the user access to the different Metis and ParMetis options. Once the computation done intrisic's performance of the library are shown to the users.
-      </p>
-      <p>
-        Two examples of Metis/ParMetis input can be access through the main windows of Partify. The graph is composed of 766 nodes and 1314 edges whereas the mesh is made of a 3D region, using tetrahedral elements.
-      </p>
-      <h2 class="Brannboll">Click on the overlay to quit it</h2>
-    </div>
+    </p>
+    <h2 class="Brannboll">Basic Partify Usage</h2>
+    <p>
+      Users are allowed to set a new connection by clicking on server menu, by adding a new graph or mesh the user access to the different Metis and ParMetis options. Once the computation done intrisic's performance of the library are shown to the users.
+    </p>
+    <p>
+      Two examples of Metis/ParMetis input can be access through the main windows of Partify. The graph is composed of 766 nodes and 1314 edges whereas the mesh is made of a 3D region, using tetrahedral elements.
+    </p>
+    <h2 class="Brannboll">Click on the overlay to quit it</h2>
+  </div>
 </body>
 
 <script type="text/javascript" src="./index.js"></script>

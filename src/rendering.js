@@ -519,12 +519,13 @@ var renderLinksBtn = document.getElementById('displayLinksBtn');
 var dialog = document.querySelector('dialog');
 
 renderLinksBtn.addEventListener('click', function () {
-  dialog.showModal();
+  dialog.showModal();  
 });
 
 dialog.querySelector('.agree').addEventListener('click', function () {
   loadNewGraphWithLinks();
   dialog.close();
+  color = false;
 });
 
 dialog.querySelector('.close').addEventListener('click', function () {
@@ -547,7 +548,7 @@ function preview(type) {
     var file = fs.readFileSync(process.cwd() + '/static/graph.txt', 'utf-8');
     break;
   case 'mesh':
-    var file = fs.readFileSync(process.cwd() + '/static/jagmesh6.mtx', 'utf-8');
+    var file = fs.readFileSync(process.cwd() + '/static/tet.mesh', 'utf-8');
   default:
     break;
   }

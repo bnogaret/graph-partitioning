@@ -11,7 +11,9 @@
 #logo {
   height: 4em;
   width: auto;
+  margin-left: 17%;
 }
+
 .mdl-layout-title {
   font-family: Sketch_3D;
   font-size: 5em;
@@ -50,6 +52,7 @@ a.button {
   top: 65px;
 }
 
+
 /* Description of the project */
 
 #overlay {
@@ -64,11 +67,13 @@ a.button {
   color: antiquewhite;
   background-color: rgba(0, 0, 0, 0.6);
 }
+
 #layout-notification {
   position: absolute;
   width: 100%;
   height: 100%;
 }
+
 #layout-notification .snackbar {
   position: relative;
   width: 400px;
@@ -80,15 +85,18 @@ a.button {
   color: #1976d2;
   background-color: #bbdefb;
 }
+
 #layout-notification .snackbar_text {
   padding: 14px;
   overflow-wrap: break-word;
   width: inherit;
   color: inherit;
 }
+
 #spinner {
   width: 50px;
 }
+
 #layout-notification .mdl-snackbar {
   position: relative;
   width: 400px;
@@ -97,6 +105,7 @@ a.button {
   margin: 0 0 0 auto;
   right: 25px;
 }
+
 #layout-notification .mdl-snackbar.mdl-snackbar--active {
   position: relative;
   width: 400px;
@@ -105,34 +114,42 @@ a.button {
   margin: 0 0 0 auto;
   right: 5%;
 }
+
 #layout-notification .mdl-snackbar.alert {
   color: #d32f2f;
   background-color: #ffcdd2;
 }
+
 #layout-notification .mdl-snackbar.notification {
   color: #1976d2;
   background-color: #bbdefb;
 }
+
 #layout-notification .mdl-snackbar.warning {
   color: #ffa000;
   background-color: #fff9c4;
 }
+
 #layout-notification .mdl-snackbar .mdl-snackbar__action {
   padding: 0;
 }
+
 #layout-notification .mdl-snackbar .mdl-snackbar__text {
   padding: 14px;
   overflow-wrap: break-word;
   width: inherit;
   color: inherit;
 }
+
 #layout-notification .mdl-snackbar i {
   align-self: center;
   padding: 0 0 0 15px;
 }
+
 #layout-notification .separator {
   padding: 5px 0 5px 0;
 }
+
 
 /* footer */
 
@@ -176,4 +193,10 @@ a.button {
 
 .mdl-mega-footer {
   height: 100%;
+}
+
+#vertices-edges {
+  color: black;
+  position: absolute;
+  margin-left: 70%;
 }

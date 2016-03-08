@@ -61,6 +61,7 @@ app.on('ready', function () {
   ipcMain.on('exe-initialization', (event, fp, isMeshOption) => {
     receivedPath = fp;
     isMesh = isMeshOption;
+    mainWindow.webContents.send('isMesh', isMeshOption);
   });
 
   let eventEmitter = new EventEmitter();
@@ -229,7 +230,7 @@ app.on('ready', function () {
   }).on('command-result', (stdout) => {
     console.log(`Stdout: ${stdout}`);
     // console.log('\n TEST STDOUT: \n' + stdout.startsWith('mpmetis'));
-    if(stdout.startsWith('mpmetis')) {
+    if (stdout.startsWith('mpmetis')) {
       mainWindow.webContents.send('performance', stdout);
     } else if (stdout.startsWith('gpmetis')) {
       mainWindow.webContents.send('performance', stdout);
