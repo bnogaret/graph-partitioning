@@ -1,5 +1,12 @@
 'use strict';
 const footer = document.getElementById('footer');
+const vertices_edges = document.getElementById('vertices-edges');
+var isMesh = null;
+
+// Differents performance values depends on if it's a mesh or a graph
+function setMesh(mesh) {
+  isMesh = mesh;
+}
 
 // Read performance value from graph partitionning library
 function readValue(input, keyword) {
@@ -14,6 +21,8 @@ function readValue(input, keyword) {
 var perfValues = {};
 
 function perf(input) {
+  perfValues.elements = readValue(input, '#Elements');
+  perfValues.nodes = readValue(input, '#Nodes');
   perfValues.vertices = readValue(input, '#Vertices');
   perfValues.edges = readValue(input, '#Edges');
   perfValues.parts = readValue(input, '#Parts');
@@ -37,14 +46,27 @@ function perf(input) {
   var memory = document.getElementById('footer-memory');
   memory.innerHTML = perfValues.maxMemoryUsed + ' MB';
 
+  if (isMesh) {
+    // Nodes and Elements will be placed on the top through absolute position
+    var e_n = document.getElementById('v_e');
+    e_n.innerHTML = 'Elements: ' + perfValues.elements + ' Nodes: ' + perfValues.nodes;
+  } else {
+    // Vertices and edges will be placed on the top through absolute position
+    var v_e = document.getElementById('v_e');
+    v_e.innerHTML = 'Vertices: ' + perfValues.vertices + ' Edges: ' + perfValues.edges;
+  }
+
   footer.style.display = 'block';
+  vertices_edges.style.display = 'block';
 }
 
 function hide() {
   footer.style.display = 'none';
+  vertices_edges.style.display = 'none';
 }
 
-// footer.addEventListener('click', hide);
+
 
 module.exports.perf = perf;
 module.exports.hide = hide;
+module.exports.setMesh = setMesh;

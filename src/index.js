@@ -7,6 +7,11 @@ const notification = require('./notifications/alert').notification;
 const upload = require('./notifications/alert');
 const performance = require('./performance/performance.js');
 const t = require('./applicationMenu.js');
+var isMesh = null;
+
+ipcRenderer.on('isMesh', (event, obj) => {
+  isMesh = obj;
+});
 
 ipcRenderer.on('display-graph', (event, obj) => {
   notification('Load: ' + obj.p, 'notification');
@@ -51,6 +56,8 @@ var about = document.querySelector('#about');
 about.addEventListener('click', showOverlay);
 
 ipcRenderer.on('performance', (event, obj) => {
+  // Not same result when its a mesh
+  performance.setMesh(isMesh);
   performance.perf(obj);
 });
 
