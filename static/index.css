@@ -82,6 +82,17 @@ a.button {
   height: 100%;
 }
 
+#layout-notification .snackbar {
+  position: relative;
+  width: 400px;
+  top: 40px;
+  left: auto;
+  margin: 0 0 0 auto;
+  right: 25px;
+  color: #1976d2;
+  background-color: #bbdefb;
+}
+
 #layout-notification .snackbar_text {
   padding: 14px;
   overflow-wrap: break-word;
@@ -107,8 +118,7 @@ a.button {
   width: 400px;
   top: 40px;
   left: auto;
-  margin: 0 0 0 auto;
-  right: -10%;
+  right: 0.5%;
 }
 
 #layout-notification .mdl-snackbar.alert {
@@ -194,7 +204,8 @@ a.button {
 #vertices-edges {
   color: black;
   position: absolute;
-  margin-left: 70%;
+  bottom: 80px;
+  left: 20px;
 }
 
 .main-color--background {

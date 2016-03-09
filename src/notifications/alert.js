@@ -92,7 +92,7 @@ function init(message) {
   up.layoutNotification.appendChild(up.snackbarNotification);
   up.layoutNotification.appendChild(up.separator);
   up.circle = new ProgressBar.Circle('#spinner', {
-    color: '#4CC417',
+    color: '#00E5EE',
     strokeWidth: 3,
     trailWidth: 1,
     text: {
