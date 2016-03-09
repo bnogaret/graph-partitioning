@@ -51,7 +51,7 @@ function execParMetis(file, parameters, callback) {
   let program = PROGRAM_DIRECTORY + 'parmetis';
   if (process.platform === 'win32') {
     program += '.exe';
-    command = `mpiexec -n ${parameters.nbProcessors} ${program} ${file} ${parameters.maxub} ${parameters.seed}`;
+    command = `mpiexec -n ${parameters.nbProcessors} ${program} ${file} ${parameters.nparts} ${parameters.maxub} ${parameters.seed}`;
   } else {
     command = `mpiexec -n ${parameters.nbProcessors} ${program} ${file} 1 ${parameters.nparts} 2 1.05 127 ${parameters.seed}`;
   }
