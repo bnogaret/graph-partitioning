@@ -14,7 +14,7 @@ const downloadCanvas = document.getElementById('downloadCanvas');
 
 downloadCanvas.addEventListener('click', () => {
   const url = document.querySelector('canvas').toDataURL();
-  downloadCanvas.download = "test.png";
+  downloadCanvas.download = 'test.png';
   downloadCanvas.href = url;
 });
 

@@ -10,6 +10,7 @@ const getStringFromOptionsWithKeys = require('./executionLib.js').getStringFromO
 const PROGRAM_DIRECTORY = __dirname + '/../native/';
 
 function execApp(command, callback) {
+  console.log(command);
   exec(command, (error, stdout, stderr) => {
     console.log(`stderr: ${stderr}`);
     console.log(error);
@@ -46,13 +47,17 @@ function execMpMetis(file, nbPartitions, parameters, callback) {
 }
 
 function execParMetis(file, nbProcessors, parameters, callback) {
+  const option = getStringFromOptions(parameters);
+  let command = '';
   let program = PROGRAM_DIRECTORY + 'parmetis';
   if (process.platform === 'win32') {
     program += '.exe';
+    command = `mpiexec -n ${nbProcessors} ${program} ${file} ${option}`;
+  } else {
+    command = `mpiexec -n ${nbProcessors} ${program} ${file} 1 ${parameters.nparts} 2 1.05 127 ${parameters.seed}`;
   }
 
-  const option = getStringFromOptions(parameters);
-  const command = `mpiexec -n ${nbProcessors} ${program} ${file} ${option}`;
+  console.log(command);
 
   execApp(command, (result, error, stderr) => {
     callback(result, error, stderr);

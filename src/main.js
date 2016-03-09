@@ -202,7 +202,7 @@ app.on('ready', function () {
   eventEmitter.on('error', (err) => {
     sendNotification(err.message, 'alert');
   }).on('upload-start', (host, file, defaultPath) => {
-    //sendNotification(`Connected to the server ${host}. Starting to upload the file ${file} in ${defaultPath}.`, 'notification');
+    // sendNotification(`Connected to the server ${host}. Starting to upload the file ${file} in ${defaultPath}.`, 'notification');
     var notif = {
       step: 'upload_start',
       data: 0,
@@ -216,7 +216,6 @@ app.on('ready', function () {
       message: 'File is uploading.',
     };
     mainWindow.webContents.send('upload', notif);
-
   }).on('upload-end', () => {
     // sendNotification('Upload with success.', 'notification');
     var notif = {
