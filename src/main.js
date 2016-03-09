@@ -182,7 +182,7 @@ app.on('ready', function () {
       } else {
         executionLocalLib.execMpMetis(receivedPath, obj.numberOfPartitions, params, processResult);
       }
-    } else if (obj.parMetisRadioValue === '2') {
+    } else if (obj.choiceLibrary === '2') {
       let params = processReceivedParMetisData(obj);
 
       if (obj.remoteServerId) {
