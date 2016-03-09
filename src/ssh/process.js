@@ -80,7 +80,7 @@ function getCommands(library, file, nbPartitions, options) {
       'module load parmetis',
       'module load icc',
       'module load impi',
-      'mpirun -np 6 parmetis ' + file + ' ' + parameters,
+      `mpirun -n ${options.nbProcessors} parmetis ${file} 1 ${options.nparts} 2 1.05 127 ${options.seed}`,
     ];
   } else if (library === 'mpmetis') {
     parameters = getStringFromOptionsWithKeys(options);

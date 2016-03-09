@@ -91,6 +91,7 @@ app.on('ready', function () {
 
   function processReceivedParMetisData(object) {
     const executionParameters = {
+      nbProcessors: object.procsInputParMetis,
       nparts: object.numberOfPartitions,
       maxub: object.maxImbalanceParMetis,
       seed: object.seed,
@@ -189,7 +190,7 @@ app.on('ready', function () {
         const server = db.getServer(obj.remoteServerId);
         sendToRemote(server, receivedPath, obj.password, 'parmetis', obj.numberOfPartitions, params, eventEmitter);
       } else {
-        executionLocalLib.execParMetis(receivedPath, obj.procsInputParMetis, params, processResult);
+        executionLocalLib.execParMetis(receivedPath, params, processResult);
       }
     } else if (process.platform === 'linux' && obj.choiceLibrary === '3' && !isMesh) {
       console.log(obj);

@@ -46,15 +46,14 @@ function execMpMetis(file, nbPartitions, parameters, callback) {
   });
 }
 
-function execParMetis(file, nbProcessors, parameters, callback) {
-  const option = getStringFromOptions(parameters);
+function execParMetis(file, parameters, callback) {
   let command = '';
   let program = PROGRAM_DIRECTORY + 'parmetis';
   if (process.platform === 'win32') {
     program += '.exe';
-    command = `mpiexec -n ${nbProcessors} ${program} ${file} ${option}`;
+    command = `mpiexec -n ${parameters.nbProcessors} ${program} ${file} ${parameters.maxub} ${parameters.seed}`;
   } else {
-    command = `mpiexec -n ${nbProcessors} ${program} ${file} 1 ${parameters.nparts} 2 1.05 127 ${parameters.seed}`;
+    command = `mpiexec -n ${parameters.nbProcessors} ${program} ${file} 1 ${parameters.nparts} 2 1.05 127 ${parameters.seed}`;
   }
 
   console.log(command);
