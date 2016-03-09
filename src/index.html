@@ -79,12 +79,17 @@
       </div>
     </dialog>
   </div>  
-  <div id="vertices-edges" style="display: block">
-    <p id="v_e"></p>
-  </div>
   <div id="footer" style="display: none">
     <footer class="mdl-mega-footer mdl-color--grey-800">
       <div class="mdl-grid mdl-grid--no-spacing text-center stats-2cols">
+         <div class="mdl-cell mdl-cell--2-col">
+          <div class="small" id="elements_vertices"></div>
+          <h3 class="mdl-color-text--cyan no-margin " id="footer-reporting"></h3>
+        </div>
+        <div class="mdl-cell mdl-cell--2-col">
+          <div class="small" id="nodes_edges"></div>
+          <h3 class="mdl-color-text--cyan no-margin " id="footer-io"></h3>
+        </div>
         <div class="mdl-cell mdl-cell--2-col">
           <div class="small">Edgecut</div>
           <h3 class="mdl-color-text--cyan no-margin " id="footer-edgecut"></h3>
@@ -93,18 +98,12 @@
           <div class="small">Communication volume</div>
           <h3 class="mdl-color-text--cyan no-margin" id="footer-communication"></h3>
         </div>
+        
         <div class="mdl-cell mdl-cell--2-col">
-          <div class="small">IO</div>
-          <h3 class="mdl-color-text--cyan no-margin " id="footer-io"></h3>
-        </div>
-        <div class="mdl-cell mdl-cell--2-col">
-          <div class="small">Partitioning</div>
+          <div class="small">Execution time</div>
           <h3 class="mdl-color-text--cyan no-margin " id="footer-partitioning"></h3>
         </div>
-        <div class="mdl-cell mdl-cell--2-col">
-          <div class="small">Reporting</div>
-          <h3 class="mdl-color-text--cyan no-margin " id="footer-reporting"></h3>
-        </div>
+       
         <div class="mdl-cell mdl-cell--2-col">
           <div class="small">Max-memory-used</div>
           <h3 class="mdl-color-text--cyan no-margin " id="footer-memory"></h3>

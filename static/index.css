@@ -198,13 +198,6 @@ a.button {
   height: 100%;
 }
 
-#vertices-edges {
-  color: black;
-  position: absolute;
-  bottom: 80px;
-  left: 20px;
-}
-
 .main-color--background {
   background-color: #2B4ECD;
 }

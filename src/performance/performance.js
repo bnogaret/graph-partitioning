@@ -37,27 +37,35 @@ function perf(input) {
   edgecut.innerHTML = perfValues.edgecut;
   var communication = document.getElementById('footer-communication');
   communication.innerHTML = perfValues.communicationVolume;
-  var io = document.getElementById('footer-io');
-  io.innerHTML = perfValues.io + ' sec';
+
   var partitioning = document.getElementById('footer-partitioning');
-  partitioning.innerHTML = perfValues.partitioning + ' sec';
-  var reporting = document.getElementById('footer-reporting');
-  reporting.innerHTML = perfValues.reporting + ' sec';
+  var totalTime = parseFloat(perfValues.partitioning, 10) + parseFloat(perfValues.io, 10) + parseFloat(perfValues.reporting, 10);
+  partitioning.innerHTML = totalTime +  ' sec';
+
   var memory = document.getElementById('footer-memory');
   memory.innerHTML = perfValues.maxMemoryUsed + ' MB';
 
   if (isMesh) {
-    // Nodes and Elements will be placed on the top through absolute position
-    var e_n = document.getElementById('v_e');
-    e_n.innerHTML = 'Elements: ' + perfValues.elements + ' Nodes: ' + perfValues.nodes;
+    var elements = document.getElementById('elements_vertices');
+    elements.innerHTML = 'Elements';
+    var reporting = document.getElementById('footer-reporting');
+    reporting.innerHTML = perfValues.elements;
+    var nodes = document.getElementById('nodes_edges');
+    nodes.innerHTML = 'Nodes';
+    var io = document.getElementById('footer-io');
+    io.innerHTML = perfValues.nodes;
   } else {
-    // Vertices and edges will be placed on the top through absolute position
-    var v_e = document.getElementById('v_e');
-    v_e.innerHTML = 'Vertices: ' + perfValues.vertices + ' Edges: ' + perfValues.edges;
+    var vertices = document.getElementById('elements_vertices');
+    vertices.innerHTML = 'Vertices';
+    var reporting = document.getElementById('footer-reporting');
+    reporting.innerHTML = perfValues.vertices;
+    var edges = document.getElementById('nodes_edges');
+    edges.innerHTML = 'Edges';
+    var io = document.getElementById('footer-io');
+    io.innerHTML = perfValues.edges;
   }
 
   footer.style.display = 'block';
-  vertices_edges.style.display = 'block';
 }
 
 function perf_chaco(input) {
@@ -74,26 +82,22 @@ function perf_chaco(input) {
   var communication = document.getElementById('footer-communication');
   communication.innerHTML = '--';
   var io = document.getElementById('footer-io');
-  io.innerHTML = perfValues.io + ' sec';
+  io.innerHTML = perfValues.edges;
   var partitioning = document.getElementById('footer-partitioning');
-  partitioning.innerHTML = perfValues.partitioning + ' sec';
+  partitioning.innerHTML = perfValues.reporting + ' sec';
   var reporting = document.getElementById('footer-reporting');
-  reporting.innerHTML = perfValues.reporting + ' sec';
+  reporting.innerHTML = perfValues.vertices;
   var memory = document.getElementById('footer-memory');
   memory.innerHTML = '--';
-
-
-    var e_n = document.getElementById('v_e');
-    e_n.innerHTML = 'Vertices: ' + perfValues.vertices + ' Edges: ' + perfValues.edges;
-
-
+  var vertices = document.getElementById('elements_vertices');
+  vertices.innerHTML = 'Vertices';
+  var edges = document.getElementById('nodes_edges');
+  edges.innerHTML = 'Edges';
   footer.style.display = 'block';
-  vertices_edges.style.display = 'block';
 }
 
 function hide() {
   footer.style.display = 'none';
-  vertices_edges.style.display = 'none';
 }
 
 
