@@ -1,6 +1,8 @@
 ![Partify logo](/static/logo_wide.png)
 -----
 
+[![devDependency Status](https://david-dm.org/bnogaret/graph-partitioning/dev-status.svg)](https://david-dm.org/bnogaret/graph-partitioning#info=devDependencies)
+
 ## Presentation
 
 Partify is a desktop application, using web technologies based on <strong>[Electron](http://electron.atom.io/)</strong> technologies and <strong>[Vivagraph](https://github.com/anvaka/VivaGraphJS)</strong> library using webGL to display the graph. We are using <strong>[Material Design Lite](https://www.getmdl.io/)</strong> for the GUI and <strong>[Font Awesome](https://fortawesome.github.io/Font-Awesome/icons/)</strong> for some icons. Partify allows everyone to partition, visualize them graph and mesh using <strong>[Metis](http://glaros.dtc.umn.edu/gkhome/metis/metis/overview)</strong> and <strong>[ParMetis](http://glaros.dtc.umn.edu/gkhome/metis/parmetis/overview)</strong> library. Partitioning your graph or mesh, enhance the computation by distributed it to different processors. With partify you can do it on your computer or remotely through a server. Currently available for <strong>Windows</strong>, Partify is also available on <strong>Linux</strong> (tested on Ubuntu) and include <strong>[Chaco](http://www3.cs.stonybrook.edu/~algorith/implement/chaco/implement.shtml)</strong> library.
