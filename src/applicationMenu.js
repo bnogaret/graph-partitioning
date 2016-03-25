@@ -14,11 +14,11 @@ function createWindow(width, height, filePath) {
     'height': height,
     'useContentSize': true,
     'alwaysOnTop': true,
-    'resizable': true, // TODO change for production
+    'resizable': false,
     'center': true,
   });
   window.setMenu(null);
-  window.webContents.openDevTools();
+  // window.webContents.openDevTools();
   window.loadURL('file://' + __dirname + filePath);
 }
 

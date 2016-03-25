@@ -42,7 +42,7 @@ app.on('ready', function () {
   });
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   console.log('My platform: ' + process.platform);
   console.log(app.getAppPath());
