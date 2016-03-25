@@ -68,6 +68,28 @@ function perf(input) {
   footer.style.display = 'block';
 }
 
+function perfParmetis(input) {
+  perfValues.edgecut = readValue(input, 'Cut');
+
+  var edgecut = document.getElementById('footer-edgecut');
+  edgecut.innerHTML = perfValues.edgecut;
+  var communication = document.getElementById('footer-communication');
+  communication.innerHTML = '--';
+  var io = document.getElementById('footer-io');
+  io.innerHTML = '--';
+  var partitioning = document.getElementById('footer-partitioning');
+  partitioning.innerHTML = '--';
+  var reporting = document.getElementById('footer-reporting');
+  reporting.innerHTML = '--';
+  var memory = document.getElementById('footer-memory');
+  memory.innerHTML = '--';
+  var vertices = document.getElementById('elements_vertices');
+  vertices.innerHTML = 'Vertices';
+  var edges = document.getElementById('nodes_edges');
+  edges.innerHTML = 'Edges';
+  footer.style.display = 'block';
+}
+
 function perfChaco(input) {
   perfValues.vertices = readValue(input, '# vertices');
   perfValues.edges = readValue(input, '# edges');
@@ -106,3 +128,4 @@ module.exports.perf = perf;
 module.exports.hide = hide;
 module.exports.setMesh = setMesh;
 module.exports.perfChaco = perfChaco;
+module.exports.perfParmetis = perfParmetis;

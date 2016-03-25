@@ -9,6 +9,10 @@ const performance = require('./performance/performance.js');
 const t = require('./applicationMenu.js');
 var isMesh = null;
 
+function isLinux() {
+  return (navigator.appVersion.indexOf('Linux') !== -1);
+}
+
 ipcRenderer.on('isMesh', (event, obj) => {
   isMesh = obj;
 });
@@ -60,6 +64,8 @@ ipcRenderer.on('performance', (event, obj, library) => {
   performance.setMesh(isMesh);
   if (library === 'chaco') {
     performance.perfChaco(obj);
+  } else if (library === 'parmetis' && isLinux()) {
+    performance.perfParmetis(obj);
   } else {
     performance.perf(obj);
   }

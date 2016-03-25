@@ -75,7 +75,7 @@ app.on('ready', function () {
     var executionParameters = {
       ptype: object.ptype,
       ctype: object.ctype,
-      seed: object.seed,
+      seed: object.seed || 0,
       niter: object.niter,
       ufactor: object.maxImbalance,
     };
@@ -94,7 +94,7 @@ app.on('ready', function () {
       nbProcessors: object.procsInputParMetis,
       nparts: object.numberOfPartitions,
       maxub: object.maxImbalanceParMetis,
-      seed: object.seed,
+      seed: object.seed || 0,
     };
     console.log('FUNCTION processReceivedParMetisData returned data');
     return executionParameters;

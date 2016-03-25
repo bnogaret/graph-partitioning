@@ -29,11 +29,9 @@ if (servers) {
                 </div>';
   console.log(selectOption);
 
-  const metisForm = document.getElementById('metisForm');
-  const parMetisForm = document.getElementById('parMetisForm');
+  const container = document.getElementById('remoteServer__container');
 
-  metisForm.innerHTML += selectOption;
-  parMetisForm.innerHTML += selectOption;
+  container.innerHTML = selectOption;
 }
 
 const metisOption = document.querySelector('#metisOption');
@@ -41,6 +39,7 @@ const parMetisOption = document.querySelector('#parMetisOption');
 const chacoOption = document.querySelector('#chacoOption');
 
 const remoteServerSelect = document.getElementById('remoteServer');
+const remoteServerContainer = document.getElementById('remoteServer__container');
 const password = document.getElementById('password');
 const passwordElement = document.getElementById('passwordElement');
 
@@ -100,6 +99,7 @@ metisOption.addEventListener('click', () => {
   metisForm.style.display = 'block';
   parMetisForm.style.display = 'none';
   chacoForm.style.display = 'none';
+  remoteServerContainer.style.display = 'block';
 });
 
 parMetisOption.addEventListener('click', () => {
@@ -107,6 +107,7 @@ parMetisOption.addEventListener('click', () => {
   metisForm.style.display = 'none';
   parMetisForm.style.display = 'block';
   chacoForm.style.display = 'none';
+  remoteServerContainer.style.display = 'block';
 });
 
 chacoOption.addEventListener('click', () => {
@@ -114,8 +115,10 @@ chacoOption.addEventListener('click', () => {
   metisForm.style.display = 'none';
   parMetisForm.style.display = 'none';
   chacoForm.style.display = 'block';
+  remoteServerContainer.style.display = 'none';
+  remoteServerSelect.selectedIndex = 0;
+  passwordElement.style.display = 'none';
 });
-
 
 
 // handle case when iptype/objtype should be hidden/visible in case of ptype value

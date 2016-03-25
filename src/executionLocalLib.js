@@ -53,7 +53,7 @@ function execParMetis(file, parameters, callback) {
     program += '.exe';
     command = `mpiexec -n ${parameters.nbProcessors} ${program} ${file} ${parameters.nparts} ${parameters.maxub} ${parameters.seed}`;
   } else {
-    command = `mpiexec -n ${parameters.nbProcessors} ${program} ${file} 1 ${parameters.nparts} 2 1.05 1 ${parameters.seed}`;
+    command = `mpiexec -n ${parameters.nbProcessors} ${program} ${file} 1 ${parameters.nparts} 2 1.05 3 ${parameters.seed}`;
   }
 
   console.log(command);
