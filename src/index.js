@@ -21,6 +21,7 @@ ipcRenderer.on('display-graph', (event, obj) => {
   notification('Load: ' + obj.p, 'notification');
   rendering.setNumberOfPartitions(obj.n);
   rendering.isMesh(obj.isMesh);
+  rendering.setLibrary(obj.library);
   rendering.onLoad(obj.p);
 });
 

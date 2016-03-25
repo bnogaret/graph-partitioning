@@ -415,9 +415,14 @@ function onLoad(file) {
 
 // Variable define within index.js in order to name correctly the output
 App.numberOfPartitions = 0;
+App.libraryNumber = '0';
 
 function setNumberOfPartitions(n) {
   App.numberOfPartitions = n;
+}
+
+function setLibrary(library) {
+  App.libraryNumber = library;
 }
 
 // Variable define within index.js in order to name correctly the output
@@ -456,6 +461,8 @@ function addColor() {
   // Read output file from metis
   if (App.isMesh) {
     var output = App.fileInput + '.npart.' + App.numberOfPartitions;
+  } else if (App.libraryNumber === '2') {
+    var output = App.fileInput + '.part';
   } else {
     var output = App.fileInput + '.part.' + App.numberOfPartitions;
   }
@@ -481,6 +488,8 @@ function removeColor() {
   // Read output file from metis
   if (App.isMesh) {
     var output = App.fileInput + '.npart.' + App.numberOfPartitions;
+  } else if (App.libraryNumber === '2') {
+    var output = App.fileInput + '.part';
   } else {
     var output = App.fileInput + '.part.' + App.numberOfPartitions;
   }
@@ -753,3 +762,4 @@ module.exports.preview = preview;
 module.exports.intro = intro;
 module.exports.setNumberOfPartitions = setNumberOfPartitions;
 module.exports.isMesh = isMesh;
+module.exports.setLibrary = setLibrary;

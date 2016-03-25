@@ -158,6 +158,7 @@ app.on('ready', function () {
       p: receivedPath,
       n: obj.numberOfPartitions,
       isMesh: isMesh,
+      library: obj.choiceLibrary,
     };
 
     if (obj.visResultsCheckBox === true) {

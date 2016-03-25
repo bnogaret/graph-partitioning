@@ -60,7 +60,7 @@ function createApplicationMenu() {
       label: 'View',
       submenu: [
         {
-          label: 'Reload',
+          label: 'Restart the app',
           accelerator: 'CmdOrCtrl+R',
           click: (item, focusedWindow) => {
             console.log(item);
