@@ -83,7 +83,7 @@ if (isLinux()) {
   // Display linux-only content (currently chaco-related elements)
   // const div = chacoOption.parentNode;
   // div.style.display = 'inline-block';
-  Array.from(document.querySelectorAll('.open-external-url')).forEach((element) => {
+  Array.from(document.querySelectorAll('.visible-for-linux')).forEach((element) => {
     element.style.display = 'inline-block';
   });
 }
