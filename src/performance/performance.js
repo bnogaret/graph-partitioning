@@ -40,7 +40,7 @@ function perf(input) {
 
   var partitioning = document.getElementById('footer-partitioning');
   var totalTime = parseFloat(perfValues.partitioning, 10) + parseFloat(perfValues.io, 10) + parseFloat(perfValues.reporting, 10);
-  partitioning.innerHTML = totalTime +  ' sec';
+  partitioning.innerHTML = totalTime + ' sec';
 
   var memory = document.getElementById('footer-memory');
   memory.innerHTML = perfValues.maxMemoryUsed + ' MB';
@@ -68,14 +68,14 @@ function perf(input) {
   footer.style.display = 'block';
 }
 
-function perf_chaco(input) {
+function perfChaco(input) {
   perfValues.vertices = readValue(input, '# vertices');
   perfValues.edges = readValue(input, '# edges');
   perfValues.edgecut = readValue(input, 'Edge Cuts');
-  perfValues.io = readValue(input, 'input');
-  perfValues.partitioning = readValue(input, 'partitioning');
-  perfValues.reporting = readValue(input, 'Total time');
-
+  // perfValues.io = readValue(input, 'input');
+  // perfValues.partitioning = readValue(input, 'partitioning');
+  perfValues.reporting = readValue(input, 'Total time:');
+  console.log(perfValues.reporting);
 
   var edgecut = document.getElementById('footer-edgecut');
   edgecut.innerHTML = perfValues.edgecut;
@@ -105,4 +105,4 @@ function hide() {
 module.exports.perf = perf;
 module.exports.hide = hide;
 module.exports.setMesh = setMesh;
-module.exports.perf_chaco = perf_chaco;
+module.exports.perfChaco = perfChaco;

@@ -28,7 +28,7 @@ function execGpMetis(file, nbPartitions, parameters, callback) {
   const option = getStringFromOptionsWithKeys(parameters);
   const command = `${program} ${option} ${file} ${nbPartitions}`;
   execApp(command, (result, error, stderr) => {
-    callback(result, error, stderr);
+    callback(result, error, stderr, 'gpmetis');
   });
 }
 
@@ -42,7 +42,7 @@ function execMpMetis(file, nbPartitions, parameters, callback) {
   const command = `${program} ${option} ${file} ${nbPartitions}`;
 
   execApp(command, (result, error, stderr) => {
-    callback(result, error, stderr);
+    callback(result, error, stderr, 'mpmetis');
   });
 }
 
@@ -59,7 +59,7 @@ function execParMetis(file, parameters, callback) {
   console.log(command);
 
   execApp(command, (result, error, stderr) => {
-    callback(result, error, stderr);
+    callback(result, error, stderr, 'parmetis');
   });
 }
 
@@ -72,7 +72,7 @@ function execChaco(file, parameters, callback) {
   console.log(command);
 
   execApp(command, (result, error, stderr) => {
-    callback(result, error, stderr);
+    callback(result, error, stderr, 'chaco');
   });
 }
 

@@ -118,20 +118,20 @@ app.on('ready', function () {
       partitioningMethod: object.partitioningMethod ? object.partitioningMethod : '5',
     };
     switch (object.partitioningMethod) {
-    case '1': // Multilevel - Kernighan-Lin
-      executionParameters.vertices = object.vertices;
-      break;
-    case '2': // Spectral
-      executionParameters.eigensolver = object.eigensolver;
-      executionParameters.vertices = object.eigensolver === '1' ? object.vertices : '';
-      executionParameters.localRefinement = object.localRefinement;
-      break;
-    case '4': // Linear
-    case '5': // Random
-    case '6': // Scattered
-    default:
-      executionParameters.localRefinement = object.localRefinement;
-      break;
+      case '1': // Multilevel - Kernighan-Lin
+        executionParameters.vertices = object.vertices;
+        break;
+      case '2': // Spectral
+        executionParameters.eigensolver = object.eigensolver;
+        executionParameters.vertices = object.eigensolver === '1' ? object.vertices : '';
+        executionParameters.localRefinement = object.localRefinement;
+        break;
+      case '4': // Linear
+      case '5': // Random
+      case '6': // Scattered
+      default:
+        executionParameters.localRefinement = object.localRefinement;
+        break;
     }
     executionParameters.numberOfPartitions = object.numberOfPartitions;
     executionParameters.partitioningDimension = getPartitioningDimension(object.numberOfPartitions, object.partitioningDimension);
@@ -142,13 +142,13 @@ app.on('ready', function () {
     mainWindow.webContents.send('display-notification', message, type);
   }
 
-  function processResult(result, error, stderr) {
+  function processResult(result, error, stderr, library) {
     if (error) {
       sendNotification(error, 'alert');
     } else if (stderr) {
       sendNotification(new Error(stderr), 'alert');
     } else if (result) {
-      mainWindow.webContents.send('performance', result);
+      mainWindow.webContents.send('performance', result, library);
       // mainWindow.webContents.send('check-error', result); // it can compute with error such as missing parameters
     }
   }
@@ -231,11 +231,11 @@ app.on('ready', function () {
     console.log(`Stdout: ${stdout}`);
     // console.log('\n TEST STDOUT: \n' + stdout.startsWith('mpmetis'));
     if (stdout.startsWith('mpmetis')) {
-      mainWindow.webContents.send('performance', stdout);
+      mainWindow.webContents.send('performance', stdout, 'mpmetis');
     } else if (stdout.startsWith('gpmetis')) {
-      mainWindow.webContents.send('performance', stdout);
+      mainWindow.webContents.send('performance', stdout, 'gpmetis');
     } else if (stdout.startsWith('mpirun')) {
-      mainWindow.webContents.send('performance', stdout);
+      mainWindow.webContents.send('performance', stdout, 'parmetis');
     }
   }).on('command-end', () => {
     sendNotification('End of the computation.', 'notification');

@@ -55,10 +55,14 @@ function showOverlay() {
 var about = document.querySelector('#about');
 about.addEventListener('click', showOverlay);
 
-ipcRenderer.on('performance', (event, obj) => {
+ipcRenderer.on('performance', (event, obj, library) => {
   // Not same result when its a mesh
   performance.setMesh(isMesh);
-  performance.perf(obj);
+  if (library === 'chaco') {
+    performance.perfChaco(obj);
+  } else {
+    performance.perf(obj);
+  }
 });
 
 ipcRenderer.on('upload', (event, obj) => {
